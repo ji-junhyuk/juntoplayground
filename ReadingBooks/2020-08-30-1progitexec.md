@@ -1,3 +1,6 @@
+Pro Git 2nd Edition, page 458, Scott Chacon, and Ben Straub 4.5 out of 5 , 377 customer ratings 
+
+
 ### if you want to install from source, first install all of the dependencies :
 $sudo apt-get install libcurl4-gnutls-dev libexpat1-dev gettext
 refer : 
@@ -177,4 +180,16 @@ $ git rebase master
 $ git rebase --onto master server client
 
 $ git rebase master server
+
+### chaper4
+
+$ssh-keygend
+
+cat ~/.ssh/id_rsa.pub
+
+apache 
+
+gitlab
+
+### distributed git
 
