@@ -1,0 +1,81 @@
+1. 가상 xrdp xfce 
+2. vcxsrv 
+
+
+sudo apt update && sudo apt -y upgrade
+
+sudo apt install xrdp
+
+간단한 그래픽 xfce4
+sudo apt install -y xfce4
+
+그래픽 사용자 인터페이스 gdm3 선택(엔터)
+
+sudo apt install -y xfce4-goodies
+
+sudo cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.int.bak (구성파일백업, 선택)
+기본포트 변경
+sudo sed -i 's/3389/3390/g' /etc/xrdp/xrdp.ini
+픽셀당 비트 증가시키키
+sudo sed -i 's/max_bpp=32/#max_bpp=32\nmax_bpp=128/g' /etc/xrdp/xrdp.ini
+sudo sed -i 's/xserverbpp=24/#xserverbpp=24\nxserverbpp=128/g' /etc/xrdp/xrdp.ini
+x세션에 연결하기
+echo xfce4-session > ~/.xsession
+
+sudo nano /etc/xrdp/startwm.sh
+마지막 두줄 주석처리, 
+
+# xfce
+startxfce4 입력
+
+ctrl + x , y 저장, enter
+
+리모트 서버 시작하기
+sudo /etc/init.d/xrdp start
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+choco install googlechrome -y
+
+
+https://sourceforge.net/projects/vcxsrv/
+
+choco install vcxsrv
+
+vi ~/.zshrc
+export DISPLAY="`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
+export LIBGL_ALWAYS_INDIRECT=1
+
+
+sudo apt install -y firefox
+sudo apt install -y gedit 
+sudo apt -y install nautilus Nautilus 파일 관리자
+sudo apt -y file-roller 압축 관리자
+
+
+sudo apt install openjdk-11-jdk 
+sudo apt install openjdk-14-jdk
+
+자바 버전 선택하기
+sudo update-alternatives --config java 
+
+
+
+firefox -> 
+
+
+몇 가지 빠진 것
+WSL에서 실행하는 리눅스 환경은 완전한 환경이 아니기 때문에 다음의 구성 요소를 사용할 수 없는 문제가 있습니다.
+DBUS에 종속적인 어플리케이션이나 서비스들
+ALSA, PulseAudio (오디오 재생)
+한글 입력기
+Gnome Clutter 기반 어플리케이션 (GNOME Shell 포함)
+일부 시스템 서비스
+SQL Server on Linux와 같이 리눅스의 고급 기능을 사용하는 네트워크 서버, 데이터베이스
+Docker Container (단, Docker 클라이언트는 얼마든지 설치해서 원격의 Docker Swarm이나 Docker Container에 액세스하고 제어할 수 있습니다.)
+위의 주제들 중 한글 입력기와 같은 부분은 자체적인 해결 방안을 모색해낼 수도 있을 것 같습니다. 하지만 다른 주제들의 경우 WSL의 개발 의도나 목적에 부합하는 사항들은 아니므로 큰 의미는 두지 않는 것이 좋겠습니다.
+결론
+WSL 환경에서 X Window System 기반 GUI 프로그램을 실행하는 것은 특별한 의미가 없습니다. 왜냐하면, Windows 운영 체제와 이미 동일한 프로세스, 파일 시스템을 사용하고 있기 때문에 GUI 프로그램을 구태여 리눅스를 통하여 실행하는 것이 갖는 의미가 약하기 때문입니다. 이는 mac OS에서 X org 서버를 사용하던 것과 다르지 않습니다.
+그럼에도 불구하고 X Window System 기반 애플리케이션을 WSL을 통하여 실행하는 것이 의미가 있을 수 있는 이유는, IDE를 포함한 개발 환경의 완전한 단일화와 프로그램 테스트 등에서 유용하게 쓰일 수 있기 때문입니다. 그리고 무엇보다도, VM 기반이 아니기 때문에 테스트와 사용 시 속도와 효율성 면에 있어서 매우 유리합니다.
+이러한 점을 감안하여 적절하고 유용하게 X Window System 서버를 활용하여 X11 응용프로그램도 WSL 환경에 응용하여 사용하시면 좋겠습니다.
