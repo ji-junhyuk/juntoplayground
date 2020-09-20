@@ -2,3 +2,5 @@ TMI List
 1 - 가상 xrdp xfce 2. vcxsrv 
 2 - 프로그래밍이 보이는 그림책 - ANK CO, Ltd (김성훈 번역, 이향선 감역)
 3 - <프로그램 독학할 때 하기쉬운 실수 5가지>
+4 - 할 수 있다 코딩 - Rob Percival
+5 - 생활 속 SW 코딩의 발견
