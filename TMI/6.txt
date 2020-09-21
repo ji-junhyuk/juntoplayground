@@ -1,0 +1,12 @@
+제목 : 인터넷 크롬 북마크
+
+https://translate.google.co.kr/?hl=ko 구글번역
+https://pixabay.com/ko/ 픽사베이
+https://costcode.tistory.com/manage/posts/ 티스토리
+https://apply.42seoul.kr/users/sign_in 42서울
+https://github.com/ji-junhyuk 깃허브
+https://spring.io/ 스프링
+https://www.amazon.com/ 아마존
+https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8#description 인프런강의
+https://www.pdfdrive.com/gimp-books.html pdfdrive
+https://dblib.sen.go.kr/dblib/intro/search/index.do?menu_idx=4 도봉도서관
