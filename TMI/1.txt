@@ -1,3 +1,48 @@
+
+
+
+설치 순서
+1. xrdp를 설치합니다.
+
+sudo apt update && sudo apt -y upgrade
+sudo apt install xrdp
+2. xfce4를 설치합니다.
+
+sudo apt install -y xfce4
+설치 도중 gdm3를 엔터를 눌러 선택합니다.
+3. xfce4 추가 플러그인을 설치합니다.
+
+sudo apt install -y xfce4-goodies
+sudo cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.int.bak // 구성파일을 백업합니다. 선택사항 입니다.
+4. 기본 포트를 3390으로 변경합니다.
+
+sudo sed -i 's/3389/3390/g' /etc/xrdp/xrdp.ini
+
+
+5. RDP 그래픽을 더 좋게 만드는 설정입니다.
+
+sudo sed -i 's/max_bpp=32/#max_bpp=32\nmax_bpp=128/g' /etc/xrdp/xrdp.ini
+sudo sed -i 's/xserverbpp=24/#xserverbpp=24\nxserverbpp=128/g' /etc/xrdp/xrdp.ini
+
+
+6. X 세션에 연결하도록 합니다. 아래와 같이 시작파일 스크립트를 수정해줍니다.
+
+echo xfce4-session > ~/.xsession
+
+sudo vi /etc/xrdp/startwm.sh
+
+7. 리모트 원격 서버에 접속합니다.
+
+sudo /etc/init.d/xrdp start
+
+8. 원격 데스크톱 연결에서 localhost:3390 포트로 접속 한 후 우분투 계정을 입력하도록 합니다.
+
+
+9. 리눅스 데스크톱이 완성되었습니다! 터미널에서 파이어폭스를 설치한 후 인터넷을 클릭하면 바로 firefox로 연결이 됩니다.
+
+sudo apt install -y firefox
+
+
 1. 가상 xrdp xfce 
 2. vcxsrv 
 
@@ -6,12 +51,14 @@ sudo apt update && sudo apt -y upgrade
 
 sudo apt install xrdp
 
+
 간단한 그래픽 xfce4
 sudo apt install -y xfce4
 
 그래픽 사용자 인터페이스 gdm3 선택(엔터)
-
 sudo apt install -y xfce4-goodies
+
+sudo cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.int.bak
 
 sudo cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.int.bak (구성파일백업, 선택)
 기본포트 변경
@@ -35,12 +82,6 @@ sudo /etc/init.d/xrdp start
 
 -------------------------------------------------------------------------------------------------------------------------
 
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-choco install googlechrome -y
-
-
-https://sourceforge.net/projects/vcxsrv/
-
 choco install vcxsrv
 
 vi ~/.zshrc
@@ -49,9 +90,8 @@ export LIBGL_ALWAYS_INDIRECT=1
 
 
 sudo apt install -y firefox
-sudo apt install -y gedit 
-sudo apt -y install nautilus Nautilus 파일 관리자
-sudo apt -y file-roller 압축 관리자
+sudo apt install -y install nautilus Nautilus 파일 관리자
+sudo apt install -y file-roller 압축 관리자
 
 
 sudo apt install openjdk-11-jdk 
@@ -61,8 +101,6 @@ sudo apt install openjdk-14-jdk
 sudo update-alternatives --config java 
 
 
-
-firefox -> 
 
 
 몇 가지 빠진 것
