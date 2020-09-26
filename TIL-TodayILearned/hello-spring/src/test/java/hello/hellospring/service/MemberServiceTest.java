@@ -3,70 +3,59 @@ package hello.hellospring.service;
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.*;
+public class MemberServiceTest {
 
-import static org.junit.jupiter.api.Assertions.*;
+    MemberService memberService;
+    MemoryMemberRepository memberRepository;
 
-class MemberServiceTest {
-
-    MemberService memberService = new MemberService();
-    MemoryMemberRepository memberRepository = new MemoryMemberRepository();
+    @BeforeEach
+    public void beforeEach() {
+        memberRepository = new MemoryMemberRepository();
+        memberService= new MemberService(memberRepository);
+    }
 
     @AfterEach
     public void afterEach() {
-
+        memberRepository.clearStore();
     }
 
     @Test
-            void; join() {
-        //given
+    public void Signup() throws Exception {
+
+        //Given
         Member member = new Member();
         member.setName("hello");
 
-        //when
+        //When
         Long saveId = memberService.join(member);
 
-        //then
-        Member member1 = memberService.findOne(saveId).get();
-        Assertions.assertThat(member.setName()).isEqaulTO(findMember.getname);
+        //Then
+        Member findMember = memberRepository.findById(saveId).get();
+        assertEquals(member.getName(), findMember.getName());
     }
 
     @Test
-    public void zoongbok
-        //given
-        Member member1 = new Member();
+    public void duplicateMemberExceoption() throws Exception {
+        //Given
+        Member member1 = new member();
         member1.setName("spring");
 
-        Member member2 = new Member();
-        member1.setName("spring");
+        Member member2 = new member();
+        member2.setName("spring");
 
-        //when
+        //When
         memberService.join(member1);
-        assertThrows(IllegalStateException.class, () -> memberService.join(member2));
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
 
-        assetThat(e.getMessage()).isEqualTO("alreay exist")
-//        try {
-//            memberService.join(member2);
-//            fail();
-//
-//    } catch (IllegalStateException e) {
-//            assertThat(e.getMessage()).isequalTo("alreay exist");
-//    }
-//
-        //then
+        assertThat(e.getMessage()).isEqualTo("alreay existing member");
 
-
-
-    @Test
-    void findMembers() {
     }
 
-    @Test
-    void findOne() {
-    }
 }

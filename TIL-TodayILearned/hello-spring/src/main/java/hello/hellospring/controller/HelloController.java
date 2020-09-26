@@ -11,7 +11,7 @@ public class HelloController {
 
     @GetMapping("hello")
     public String hello(Model model) {
-        model.addAttribute("data", "hello!!~");
+        model.addAttribute("data", "hello!!");
         return "hello";
     }
 
@@ -21,16 +21,16 @@ public class HelloController {
         return "hello-template";
     }
 
-    @GetMapping("hello-spring")
+    @GetMapping("hello-string")
     @ResponseBody
-    public String helloSpring(@RequestParam("name") String name) {
+    public String helloString(@RequestParam("name") String name) {
         return "hello " + name;
     }
 
     @GetMapping("hello-api")
     @ResponseBody
     public Hello helloApi(@RequestParam("name") String name) {
-        Hello hello = new Hello(); //ctrl + shift + enter
+        Hello hello = new Hello();
         hello.setName(name);
         return hello;
     }
@@ -46,4 +46,5 @@ public class HelloController {
             this.name = name;
         }
     }
+
 }

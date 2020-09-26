@@ -7,34 +7,36 @@ import hello.hellospring.repository.MemoryMemberRepository;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public class MemberService {
-//ctrl shift t
+//
+//    private final MemberRepository memberRepository = new MemoryMemberRepository();
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
 
-    /** //ctrl shift enter
-     *
-     * */
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+    /**
+     * Sign up
+     */
     public Long join(Member member) {
-        // zoongbok X
-        vaildateDuplicateMember(member); //zungbok examine
+
+        validateDuplicateMember(member); // Duplicate Member Verification
         memberRepository.save(member);
         return member.getId();
-
     }
 
-    private void vaildateDuplicateMember(Member member) {
+    private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
-                     throw new IllegalStateException("alreay exist member");
+                    throw new IllegalStateException("alreay existing members ");
                 });
     }
 
     /**
-     *
-     * @return
+     * View all members
      */
-
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
