@@ -171,6 +171,11 @@ HelloController Class
     
     
     
+    
+    
+    
+    
+    
 
 <회원 관리 예제 - 백엔드 개발>
 1. 비즈니스 요구사항 정리
@@ -269,8 +274,6 @@ hello.hellospring.repository
 class MemoryMemberRepositoryTest
 
 
-//3 epository.findById(member.getId()).get() //3   Member result = repository.findById(member.getId()).get();
-
 
 
 class MemoryMemberRepositoryTest {
@@ -286,7 +289,7 @@ class MemoryMemberRepositoryTest {
 
         Member result = repository.findById(member.getId()).get();//3
         //System.out.println("result = " + (result == member));
-        Assertions.assertEquals(member, result);
+        //Assertions.assertEquals(member, result);
         assertThat(member).isEqualTo(result);
     }
 
@@ -302,7 +305,7 @@ class MemoryMemberRepositoryTest {
 
         Member result = repository.findByName("spring1").get();
 
-        assertThat(result).isEqualTo(member1);
+        assertThat(result).isEqualTo(member1); //정적 메소드 삽입
     }
 
     @Test
@@ -326,7 +329,7 @@ class MemoryMemberRepositoryTest {
 => class MemoryMemberRepositoryTest
 aftereach 추가	
 
-=> class MemoryMemberRepositoryTest
+=> class MemoryMemberRepository
 public void clearStore() {
         store.clear();
     }
@@ -359,23 +362,28 @@ public class MemberService {
     Sign up
      */
     public Long join(Member member) {
+    
+    
 
-        validateDuplicateMember(member); //Duplicate Member Verification
+        validateDuplicateMember(member); //Duplicate Member Verification //5
 
 //        Optional<Member> result = memberRepository.findByName(member.getName());//1 ctrl + v
 //        result.ifPresent(m ->{
 //            throw new IllegalStateException("already existing member.")
-//        });
+//        }); //3
 
-        memberRepository.save(member);
-        return member.getId();
-    }
+
+    }        
+		memberRepository.save(member); //1
+        return member.getId(); //2
+    
+    
 
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
                     throw new IllegalStateException("already existing member.");
-                });
+                }); //4
     }
     /*
     View all members
@@ -466,7 +474,7 @@ class MemberServiceTest {
 
     @AfterEach
     public void afterEach() {
-        memberRepository.clearStore();
+        memberRepository.cStore();
     } 
 
     나중에 추가
@@ -506,6 +514,123 @@ private  final MemberRepository memberRepository = new MemoryMemberRepository();
     
    
    
+   
+   
+   <<다시 20.09.28>>
+   
+   package hello.hellospring3.service;
+
+import hello.hellospring3.domain.Member;
+import hello.hellospring3.repository.MemoryMemberRepository;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MemberServiceTest {
+
+    MemberService memberService = new MemberService(); //1
+    MemoryMemberRepository memberRepository = new MemoryMemberRepository(); //after Test DME, before AfterEach
+    
+
+    @AfterEach
+    public void afterEach() {
+        memberRepository.clearStore();
+    }
+
+    @Test
+    void join() {
+        //given
+        Member member = new Member(); //1
+        member.setName("hello");//2
+
+        //when
+        Long saveId = memberService.join(member); //3
+
+        //then
+        Member findMember = memberService.findOne(saveId).get();//5
+        assertThat(member.getName()).isEqualTo(findMember.getName());//4 Assertions.assertThat() //6 () fill //7 static import
+    }
+
+    @Test
+    public void duplicateMemberException() {
+        //given
+        Member member1 = new Member();
+        member1.setName("spring");
+
+        Member member2 = new Member();
+        member2.setName("spring");
+
+        //when
+        memberService.join(member1);
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
+
+        assertThat(e.getMessage()).isEqualTo("alreay existing member.");
+/*
+        try {
+            memberService.join(member2);
+            fail();
+        } catch (IllegalStateException e) {
+            assertThat(e.getMessage()).isEqualTo("alreay existing member.");
+        }
+*/
+
+        //then
+    }
+
+    @Test
+    void findMembers() {
+        //given
+
+        //when
+
+        //then
+    }
+
+    @Test
+    void findOne() {
+        //given
+
+        //when
+
+        //then
+    }
+}
+
+여기에서 뭔가 이상한게 있다. 멤버서비스에서의 MemoryMemberRepository와 멤버서비스테스트에서의 MemoryMemberRepository가 다른 인스턴스다. (new 연산자)
+단지 static class 이기 때문에 문제가 없다. static이 없으면 바로 문제가 생겨버린다. 그리고 같은 것으로 테스트하는 게 맞다.
+
+
+
+MemberService Class
+
+private final MemberRepository memberRepository = new MemoryMemberRepository();
+
+=> 수정
+private final MemberRepository memberRepository;
+
+constructor 생성
+
+
+
+MemberServiceTest Class(DI)
+
+ MemberService memberService = new MemberService(); //1
+ MemoryMemberRepository memberRepository = new MemoryMemberRepository(); 
+ 
+ => 수정한다.
+	MemberService memberService; //1
+    MemoryMemberRepository memberRepository;
+ 
+=> 추가한다.
+
+   @BeforeEach
+    public void beforeEach() {
+        memberRepository = new MemoryMemberRepository();
+        memberService = new MemberService(memberRepository);
+    }
 
 
 
