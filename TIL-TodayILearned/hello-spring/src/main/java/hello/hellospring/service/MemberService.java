@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 public class MemberService {
 
-    private  final MemberRepository memberRepository;
+    //    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+
 
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
@@ -22,13 +25,7 @@ public class MemberService {
          */
     public Long join(Member member) {
 
-        validateDuplicateMember(member); //Duplicate Member Verification
-
-//        Optional<Member> result = memberRepository.findByName(member.getName());//1 ctrl + v
-//        result.ifPresent(m ->{
-//            throw new IllegalStateException("already existing member.")
-//        });
-
+        validateDuplicateMember(member);
         memberRepository.save(member);
         return member.getId();
     }
@@ -39,6 +36,7 @@ public class MemberService {
                     throw new IllegalStateException("already existing member.");
                 });
     }
+
     /*
     View all members
      */

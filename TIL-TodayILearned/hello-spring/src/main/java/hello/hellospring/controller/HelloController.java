@@ -9,29 +9,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HelloController {
 
+    @GetMapping("hello")
+    public String hello(Model model) {
+        model.addAttribute("data", "hello!!");
+        return "hello";
+    }
+
     @GetMapping("hello-mvc")
-    public String helloMVC(@RequestParam("name") String name, Model model) {
+    public String helloMvc(@RequestParam("name") String name, Model model) {
         model.addAttribute("name", name);
         return "hello-template";
     }
 
-    @GetMapping
-    public String hello(Model model) {
-        model.addAttribute("data", "spring!!");
-        return "hello";
+    @GetMapping("hello-api")
+    @ResponseBody
+    public Hello helloApi(@RequestParam("name") String name) {
+        Hello hello = new Hello();
+        hello.setName(name);
+        return hello;
     }
 
     static class Hello {
-        @GetMapping("hello-api")
-        @ResponseBody
-        public Hello helloapi(@RequestParam("name") String name) {
-            Hello hello = new Hello();
-            hello.setName(name);
-            return hello;
-            System.out.println();
-            System.out.println("hello = " + hello);
-        }
-
         private String name;
 
         public String getName() {
