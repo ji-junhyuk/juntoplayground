@@ -367,7 +367,7 @@ public class MemberService {
 
         validateDuplicateMember(member); //Duplicate Member Verification //5
 
-//        Optional<Member> result = memberRepository.findByName(member.getName());//1 ctrl + v
+//        Optional<Member> result = memberRepository.findByName(member.getName()).get//1 ctrl + v
 //        result.ifPresent(m ->{
 //            throw new IllegalStateException("already existing member.")
 //        }); //3
@@ -381,9 +381,8 @@ public class MemberService {
 
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("already existing member.");
-                }); //4
+       
+                
     }
     /*
     View all members
@@ -699,10 +698,42 @@ public class SpringConfig {
 1. 회원 웹 기능 - 홈 화면 추가
 2. 회원 웹 기능 - 등록
 3. 회원 앱 기능 - 조회
+template->home.html
 
+template -> members -> createMemberForm, memberList 
+
+MemberController
+    @Autowired
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @GetMapping(value = "/members/new")
+    public String createForm() {
+        return "members/createMemberForm";
+    }
+
+    @PostMapping(value = "/members/new")
+    public String create(MemberForm form) {
+
+        Member member = new Member();
+        member.setName(form.getName());
+
+        memberService.join(member);
+
+        return "redirect:/";
+    }
+
+    @GetMapping(value = "/members")
+    public String list(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
 
 <스프링 DB 접근 기술>
 1. H2 데이터베이스 설치
+
 2. 순수 JDBC
 3. 스프링 통합 테스트
 4. 스프링 JdbcTemplate
