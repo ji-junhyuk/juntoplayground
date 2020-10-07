@@ -1,10 +1,36 @@
 제목 : 인텔리제이 자주 쓰는 단축키와 필수 플러그인
 gradle change : ctrl + shift + o 
+
+
 extract/intruduce : Introduce Variable : ctrl + Alt + v
+
+
 Inline variable : ctrl + alt + n
 범위주석 : ctrl + shift + /
 Ctrl + x 잘라내기
 Ctrl + v 붙여넣기
 
+ctrl + shift +f10 / run
+ctrl + f2 / stop
+ctrl + f5 / rerun
+
+ctrl + alt + s / settings
+
+alt 1 -> project 보기
+alt 1 -> editor
+
+ctrl + shift + enter -> 자동 완성
+
+alt + enter -> implement methods
+
+shift + f6 -> 모두 수정
+
+shift 방향키 -> 전체 선택
+ctrl d -> 복사 
+
+shift shift -> 검색
+
 sout
 soutv 
+
+psvm
