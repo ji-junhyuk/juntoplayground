@@ -6,11 +6,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class MemberServiceTest {
+class MemberServiceTest {
 
     MemberService memberService;
     MemoryMemberRepository memberRepository;
@@ -18,7 +16,7 @@ public class MemberServiceTest {
     @BeforeEach
     public void beforeEach() {
         memberRepository = new MemoryMemberRepository();
-        memberService= new MemberService(memberRepository);
+        memberService = new MemberService(memberRepository);
     }
 
     @AfterEach
@@ -27,35 +25,35 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void Signup() throws Exception {
-
-        //Given
+    void join() throws Exception {
+        //given
         Member member = new Member();
         member.setName("hello");
 
-        //When
+        //when
         Long saveId = memberService.join(member);
 
-        //Then
+        //then
         Member findMember = memberRepository.findById(saveId).get();
         assertEquals(member.getName(), findMember.getName());
+
     }
 
     @Test
-    public void duplicateMemberExceoption() throws Exception {
-        //Given
-        Member member1 = new member();
-        member1.setName("spring");
+    void duplicateMembers() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setName("spring1");
 
-        Member member2 = new member();
-        member2.setName("spring");
+        Member member2 = new Member();
+        member2.setName("spring1");
 
-        //When
+        //when
         memberService.join(member1);
-        IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+                () -> memberService.join(member2));
 
-        assertThat(e.getMessage()).isEqualTo("alreay existing member");
-
+        org.assertj.core.api.Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
+        //then
     }
-
 }

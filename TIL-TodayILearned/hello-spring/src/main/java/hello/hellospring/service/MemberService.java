@@ -2,27 +2,30 @@ package hello.hellospring.service;
 
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
-import hello.hellospring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
+@Service
 public class MemberService {
-//
+
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();
 
     private final MemberRepository memberRepository;
 
+    @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
-    /**
-     * Sign up
-     */
+
+    /*
+        Sign up
+         */
     public Long join(Member member) {
 
-        validateDuplicateMember(member); // Duplicate Member Verification
+        validateDuplicateMember(member);
         memberRepository.save(member);
         return member.getId();
     }
@@ -30,12 +33,12 @@ public class MemberService {
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
-                    throw new IllegalStateException("alreay existing members ");
+                    throw new IllegalStateException("Already existing member.");
                 });
     }
 
-    /**
-     * View all members
+    /*
+    View all members
      */
     public List<Member> findMembers() {
         return memberRepository.findAll();
