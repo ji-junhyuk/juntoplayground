@@ -1,6 +1,6 @@
 package jpabook.jpashop.domain.item;
 
-import jpabook.jpashop.domain.Category;
+import jdk.jfr.Category;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,20 +17,13 @@ public abstract class Item {
 
     @Id
     @GeneratedValue
-    @Column(name = "order_item_id")
+    @Column(name = "item_id")
     private Long id;
-
     private String name;
     private int price;
     private int stockQuantity;
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Category parent;
-
-    @OneToMany(mappedBy = "parent")
-    private List<Category> child = new ArrayList<>();
 }
+

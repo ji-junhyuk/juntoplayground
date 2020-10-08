@@ -2,6 +2,7 @@ package jpabook.jpashop.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.tomcat.jni.Address;
 
 import javax.persistence.*;
 
@@ -15,13 +16,12 @@ public class Delivery {
     @Column(name = "delivery_id")
     private Long id;
 
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;
-
 
     @Embedded
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status; //Ready, Comp
+    private DeliveryStatus status;
 }

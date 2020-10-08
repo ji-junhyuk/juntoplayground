@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "order_item")
 @Getter
 @Setter
 public class OrderItem {
@@ -26,7 +27,4 @@ public class OrderItem {
 
     private int orderPrice;
     private int count;
-
-
-
 }
