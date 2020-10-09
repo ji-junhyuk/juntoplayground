@@ -13,17 +13,17 @@ import java.util.List;
 @Getter
 @Setter
 public class Order {
+
     @Id
     @GeneratedValue
     @Column(name = "order_id")
-    private Long Id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> OrderItems = new ArrayList<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
@@ -32,7 +32,7 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     public void setMember(Member member) {
         this.member = member;
@@ -40,7 +40,7 @@ public class Order {
     }
 
     public void addOrderItem(OrderItem orderItem) {
-        getOrderItems().add(orderItem);
+        orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
 
@@ -48,5 +48,4 @@ public class Order {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
-
 }

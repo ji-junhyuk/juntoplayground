@@ -1,5 +1,6 @@
-package jpabook.jpashop.domain.item;
+package jpabook.jpashop.domain;
 
+import jpabook.jpashop.domain.item.Item;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,6 @@ public class Category {
     @GeneratedValue
     @Column(name = "category_id")
     private Long id;
-
     private String name;
 
     @ManyToMany
