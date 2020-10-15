@@ -1,8 +1,13 @@
-package jpabook.jpashop;
+package jpabook.jpashop.repository;
+
+import jpabook.jpashop.domain.item.Item;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Repository
+@RequiredArgsConstructor
 public class ItemRepository {
 
     private final EntityManager em;
@@ -15,11 +20,7 @@ public class ItemRepository {
         }
     }
 
-    public Item findOne(Long id) {
-        return em.find(Item.class, id);
-    }
-
     public List<Item> findAll() {
-        return em.createQuery("select i from Itemi", Item.class).getResultList();
+        return em.createQuery("select i from Item i", Item.class).getResultList();
     }
 }

@@ -1,5 +1,7 @@
-package jpabook.jpashop;
+package jpabook.jpashop.service;
 
+import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
-
     @Autowired
     MemberService memberService;
 
@@ -24,7 +25,7 @@ public class MemberServiceTest {
     public void signUp() throws Exception {
         //given
         Member member = new Member();
-        member.setName("kim");
+        member.setName("Kim");
 
         //when
         Long saveId = memberService.join(member);
@@ -35,7 +36,6 @@ public class MemberServiceTest {
 
     @Test(expected = IllegalStateException.class)
     public void duplicateMemberException() throws Exception {
-
         //given
         Member member1 = new Member();
         member1.setName("Kim");
@@ -48,21 +48,6 @@ public class MemberServiceTest {
         memberService.join(member2);
 
         //then
-        fail("An exception should be thrown");
-    }
-
-    @Test(expected = NotEnoughStockException.class)
-    public void orderItemInventoryExceeded() throws Exception {
-        //given
-        Member member = createMember();
-        Item item = createBook("Country JPA", 10000, 10);
-
-        int orderCount = 11;
-
-        //when
-        orderService.order(member.getId(), item.getId(), orderCount);
-
-        //then
-        fail("Out of stock exception should be thrown");
+        fail("Exception should be thrown.");
     }
 }

@@ -1,22 +1,16 @@
-package jpabook.jpashop;
+package jpabook.jpashop.domain;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class Delivery {
 
     @Id
     @GeneratedValue
     @Column(name = "delivery_id")
     private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;
@@ -26,6 +20,4 @@ public class Delivery {
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
-
 }
-
