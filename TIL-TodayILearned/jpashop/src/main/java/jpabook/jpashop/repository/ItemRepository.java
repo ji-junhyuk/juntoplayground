@@ -1,6 +1,7 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.item.Item;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,10 @@ public class ItemRepository {
         } else {
             em.merge(item);
         }
+    }
+
+    public Item findOne(Long id) {
+        return em.find(Item.class, id);
     }
 
     public List<Item> findAll() {

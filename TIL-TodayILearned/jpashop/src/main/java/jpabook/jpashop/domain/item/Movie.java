@@ -1,5 +1,8 @@
 package jpabook.jpashop.domain.item;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -9,6 +12,6 @@ import javax.persistence.Entity;
 @Setter
 public class Movie extends Item {
 
-    private String author;
     private String director;
+    private String actor;
 }

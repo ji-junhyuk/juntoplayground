@@ -1,5 +1,8 @@
 package jpabook.jpashop.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,5 +22,5 @@ public class Delivery {
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status;
+    private DeliveryStatus deliveryStatus;
 }

@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
+
     @Autowired
     MemberService memberService;
 
@@ -22,10 +23,10 @@ public class MemberServiceTest {
     MemberRepository memberRepository;
 
     @Test
-    public void signUp() throws Exception {
+    public void join() throws Exception {
         //given
         Member member = new Member();
-        member.setName("Kim");
+        member.setName("kim");
 
         //when
         Long saveId = memberService.join(member);
@@ -38,16 +39,16 @@ public class MemberServiceTest {
     public void duplicateMemberException() throws Exception {
         //given
         Member member1 = new Member();
-        member1.setName("Kim");
+        member1.setName("kim");
 
         Member member2 = new Member();
-        member2.setName("Kim");
+        member2.setName("kim");
 
         //when
         memberService.join(member1);
         memberService.join(member2);
 
         //then
-        fail("Exception should be thrown.");
+        fail("An exception should be thrown.");
     }
 }

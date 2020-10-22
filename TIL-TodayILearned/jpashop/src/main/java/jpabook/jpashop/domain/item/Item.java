@@ -1,7 +1,8 @@
 package jpabook.jpashop.domain.item;
 
 import jpabook.jpashop.exception.NotEnoughStockException;
-import org.springframework.data.annotation.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,26 +13,32 @@ import java.util.List;
 @DiscriminatorColumn(name = "dtype")
 @Getter
 @Setter
-public class Item {
+public abstract class Item {
 
     @Id
     @GeneratedValue
     @Column(name = "item_id")
     private Long id;
-    private String name;
 
+    private String name;
     private int price;
     private int stockQuantity;
-
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 
-    public void removeStock(int quantity) {
-        int restStock = this.stockQuantity - quantity;
+    //==business logic==//
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int orderQuantity) {
+        int restStock = this.stockQuantity - orderQuantity;
         if (restStock < 0) {
             throw new NotEnoughStockException("need more stock");
         }
         this.stockQuantity = restStock;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package jpabook.jpashop.domain.item;
 
-import org.springframework.data.annotation.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,9 +16,10 @@ public class Category {
     @GeneratedValue
     @Column(name = "category_id")
     private Long id;
+
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "category_item",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
@@ -33,6 +35,5 @@ public class Category {
     public void addChildCategory(Category child) {
         this.child.add(child);
         child.setParent(this);
-
     }
 }
