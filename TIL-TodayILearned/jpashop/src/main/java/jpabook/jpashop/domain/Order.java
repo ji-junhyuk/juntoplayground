@@ -33,7 +33,7 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
     public void setMember(Member member) {
         this.member = member;
@@ -42,12 +42,12 @@ public class Order {
 
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
-        orderItem.setOrder(this);
+        orderItem.setOrder(this); //error
     }
 
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
-        delivery.setOrder(this);
+        delivery.setOrder(this); //error
     }
 
     public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
@@ -57,18 +57,16 @@ public class Order {
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
-
-        order.setStatus(OrderStatus.ORDER);
+        order.setOrderStatus(OrderStatus.ORDER); //setStatus1
         order.setOrderDate(LocalDateTime.now());
         return order;
     }
 
     public void cancel() {
-        if (delivery.getDeliveryStatus() == DeliveryStatus.COMP) {
-            throw new IllegalStateException("Products that have been delivered cannot be canceled.");
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("Products that have benn already been delivered cannot be canceled.");
         }
-
-        this.setStatus(OrderStatus.CANCEL);
+        this.setOrderStatus(OrderStatus.CANCEL); //setStatus2
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
@@ -81,4 +79,6 @@ public class Order {
         }
         return totalPrice;
     }
+
+//    }
 }

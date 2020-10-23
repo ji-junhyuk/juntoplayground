@@ -13,26 +13,10 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
-    /*
-            @Autowired    public MemberService(MemberRepository memberRepository) {
-
-            MemberRepository memberRepository;
-        */
     private final MemberRepository memberRepository;
 
-/*
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
-*/
-
-    /*
-        Sign up
-         */
     @Transactional
     public Long join(Member member) {
-
-
         validateDuplicateMember(member);
         memberRepository.save(member);
         return member.getId();
@@ -45,9 +29,6 @@ public class MemberService {
         }
     }
 
-    /*
-    View all members
-     */
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }

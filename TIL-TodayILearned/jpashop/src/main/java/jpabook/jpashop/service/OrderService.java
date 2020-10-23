@@ -17,7 +17,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ItemService itemService;
 
-    /* Order */
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
 
@@ -28,28 +27,24 @@ public class OrderService {
         //Create delivery information
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
-        delivery.setDeliveryStatus(DeliveryStatus.READY);
+        delivery.setStatus(DeliveryStatus.READY);
 
         //Create orderItem
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
         //Create order
-        Order order = Order.createOrder(member, delivery, orderItem);
+        Order order = Order.createOrder(member, delivery, orderItem);//Order order
 
         //Store order
         orderRepository.save(order);
         return order.getId();
     }
 
-    /* Cancel Order */
     @Transactional
     public void cancelOrder(Long orderId) {
 
-        //Lookup order entity
+        //Lookup entity
         Order order = orderRepository.findOne(orderId);
-
-        //Cancel order
         order.cancel();
     }
-
 }

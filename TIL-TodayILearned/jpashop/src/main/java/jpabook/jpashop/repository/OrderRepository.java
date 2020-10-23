@@ -82,8 +82,7 @@ public class OrderRepository {
             criteria.add(name);
         }
         cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
-        TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대
+        TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
         return query.getResultList();
     }
-
 }
