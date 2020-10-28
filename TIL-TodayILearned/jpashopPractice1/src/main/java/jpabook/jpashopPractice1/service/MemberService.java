@@ -20,7 +20,7 @@ public class MemberService {
     Sign up
      */
     @Transactional
-    public Long Join(Member member) {
+    public Long join(Member member) {
 
         validateDuplicateMember(member);
         memberRepository.save(member);
@@ -36,7 +36,7 @@ public class MemberService {
     /*
     View all list
      */
-    public List<Member> findMember() {
+    public List<Member> findMembers() {
         return memberRepository.findAll();
     }
 
