@@ -15,7 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class Order {
 
     @Id
@@ -78,7 +77,7 @@ public class Order {
         }
 
         this.setStatus(OrderStatus.CANCEL);
-        for (OrderItem orderItem : orderItems) {
+       for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
     }
