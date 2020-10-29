@@ -64,8 +64,8 @@ public class ItemController {
     }
 
     @PostMapping(value = "/items/{itemId}/edit")
-    public String updateItem(@ModelAttribute("form") BookForm form) {
-
+    public String updateItem(@PathVariable Long ItemId, @ModelAttribute("form") BookForm form) {
+/*
         Book book = new Book();
         book.setId(form.getId());
         book.setName(form.getName());
@@ -75,6 +75,8 @@ public class ItemController {
         book.setIsbn(form.getIsbn());
 
         itemService.saveItem(book);
+*/
+        itemService.updateItem(form.getId(), form.getName(), form.getStockQuantity());
         return "redirect:/items";
     }
 }
