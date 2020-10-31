@@ -19,8 +19,8 @@ public class JpaMemberRepository implements MemberRepository {
         return member;
     }
 
-    public Optional<Member> findById(Long Id) {
-        Member member = em.find(Member.class, Id);
+    public Optional<Member> findById(Long id) {
+        Member member = em.find(Member.class, id);
         return Optional.ofNullable(member);
     }
 
@@ -35,4 +35,6 @@ public class JpaMemberRepository implements MemberRepository {
                 .getResultList();
         return result.stream().findAny();
     }
+
+
 }

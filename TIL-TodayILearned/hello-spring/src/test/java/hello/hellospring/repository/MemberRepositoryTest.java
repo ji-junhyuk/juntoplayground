@@ -10,7 +10,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MemoryMemberRepositoryTest {
+class MemberRepositoryTest {
 
     MemoryMemberRepository repository = new MemoryMemberRepository();
 
@@ -18,8 +18,9 @@ class MemoryMemberRepositoryTest {
     public void afterEach() {
         repository.clearStore();
     }
+
     @Test
-    public void save() {
+    public void save() throws Exception {
         //given
         Member member = new Member();
         member.setName("spring");
@@ -33,7 +34,7 @@ class MemoryMemberRepositoryTest {
     }
 
     @Test
-    public void findByName() {
+    public void findByName() throws Exception {
         //given
         Member member1 = new Member();
         member1.setName("spring1");
@@ -51,7 +52,7 @@ class MemoryMemberRepositoryTest {
     }
 
     @Test
-    public void findAll() {
+    public void findAll() throws Exception {
         //given
         Member member1 = new Member();
         member1.setName("spring1");
@@ -67,5 +68,4 @@ class MemoryMemberRepositoryTest {
         //then
         assertThat(result.size()).isEqualTo(2);
     }
-
 }
