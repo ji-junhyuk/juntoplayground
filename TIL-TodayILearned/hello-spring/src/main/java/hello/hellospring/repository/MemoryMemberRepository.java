@@ -1,14 +1,14 @@
 package hello.hellospring.repository;
 
 import hello.hellospring.domain.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 public class MemoryMemberRepository implements MemberRepository {
 
     private static Map<Long, Member> store = new HashMap<>();
-    private static Long sequence = 0L;
-
+    private static long sequence = 0L;
 
     @Override
     public Member save(Member member) {

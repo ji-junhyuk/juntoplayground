@@ -10,7 +10,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MemberRepositoryTest {
+class MemoryMemberRepositoryTest {
 
     MemoryMemberRepository repository = new MemoryMemberRepository();
 
@@ -20,21 +20,22 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void save() throws Exception {
+    public void save() {
+
         //given
         Member member = new Member();
         member.setName("spring");
-
+        
         //when
         repository.save(member);
-
+        
         //then
         Member result = repository.findById(member.getId()).get();
         assertThat(member).isEqualTo(result);
     }
-
+    
     @Test
-    public void findByName() throws Exception {
+    public void findByName() {
         //given
         Member member1 = new Member();
         member1.setName("spring1");
@@ -49,23 +50,23 @@ class MemberRepositoryTest {
 
         //then
         assertThat(result).isEqualTo(member1);
-    }
+     }
 
-    @Test
-    public void findAll() throws Exception {
-        //given
-        Member member1 = new Member();
-        member1.setName("spring1");
-        repository.save(member1);
+     @Test
+     public void findAll() {
+         //given
+         Member member1 = new Member();
+         member1.setName("spring1");
+         repository.save(member1);
 
-        Member member2 = new Member();
-        member2.setName("spring2");
-        repository.save(member2);
+         Member member2 = new Member();
+         member2.setName("spring2");
+         repository.save(member2);
 
-        //when
-        List<Member> result = repository.findAll();
+         //when
+         List<Member> result = repository.findAll();
 
-        //then
-        assertThat(result.size()).isEqualTo(2);
-    }
+         //then
+         assertThat(result.size()).isEqualTo(2);
+      }
 }

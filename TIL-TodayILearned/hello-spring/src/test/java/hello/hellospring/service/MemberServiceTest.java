@@ -7,7 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemberServiceTest {
@@ -27,10 +26,10 @@ class MemberServiceTest {
     }
 
     @Test
-    public void signUp() throws Exception {
+    public void join() throws Exception {
         //given
         Member member = new Member();
-        member.setName("spring");
+        member.setName("hello");
 
         //when
         Long saveId = memberService.join(member);
@@ -54,9 +53,9 @@ class MemberServiceTest {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.join(member2));
 
-        assertThat(e.getMessage()).isEqualTo("Already existing member.");
-
-
         //then
-    }
+        Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
+
+     }
+
 }
