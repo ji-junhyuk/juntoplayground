@@ -33,7 +33,7 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus Status;
 
     public void setMember(Member member) {
         this.member = member;
@@ -64,7 +64,7 @@ public class Order {
 
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
-            throw new IllegalStateException("Products that have already been shipped cannot be canceled.")
+            throw new IllegalStateException("Products that have already been shipped cannot be canceled.");
         }
 
         this.setStatus(OrderStatus.CANCEL);
