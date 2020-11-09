@@ -5,8 +5,7 @@ import jpashop.jpabook.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +23,7 @@ class MemberServiceTest {
     public void join() throws Exception {
         //given
         Member member = new Member();
-        member.setName("kim");
+        member.setName("Kim");
 
         //when
         Long saveId = memberService.join(member);
@@ -33,22 +32,20 @@ class MemberServiceTest {
         assertEquals(member, memberRepository.findOne(saveId));
      }
 
-    @Test
-    public void duplicateMemberException() throws Exception {
-        //given
-        Member member1 = new Member();
-        member1.setName("kim");
+     @Test
+     public void duplicateMemberException() throws Exception {
+         //given
+         Member member1 = new Member();
+         member1.setName("Kim");
 
-        Member member2 = new Member();
-        member2.setName("kim");
+         Member member2 = new Member();
+         member2.setName("Kim");
 
-        //when
-        memberService.join(member1);
-        memberService.join(member2);
+         //when
+         memberService.join(member1);
+         memberService.join(member2);
 
-        //then
-        fail("Exception should be thrown.");
-    }
-
-
+         //then
+         fail("An exception must occur.");
+      }
 }

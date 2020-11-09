@@ -8,9 +8,6 @@ group = 'jpashop'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
-ext["h2.version"] = "1.4.200" 
-ext["hibernate.version"] = "5.4.20.Final"
-
 configurations {
 	developmentOnly
 	runtimeClasspath {

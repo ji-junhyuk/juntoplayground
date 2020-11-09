@@ -18,7 +18,8 @@ public class MemberService {
 
     /*
     Sign up
-    */
+     */
+
     @Transactional
     public Long join(Member member) {
         validateDuplicateMember(member);
@@ -45,5 +46,3 @@ public class MemberService {
     }
 
 }
-
-
