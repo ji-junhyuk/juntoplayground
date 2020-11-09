@@ -1,2 +1,7 @@
-package PACKAGE_NAME;public class RunSomething {
+@FunctionalInterface
+public interface RunSomething {
+
+    void doIt();
+
 }
+
