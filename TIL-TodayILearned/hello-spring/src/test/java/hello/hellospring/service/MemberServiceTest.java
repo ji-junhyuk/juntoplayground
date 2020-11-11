@@ -2,11 +2,10 @@ package hello.hellospring.service;
 
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemoryMemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,12 +50,11 @@ class MemberServiceTest {
 
         //when
         memberService.join(member1);
-        IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> memberService.join(member2));
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
+
+        org.assertj.core.api.Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
 
         //then
-        Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
-
      }
 
 }

@@ -5,26 +5,28 @@ import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Autowired
+
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
+//    private final MemberRepository memberRepository = new MemoryMemberRepository();
 
-    /*
-        Sign up
-         */
+    /**
+     * Sign up
+     */
     public Long join(Member member) {
 
-        validateDuplicateMember(member);
+        validateDuplicateMember(member);    //Duplicate member verification
         memberRepository.save(member);
         return member.getId();
     }
@@ -37,7 +39,7 @@ public class MemberService {
     }
 
     /*
-    View all member
+    View all members
      */
     public List<Member> findMembers() {
         return memberRepository.findAll();

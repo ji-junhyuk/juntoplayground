@@ -5,7 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+
 public class MemoryMemberRepository implements MemberRepository {
+
+    /**
+     * Concurrency issues are not considered. In practice, ConcurrentHashMap and AtomicLong are considered.
+     */
 
     private static Map<Long, Member> store = new HashMap<>();
     private static long sequence = 0L;
