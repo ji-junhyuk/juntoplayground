@@ -22,6 +22,7 @@ class OrderServiceTest {
         memberService = appConfig.memberService();
         orderService = appConfig.orderService();
     }
+
     @Test
     public void createOrder() {
         //given
@@ -31,9 +32,8 @@ class OrderServiceTest {
 
         //when
         Order order = orderService.createOrder(memberId, "itemA", 10000);
-
-        //then
         Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
+        //then
     }
 
 }

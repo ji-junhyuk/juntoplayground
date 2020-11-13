@@ -17,7 +17,7 @@ class RateDiscountPolicyTest {
     @DisplayName("VIP should have a 10% discount.")
     public void vip_o() {
         //given
-        Member member = new Member(1L, "memberVip", Grade.VIP);
+        Member member = new Member(1L, "memberVIP", Grade.VIP);
 
         //when
         int discount = discountPolicy.discount(member, 10000);
@@ -38,4 +38,5 @@ class RateDiscountPolicyTest {
         //then
         assertThat(discount).isEqualTo(0);
     }
+
 }
