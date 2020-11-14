@@ -3,11 +3,13 @@ package hellospring.foundation.service;
 import hellospring.foundation.domain.Member;
 import hellospring.foundation.repository.MemberRepository;
 import hellospring.foundation.repository.MemoryMemberRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
