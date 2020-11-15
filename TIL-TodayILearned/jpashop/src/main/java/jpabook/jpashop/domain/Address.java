@@ -2,9 +2,9 @@ package jpabook.jpashop.domain;
 
 import lombok.Getter;
 
-import javax.persistence.Embedded;
+import javax.persistence.Embeddable;
 
-@Embedded
+@Embeddable
 @Getter
 public class Address {
 
