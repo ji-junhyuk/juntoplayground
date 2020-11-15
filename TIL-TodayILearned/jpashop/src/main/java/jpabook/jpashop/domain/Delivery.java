@@ -2,7 +2,6 @@ package jpabook.jpashop.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.tomcat.jni.Address;
 
 import javax.persistence.*;
 
@@ -24,6 +23,4 @@ public class Delivery {
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
-
-
 }

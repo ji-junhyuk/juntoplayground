@@ -3,11 +3,7 @@ spring:
     url: jdbc:h2:tcp://localhost/~/jpashop
     username: sa
     password:
-    dirver-class-name: org.h2.Driver
-
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
+    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
@@ -15,8 +11,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#        show_sql: true
 
 logging.level:
   org.hibernate.SQL: debug
-#  org.hibernate.type: trace
