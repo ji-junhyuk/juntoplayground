@@ -20,8 +20,8 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/springbook", "spring", "book");
+        Class.forName("com.h2database:h2");
+        Connection c = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/toby", "spring", "book");
 
         PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
         ps.setString(1, id);
@@ -38,5 +38,24 @@ public class UserDao {
         c.close();
 
         return user;
+    }
+
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        UserDao dao = new UserDao();
+
+        User user = new User();
+        user.setId("whiteShip");
+        user.setName("BackGiSun");
+        user.setPassword("married");
+
+        dao.add(user);
+
+        System.out.println(user.getId() + "enroll succeed");
+
+        User user2 = dao.get(user.getId());
+        System.out.println(user2.getName());
+        System.out.println(user2.getPassword());
+
+        System.out.println(user2.getId() + "enroll succeed");
     }
 }
