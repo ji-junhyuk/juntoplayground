@@ -1,21 +1,20 @@
 package hellojpa.orm;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 public class Member {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    @Column(name = "name", nullable = false)
+    private String username;
 
     public Member() {
-    }
-
-    public Member(Long id, String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public Long getId() {
@@ -26,11 +25,14 @@ public class Member {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
+
+
+

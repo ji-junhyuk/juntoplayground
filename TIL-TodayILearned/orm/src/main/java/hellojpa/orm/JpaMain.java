@@ -18,13 +18,10 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Member member = new Member();
+            member.setUsername("C");
 
-            Member member = new Member(200L, "member200");
             em.persist(member);
-
-            em.flush();
-
-            System.out.println("=====================");
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
