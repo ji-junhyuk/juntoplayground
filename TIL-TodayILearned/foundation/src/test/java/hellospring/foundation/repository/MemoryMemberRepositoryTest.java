@@ -18,7 +18,6 @@ class MemoryMemberRepositoryTest {
     public void afterEach() {
         repository.clearStore();
     }
-
     @Test
     public void save() {
         //given
@@ -68,4 +67,5 @@ class MemoryMemberRepositoryTest {
         //then
         assertThat(result.size()).isEqualTo(2);
     }
+
 }

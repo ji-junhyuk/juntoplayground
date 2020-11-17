@@ -5,7 +5,6 @@ import java.util.function.*;
 public class Foo {
 
     public static void main(String[] args) {
-        UnaryOperator<String> hi = (s)
 
     }
 }

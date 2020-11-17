@@ -4,5 +4,4 @@ public class Greeting {
 
     private String name;
 
-    public
 }
