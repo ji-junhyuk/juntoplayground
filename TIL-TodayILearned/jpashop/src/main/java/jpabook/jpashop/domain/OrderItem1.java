@@ -1,4 +1,4 @@
 package jpabook.jpashop.domain;
 
-public class Address {
+public class OrderItem1 {
 }

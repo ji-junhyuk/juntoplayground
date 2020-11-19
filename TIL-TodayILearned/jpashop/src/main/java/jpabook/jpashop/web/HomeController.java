@@ -1,4 +1,4 @@
 package jpabook.jpashop.web;
 
-public class OrderController {
+public class HomeController {
 }

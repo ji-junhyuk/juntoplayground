@@ -1,4 +1,4 @@
 package jpabook.jpashop.service;
 
-public interface MemberService {
+public class OrderService1 {
 }

@@ -1,4 +1,4 @@
 package jpabook.jpashop.domain.item;
 
-public class Item {
+public class Category1 {
 }
