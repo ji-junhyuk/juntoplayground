@@ -37,7 +37,7 @@ public class MemberServiceNotInterface {
     /*
     View all member
      */
-    public List<Member> findMember() {
+    public List<Member> findMembers() {
         return memberRepositoryImplXXX.findAll();
     }
 

@@ -27,4 +27,15 @@ public class ItemService1 {
     public Item findOne(Long itemId) {
         return itemRepository1.findOne(itemId);
     }
+
+    /*
+   Persistence context changes automatically
+    */
+    @Transactional
+    public void updateItem(Long id, String name, int price) {
+        Item item = itemRepository1.findOne(id);
+        item.setName(name);
+        item.setPrice(price);
+    }
+
 }
