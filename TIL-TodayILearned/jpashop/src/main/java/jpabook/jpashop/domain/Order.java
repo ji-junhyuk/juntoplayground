@@ -48,6 +48,45 @@ public class Order {
 
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
-        delivery.setOrders(this);
+        delivery.setOrder(this);
+    }
+
+    //==Create Method==//
+    public static Order createOrder(Member member, Delivery delivery, OrderItem1... orderItem1s) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrderItem1 orderItem1 : orderItem1s) {
+            order.addOrderItem(orderItem1);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+    //==Business Logic==//
+    /*
+    Cancel order
+     */
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("Products that have been delivered cannot be canceled.");
+        }
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem1 orderItem1 : orderItem1s) {
+            orderItem1.cancel();
+        }
+    }
+
+    //==Lookup logic==//
+    /*
+    Display price for all orders
+     */
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem1 orderItem1 : orderItem1s) {
+            totalPrice += orderItem1.getTotalPrice();
+        }
+        return totalPrice;
     }
 }
