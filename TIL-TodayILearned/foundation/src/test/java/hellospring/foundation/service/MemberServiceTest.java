@@ -2,8 +2,8 @@ package hellospring.foundation.service;
 
 import hellospring.foundation.domain.Member;
 import hellospring.foundation.repository.MemoryMemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ class MemberServiceTest {
     public void join() throws Exception {
         //given
         Member member = new Member();
-        member.setName("spring");
+        member.setName("hello");
 
         //when
         Long saveId = memberService.join(member);
@@ -49,13 +49,14 @@ class MemberServiceTest {
         member2.setName("spring");
 
         //when
+
         memberService.join(member1);
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.join(member2));
 
-        Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
+        org.assertj.core.api.Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
 
         //then
-    }
+     }
 
 }
