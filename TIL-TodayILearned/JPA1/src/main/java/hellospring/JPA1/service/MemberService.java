@@ -37,8 +37,13 @@ public class MemberService {
     /*
     View all member
      */
+<<<<<<< HEAD:TIL-TodayILearned/JPA1/src/main/java/hellospring/JPA1/service/MemberService.java
     public List<Member> findMembers() {
         return memberRepository.findAll();
+=======
+    public List<Member> findMember() {
+        return memberRepositoryImplXXX.findAll();
+>>>>>>> parent of cd55527... Jpa1, (63) 93/93 (60m):TIL-TodayILearned/jpashop/src/main/java/jpabook/jpashop/service/MemberServiceNotInterface.java
     }
 
     public Member findOne(Long memberId) {
