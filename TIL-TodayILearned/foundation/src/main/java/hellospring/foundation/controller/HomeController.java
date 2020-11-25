@@ -11,10 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
+
+
+
 @Controller
-@RequiredArgsConstructor
 public class HomeController {
 
+}
+
+    /*
     private final MemberService memberService;
 
     @GetMapping("/")
@@ -45,3 +50,4 @@ public class HomeController {
         return "members/memberList";
     }
 }
+*/

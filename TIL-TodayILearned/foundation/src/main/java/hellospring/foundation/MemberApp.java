@@ -1,12 +1,5 @@
 package hellospring.foundation;
 
-import hellospring.foundation.domain.Grade;
-import hellospring.foundation.domain.Member;
-import hellospring.foundation.service.MemberService;
-import hellospring.foundation.service.MemberServiceInterface;
-
-import java.util.Optional;
-
 public class MemberApp {
 
     public static void main(String[] args) {

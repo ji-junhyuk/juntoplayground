@@ -2,14 +2,13 @@ package hellospring.foundation.discount;
 
 import hellospring.foundation.domain.Grade;
 import hellospring.foundation.domain.Member;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class RateDiscountPolicyTest {
 
+/*
     RateDiscountPolicy discountPolicy = new RateDiscountPolicy();
 
     @Test
@@ -35,6 +34,7 @@ class RateDiscountPolicyTest {
         //then
         assertThat(discount).isEqualTo(0);
     }
+*/
 
 
 }

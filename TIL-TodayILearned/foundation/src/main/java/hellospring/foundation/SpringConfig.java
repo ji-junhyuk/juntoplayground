@@ -18,10 +18,10 @@ import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
 @Configuration
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class SpringConfig {
 
-    private final DataSource dataSource;
+/*    private final DataSource dataSource;
     private final EntityManager em;
 
 
@@ -42,6 +42,6 @@ public class SpringConfig {
 //        return new MemoryMemberRepository();
 //        return new JdbcTemplateMemberRepository(dataSource);
         return new JpaMemberRepository(em);
-    }
+    }*/
 
 }

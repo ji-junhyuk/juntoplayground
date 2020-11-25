@@ -1,7 +1,6 @@
 package hellospring.foundation.repository;
 
 import hellospring.foundation.domain.Member;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
@@ -10,9 +9,11 @@ import java.util.*;
     In practice, consider using concurrentHashmap and AtomicLong
 */
 
-public class MemoryMemberRepository implements MemberRepository{
+public class MemoryMemberRepository {
 
-    private static Map<Long, Member> store = new HashMap<>();
+}
+
+/*    private static Map<Long, Member> store = new HashMap<>();
     private static long sequence = 0L;
 //BASIC : private static Map<Long, Member> store = new HashMap<>();
 
@@ -43,4 +44,4 @@ public class MemoryMemberRepository implements MemberRepository{
     public void clearStore() {
         store.clear();
     }
-}
+}*/

@@ -1,20 +1,13 @@
 package hellospring.foundation.service;
 
-import hellospring.foundation.SpringConfig;
-import hellospring.foundation.domain.Grade;
-import hellospring.foundation.domain.Member;
-import hellospring.foundation.repository.MemberRepository;
-import hellospring.foundation.repository.MemoryMemberRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+@SpringBootTest
+@Transactional
 class MemberServiceTest {
+     
 /*
     MemberService memberService = new MemberService();
     MemoryMemberRepository memberRepository;
