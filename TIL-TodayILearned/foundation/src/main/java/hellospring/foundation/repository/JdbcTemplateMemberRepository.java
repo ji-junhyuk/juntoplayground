@@ -1,4 +1,4 @@
 package hellospring.foundation.repository;
 
-public class MemoryMemberRepository {
+public class JdbcTemplateMemberRepository {
 }
