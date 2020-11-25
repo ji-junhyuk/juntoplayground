@@ -1,5 +1,6 @@
 package hellospring.foundation.repository;
 
+import hellospring.foundation.domain.Grade;
 import hellospring.foundation.domain.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -22,7 +23,7 @@ class MemoryMemberRepositoryTest {
     @Test
     public void save() {
         //given
-        Member member = new Member();
+        Member member = new Member(1L, "memberA", Grade.VIP);
         member.setName("spring");
 
         //when
@@ -36,11 +37,11 @@ class MemoryMemberRepositoryTest {
     @Test
     public void findByName() {
         //given
-        Member member1 = new Member();
+        Member member1 = new Member(1L, "memberA", Grade.VIP);
         member1.setName("spring1");
         repository.save(member1);
 
-        Member member2 = new Member();
+        Member member2 = new Member(1L, "memberA", Grade.VIP);
         member2.setName("spring1");
         repository.save(member2);
 
@@ -54,11 +55,11 @@ class MemoryMemberRepositoryTest {
     @Test
     public void findAll() {
         //given
-        Member member1 = new Member();
+        Member member1 = new Member(1L, "memberA", Grade.VIP);
         member1.setName("spring1");
         repository.save(member1);
 
-        Member member2 = new Member();
+        Member member2 = new Member(1L, "memberA", Grade.VIP);
         member2.setName("spring1");
         repository.save(member2);
 

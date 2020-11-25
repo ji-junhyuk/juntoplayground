@@ -1,0 +1,22 @@
+package hellospring.foundation;
+
+import hellospring.foundation.domain.Grade;
+import hellospring.foundation.domain.Member;
+import hellospring.foundation.service.MemberService;
+import hellospring.foundation.service.MemberServiceInterface;
+
+import java.util.Optional;
+
+public class MemberApp {
+
+    public static void main(String[] args) {
+        MemberServiceInterface memberServiceInterface = new MemberService();
+        Member member = new Member(1L, "memberA", Grade.VIP);
+        memberServiceInterface.join(member);
+
+        Optional<Member> findOne = memberServiceInterface.findOne(1L);
+        System.out.println("new Member =" + member.getName());
+        System.out.println("find Member=" + findOne.get());
+
+    }
+}

@@ -1,6 +1,7 @@
 package hellospring.foundation.domain;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -16,4 +17,11 @@ public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Grade grade;
+
+    public Member(Long id, String name, Grade grade) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+    }
 }

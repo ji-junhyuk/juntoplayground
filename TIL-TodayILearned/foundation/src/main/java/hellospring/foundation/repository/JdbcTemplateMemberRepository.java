@@ -1,5 +1,6 @@
 package hellospring.foundation.repository;
 
+import hellospring.foundation.domain.Grade;
 import hellospring.foundation.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,7 +49,7 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
     }
     private RowMapper<Member> memberRowMapper() {
         return (rs, rowNum) -> {
-            Member member = new Member();
+            Member member = new Member(1L, "memberA", Grade.VIP);
             member.setId(rs.getLong("id"));
             member.setName(rs.getString("name"));
             return member;

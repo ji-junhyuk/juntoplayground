@@ -1,5 +1,6 @@
 package hellospring.foundation.controller;
 
+import hellospring.foundation.domain.Grade;
 import hellospring.foundation.domain.Member;
 import hellospring.foundation.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class HomeController {
     @PostMapping(value = "/members/new")
     public String create(MemberForm form) {
 
-        Member member = new Member();
+        Member member = new Member(1L, "memberA", Grade.VIP);
         member.setName(form.getName());
 
         memberService.join(member);

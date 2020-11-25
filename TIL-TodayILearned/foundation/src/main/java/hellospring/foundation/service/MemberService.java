@@ -10,11 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Transactional
-public class MemberService {
+public class MemberService implements MemberServiceInterface {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository = new MemoryMemberRepository();
 
     /*
     Sign up
