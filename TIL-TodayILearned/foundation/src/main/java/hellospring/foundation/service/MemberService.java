@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
+@RequiredArgsConstructor
 public class MemberService implements MemberServiceInterface {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
 
     /*
     Sign up

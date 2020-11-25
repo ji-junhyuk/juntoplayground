@@ -11,8 +11,9 @@ import hellospring.foundation.service.OrderServiceInterface;
 public class OrderApp {
 
     public static void main(String[] args) {
-        MemberServiceInterface memberServiceInterface = new MemberService();
-        OrderServiceInterface orderServiceInterface = new OrderService();
+/*
+        SpringConfig springConfig = new SpringConfig();
+        MemberServiceInterface memberServiceInterface = springConfig.memberServiceInterface();
 
         long id = 1L;
         Member member = new Member(id, "memberA", Grade.VIP);
@@ -21,5 +22,6 @@ public class OrderApp {
         Order order = orderServiceInterface.createOrder(id, "itemA", 10000);
 
         System.out.println("order = " + order);
+*/
     }
 }

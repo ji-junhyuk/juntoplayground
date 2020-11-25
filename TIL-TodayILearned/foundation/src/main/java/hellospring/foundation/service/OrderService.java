@@ -6,13 +6,16 @@ import hellospring.foundation.domain.Member;
 import hellospring.foundation.domain.Order;
 import hellospring.foundation.repository.MemberRepository;
 import hellospring.foundation.repository.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class OrderService implements OrderServiceInterface {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
 
     @Override
     public Order createOrder(Long id, String itemName, int itemPrice) {

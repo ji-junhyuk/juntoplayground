@@ -1,5 +1,6 @@
 package hellospring.foundation.service;
 
+import hellospring.foundation.SpringConfig;
 import hellospring.foundation.domain.Grade;
 import hellospring.foundation.domain.Member;
 import hellospring.foundation.repository.MemberRepository;
@@ -14,15 +15,15 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemberServiceTest {
-
+/*
     MemberService memberService = new MemberService();
     MemoryMemberRepository memberRepository;
 
 
     @BeforeEach
     public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-//        memberService = new MemberService(memberRepository);
+//        SpringConfig springConfig = new SpringConfig();
+
     }
 
     @AfterEach
@@ -61,7 +62,7 @@ class MemberServiceTest {
         Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
 
         //then
-     }
+     }*/
 
      @Test
      public void join2() {

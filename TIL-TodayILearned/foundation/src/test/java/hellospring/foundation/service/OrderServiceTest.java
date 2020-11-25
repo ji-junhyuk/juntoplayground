@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrderServiceTest {
 
+/*
     MemberServiceInterface memberServiceInterface = new MemberService();
     OrderServiceInterface orderServiceInterface = new OrderService();
 
@@ -26,5 +27,6 @@ class OrderServiceTest {
         //then
         Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
     }
+*/
 
 }
