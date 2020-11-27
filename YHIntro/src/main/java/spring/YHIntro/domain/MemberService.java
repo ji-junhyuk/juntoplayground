@@ -12,7 +12,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-
     /*
     Sign up
      */
