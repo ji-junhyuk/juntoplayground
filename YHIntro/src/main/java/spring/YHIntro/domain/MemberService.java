@@ -1,14 +1,17 @@
 package spring.YHIntro.domain;
 
+import lombok.RequiredArgsConstructor;
 import spring.YHIntro.repository.MemberRepository;
 import spring.YHIntro.repository.MemoryMemberRepository;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+
 
     /*
     Sign up
