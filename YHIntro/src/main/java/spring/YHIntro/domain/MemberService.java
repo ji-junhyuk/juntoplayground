@@ -14,8 +14,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     /*
-    Sign up
-     */
+        Sign up
+         */
     public Long join(Member member) {
 
         validateDuplicateMember(member);
