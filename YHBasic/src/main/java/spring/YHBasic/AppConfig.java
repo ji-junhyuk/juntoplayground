@@ -1,5 +1,7 @@
 package spring.YHBasic;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import spring.YHBasic.discount.DiscountPolicy;
 import spring.YHBasic.discount.FixDiscountPolicy;
 import spring.YHBasic.discount.RateDiscountPolicy;
@@ -17,10 +19,6 @@ public class AppConfig {
     }
 
     public MemberRepository memberRepository() {
-        return MemberRepository();
-    }
-
-    public MemberRepository MemberRepository() {
         return new MemoryMemberRepository();
     }
 
