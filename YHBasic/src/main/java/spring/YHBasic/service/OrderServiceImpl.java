@@ -1,5 +1,6 @@
 package spring.YHBasic.service;
 
+import lombok.RequiredArgsConstructor;
 import spring.YHBasic.discount.DiscountPolicy;
 import spring.YHBasic.discount.FixDiscountPolicy;
 import spring.YHBasic.discount.RateDiscountPolicy;
@@ -8,11 +9,11 @@ import spring.YHBasic.domain.Order;
 import spring.YHBasic.repository.MemberRepository;
 import spring.YHBasic.repository.MemoryMemberRepository;
 
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
-    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {

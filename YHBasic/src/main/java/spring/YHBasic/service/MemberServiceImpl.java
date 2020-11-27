@@ -1,12 +1,14 @@
 package spring.YHBasic.service;
 
+import lombok.RequiredArgsConstructor;
 import spring.YHBasic.domain.Member;
 import spring.YHBasic.repository.MemberRepository;
 import spring.YHBasic.repository.MemoryMemberRepository;
 
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
 
     @Override
     public void join(Member member) {
