@@ -1,12 +1,14 @@
 package spring.YHIntro.domain;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import spring.YHIntro.repository.MemberRepository;
 import spring.YHIntro.repository.MemoryMemberRepository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class MemberService {
 
