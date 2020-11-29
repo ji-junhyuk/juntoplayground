@@ -1,4 +1,4 @@
-package spring.YHIntro.controller;
+package spring.YHIntro.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
