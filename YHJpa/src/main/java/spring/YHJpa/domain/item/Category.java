@@ -30,7 +30,7 @@ public class Category {
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
-    private List<Category> categories = new ArrayList<>();
+    private List<Category> child = new ArrayList<>();
 
     //==Association Method==//
     public void addChildCategory(Category child) {
