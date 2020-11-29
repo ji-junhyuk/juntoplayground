@@ -74,4 +74,13 @@ public class Order {
             orderItem.cancel();
         }
     }
+
+    //==Lookup Logic==//
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+    }
 }
