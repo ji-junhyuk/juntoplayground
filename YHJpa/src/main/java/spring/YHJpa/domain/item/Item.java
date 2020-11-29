@@ -2,6 +2,7 @@ package spring.YHJpa.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import spring.YHJpa.exception.NotEnoughStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,5 +26,18 @@ public abstract class Item {
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
+
+    //==Business Logic==//
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity - quantity;
+        if (restStock < 0) {
+            NotEnoughStockException("need more stock");
+        }
+        this.stockQuantity = restStock;
+    }
 
 }
