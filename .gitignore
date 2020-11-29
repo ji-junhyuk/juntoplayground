@@ -151,9 +151,7 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,gradle
 
 # Exclude [css], [js], [map]
-src/main/resources/static/css/*.css
-src/main/resources/static/css/*.map
-src/main/resources/static/js/*.js
-src/main/resources/static/js/*.map
-
-
+YHJpa/src/main/resources/static/css/*.css
+YHJpa/src/main/resources/static/css/*.map
+YHJpa/src/main/resources/static/js/*.js
+YHJpa/src/main/resources/static/js/*.map
