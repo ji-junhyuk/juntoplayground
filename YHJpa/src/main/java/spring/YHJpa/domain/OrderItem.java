@@ -37,4 +37,9 @@ public class OrderItem {
         item.removeStock(count);
         return orderItem;
     }
+
+    //==Business Logic==//
+    public void cancel() {
+        getItem().addStock(count);
+    }
 }
