@@ -16,7 +16,7 @@ class MemoryMemberRepositoryTest {
 
     @AfterEach
     public void afterEach() {
-        memberRepository.clearStore();
+        repository.clearStore();
     }
 
     @Test
@@ -66,6 +66,6 @@ class MemoryMemberRepositoryTest {
         List<Member> result = repository.findAll();
 
         //then
-        assertThat(result.size()).isEqualTo(2)
+        assertThat(result.size()).isEqualTo(2);
     }
 }
