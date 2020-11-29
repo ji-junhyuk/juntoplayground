@@ -16,6 +16,14 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
+    public void updateItem(Long id, String name, int price, int quantity) {
+        Item item = itemRepository.findOne(id);
+        item.setName(name);
+        item.setPrice(price);
+        item.setStockQuantity(quantity);
+    }
+
+    @Transactional
     public void saveItem(Item item) {
         itemRepository.save(item);
     }
