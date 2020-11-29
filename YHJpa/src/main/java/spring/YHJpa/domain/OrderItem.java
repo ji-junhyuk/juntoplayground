@@ -26,4 +26,15 @@ public class OrderItem {
     private int orderPrice;
 
     private int count;
+
+    //==Create Method==//
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+        return orderItem;
+    }
 }
