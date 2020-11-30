@@ -6,5 +6,5 @@ public interface MemberRepository {
 
     void save(Member member);
 
-    void findById(Long memberId);
+    Member findById(Long memberId);
 }
