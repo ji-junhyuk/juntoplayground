@@ -1,4 +1,4 @@
-package spring.YHIntro.controller;
+package spring.YHIntro.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
