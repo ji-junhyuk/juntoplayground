@@ -1,9 +1,8 @@
-package hello.YHBasic;
+package spring.YHBasic;
 
-import hello.YHBasic.domain.Grade;
-import hello.YHBasic.domain.Member;
-import hello.YHBasic.service.MemberService;
-import hello.YHBasic.service.MemberServiceImpl;
+import spring.YHBasic.domain.Grade;
+import spring.YHBasic.domain.Member;
+import spring.YHBasic.service.MemberService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

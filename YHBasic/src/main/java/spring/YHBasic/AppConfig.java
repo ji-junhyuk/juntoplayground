@@ -1,14 +1,13 @@
-package hello.YHBasic;
+package spring.YHBasic;
 
-import hello.YHBasic.discount.DiscountPolicy;
-import hello.YHBasic.discount.FixDiscountPolicy;
-import hello.YHBasic.discount.RateDiscountPolicy;
-import hello.YHBasic.repository.MemberRepository;
-import hello.YHBasic.repository.MemoryMemberRepository;
-import hello.YHBasic.service.MemberService;
-import hello.YHBasic.service.MemberServiceImpl;
-import hello.YHBasic.service.OrderService;
-import hello.YHBasic.service.OrderServiceImpl;
+import spring.YHBasic.discount.DiscountPolicy;
+import spring.YHBasic.discount.RateDiscountPolicy;
+import spring.YHBasic.repository.MemberRepository;
+import spring.YHBasic.repository.MemoryMemberRepository;
+import spring.YHBasic.service.MemberService;
+import spring.YHBasic.service.MemberServiceImpl;
+import spring.YHBasic.service.OrderService;
+import spring.YHBasic.service.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

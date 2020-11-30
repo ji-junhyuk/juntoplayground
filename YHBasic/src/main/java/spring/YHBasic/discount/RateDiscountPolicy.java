@@ -1,7 +1,7 @@
-package hello.YHBasic.discount;
+package spring.YHBasic.discount;
 
-import hello.YHBasic.domain.Grade;
-import hello.YHBasic.domain.Member;
+import spring.YHBasic.domain.Grade;
+import spring.YHBasic.domain.Member;
 
 public class RateDiscountPolicy implements DiscountPolicy {
 

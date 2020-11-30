@@ -1,13 +1,12 @@
-package hello.YHBasic.service;
+package spring.YHBasic.service;
 
-import hello.YHBasic.AppConfig;
-import hello.YHBasic.domain.Grade;
-import hello.YHBasic.domain.Member;
-import org.assertj.core.api.Assertions;
+import spring.YHBasic.AppConfig;
+import spring.YHBasic.domain.Grade;
+import spring.YHBasic.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 class MemberServiceTest {
 
@@ -30,7 +29,7 @@ class MemberServiceTest {
         Member findMember = memberService.findMember(1L);
 
         //then
-        Assertions.assertThat(member).isEqualTo(findMember);
+        assertThat(member).isEqualTo(findMember);
     }
 
 }

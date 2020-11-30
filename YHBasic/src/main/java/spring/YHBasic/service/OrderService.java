@@ -1,6 +1,6 @@
-package hello.YHBasic.service;
+package spring.YHBasic.service;
 
-import hello.YHBasic.domain.Order;
+import spring.YHBasic.domain.Order;
 
 public interface OrderService {
 

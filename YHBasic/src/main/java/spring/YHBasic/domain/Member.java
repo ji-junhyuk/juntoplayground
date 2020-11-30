@@ -1,4 +1,4 @@
-package hello.YHBasic.domain;
+package spring.YHBasic.domain;
 
 import lombok.Getter;
 import lombok.Setter;

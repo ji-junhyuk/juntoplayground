@@ -1,6 +1,6 @@
-package hello.YHBasic.discount;
+package spring.YHBasic.discount;
 
-import hello.YHBasic.domain.Member;
+import spring.YHBasic.domain.Member;
 
 public interface DiscountPolicy {
 
