@@ -2,6 +2,7 @@ package hello.YHBasic;
 
 import hello.YHBasic.discount.DiscountPolicy;
 import hello.YHBasic.discount.FixDiscountPolicy;
+import hello.YHBasic.discount.RateDiscountPolicy;
 import hello.YHBasic.repository.MemberRepository;
 import hello.YHBasic.repository.MemoryMemberRepository;
 import hello.YHBasic.service.MemberService;
@@ -27,6 +28,7 @@ public class AppConfig {
     }
 
     public DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+//        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 }
