@@ -1,5 +1,6 @@
 package hello.YHBasic.domain;
 
 public enum Grade {
-    VIP, BASIC
+
+    VIP, BASIC,
 }
