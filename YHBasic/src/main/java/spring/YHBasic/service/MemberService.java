@@ -1,6 +1,6 @@
-package hello.YHBasic.service;
+package spring.YHBasic.service;
 
-import hello.YHBasic.domain.Member;
+import spring.YHBasic.domain.Member;
 
 public interface MemberService {
 

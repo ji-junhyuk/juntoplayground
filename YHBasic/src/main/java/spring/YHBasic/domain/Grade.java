@@ -1,4 +1,4 @@
-package hello.YHBasic.domain;
+package spring.YHBasic.domain;
 
 public enum Grade {
 

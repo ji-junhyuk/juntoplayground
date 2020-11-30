@@ -1,6 +1,6 @@
-package hello.YHBasic.repository;
+package spring.YHBasic.repository;
 
-import hello.YHBasic.domain.Member;
+import spring.YHBasic.domain.Member;
 
 import java.util.HashMap;
 import java.util.Map;

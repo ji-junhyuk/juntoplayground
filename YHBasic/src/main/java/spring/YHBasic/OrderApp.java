@@ -1,12 +1,10 @@
-package hello.YHBasic;
+package spring.YHBasic;
 
-import hello.YHBasic.domain.Grade;
-import hello.YHBasic.domain.Member;
-import hello.YHBasic.domain.Order;
-import hello.YHBasic.service.MemberService;
-import hello.YHBasic.service.MemberServiceImpl;
-import hello.YHBasic.service.OrderService;
-import hello.YHBasic.service.OrderServiceImpl;
+import spring.YHBasic.domain.Grade;
+import spring.YHBasic.domain.Member;
+import spring.YHBasic.domain.Order;
+import spring.YHBasic.service.MemberService;
+import spring.YHBasic.service.OrderService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

@@ -1,13 +1,11 @@
-package hello.YHBasic.discount;
+package spring.YHBasic.discount;
 
-import hello.YHBasic.domain.Grade;
-import hello.YHBasic.domain.Member;
-import org.assertj.core.api.Assertions;
+import spring.YHBasic.domain.Grade;
+import spring.YHBasic.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class RateDiscountPolicyTest {
 

@@ -1,15 +1,13 @@
-package hello.YHBasic.service;
+package spring.YHBasic.service;
 
-import hello.YHBasic.AppConfig;
-import hello.YHBasic.domain.Grade;
-import hello.YHBasic.domain.Member;
-import hello.YHBasic.domain.Order;
-import org.assertj.core.api.Assertions;
+import spring.YHBasic.AppConfig;
+import spring.YHBasic.domain.Grade;
+import spring.YHBasic.domain.Member;
+import spring.YHBasic.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrderServiceTest {
 

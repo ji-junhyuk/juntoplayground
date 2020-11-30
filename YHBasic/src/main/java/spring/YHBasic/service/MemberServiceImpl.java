@@ -1,8 +1,7 @@
-package hello.YHBasic.service;
+package spring.YHBasic.service;
 
-import hello.YHBasic.domain.Member;
-import hello.YHBasic.repository.MemberRepository;
-import hello.YHBasic.repository.MemoryMemberRepository;
+import spring.YHBasic.domain.Member;
+import spring.YHBasic.repository.MemberRepository;
 
 public class MemberServiceImpl implements MemberService {
 

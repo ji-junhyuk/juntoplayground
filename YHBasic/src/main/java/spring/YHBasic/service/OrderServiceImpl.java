@@ -1,11 +1,9 @@
-package hello.YHBasic.service;
+package spring.YHBasic.service;
 
-import hello.YHBasic.discount.DiscountPolicy;
-import hello.YHBasic.discount.FixDiscountPolicy;
-import hello.YHBasic.domain.Member;
-import hello.YHBasic.domain.Order;
-import hello.YHBasic.repository.MemberRepository;
-import hello.YHBasic.repository.MemoryMemberRepository;
+import spring.YHBasic.discount.DiscountPolicy;
+import spring.YHBasic.domain.Member;
+import spring.YHBasic.domain.Order;
+import spring.YHBasic.repository.MemberRepository;
 
 public class OrderServiceImpl implements OrderService {
 
