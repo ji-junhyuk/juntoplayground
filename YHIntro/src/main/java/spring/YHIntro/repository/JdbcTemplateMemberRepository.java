@@ -1,6 +1,5 @@
 package spring.YHIntro.repository;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -36,13 +35,22 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
 
     @Override
     public Optional<Member> findById(Long id) {
-        List<Member> result = jdbcTemplate.query("select * from member where id = ?", memberRowMapper(), id);
+        List<Member> result = jdbcTemplate.query("select * from member where id =?", memberRowMapper(), id);
         return result.stream().findAny();
+    }
+
+    private RowMapper<Member> memberRowMapper() {
+        return (rs, rowNum) -> {
+            Member member = new Member();
+            member.setId(rs.getLong("id"));
+            member.setName(rs.getString("name"));
+            return member;
+        };
     }
 
     @Override
     public Optional<Member> findByName(String name) {
-        List<Member> result = jdbcTemplate.query("select * from member where name = ?", memberRowMapper(), name);
+        List<Member> result = jdbcTemplate.query("select * from member where name =?", memberRowMapper(), name);
         return result.stream().findAny();
     }
 
@@ -50,14 +58,4 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
     public List<Member> findAll() {
         return jdbcTemplate.query("select * from member", memberRowMapper());
     }
-
-    private RowMapper<Member> memberRowMapper() {
-        return ((rs, rowNum) -> {
-            Member member = new Member();
-            member.setId(rs.getLong("id"));
-            member.setName(rs.getString("name"));
-            return member;
-        });
-    }
-
 }

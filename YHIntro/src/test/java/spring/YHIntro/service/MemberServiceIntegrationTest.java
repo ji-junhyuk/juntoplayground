@@ -1,10 +1,13 @@
-package spring.YHIntro.domain;
+package spring.YHIntro.service;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import spring.YHIntro.domain.Member;
+import spring.YHIntro.repository.MemberRepository;
 import spring.YHIntro.repository.MemoryMemberRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,11 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 class MemberServiceIntegrationTest {
 
+    @Autowired
     MemberService memberService;
-    MemoryMemberRepository memberRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
     public void join() throws Exception {
+
         //given
         Member member = new Member();
         member.setName("hello");
@@ -34,6 +41,7 @@ class MemberServiceIntegrationTest {
 
     @Test
     public void duplicateMemberException() throws Exception {
+
         //given
         Member member1 = new Member();
         member1.setName("spring");
@@ -48,5 +56,6 @@ class MemberServiceIntegrationTest {
 
         //then
         assertThat(e.getMessage()).isEqualTo("Already existing member.");
-     }
+
+    }
 }
