@@ -32,4 +32,9 @@ public class OrderItem {
     public void cancel() {
         getItem().addStock(count);
     }
+
+    //==Lookup Logic==//
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
+    }
 }
