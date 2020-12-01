@@ -9,6 +9,8 @@ import spring.YHJpa.repository.ItemRepository;
 import spring.YHJpa.repository.MemberRepository;
 import spring.YHJpa.repository.OrderRepository;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -53,5 +55,12 @@ public class OrderService {
         Order order = orderRepository.findOne(orderId);
         //Cancel order
         order.cancel();
+    }
+
+    /*
+    Search order
+     */
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByString(orderSearch);
     }
 }
