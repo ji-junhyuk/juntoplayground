@@ -43,4 +43,15 @@ public class OrderService {
         orderRepository.save(order);
         return order.getId();
     }
+
+    /*
+    Cancellation order
+     */
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        //Lookup entity
+        Order order = orderRepository.findOne(orderId);
+        //Cancel order
+        order.cancel();
+    }
 }
