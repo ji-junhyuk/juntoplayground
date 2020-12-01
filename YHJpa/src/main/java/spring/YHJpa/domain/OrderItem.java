@@ -27,4 +27,9 @@ public class OrderItem {
     private int orderPrice;
 
     private int count;
+
+    //==Business Logic==//
+    public void cancel() {
+        getItem().addStock(count);
+    }
 }
