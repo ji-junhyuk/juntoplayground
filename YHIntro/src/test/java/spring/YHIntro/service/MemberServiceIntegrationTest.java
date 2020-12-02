@@ -21,7 +21,7 @@ class MemberServiceIntegrationTest {
     MemberService memberService;
 
     @Autowired
-    MemoryMemberRepository memberRepository;
+    MemberRepository memberRepository;
 
     @Test
     public void join() throws Exception {
