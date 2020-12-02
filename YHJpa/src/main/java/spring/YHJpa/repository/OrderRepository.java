@@ -25,7 +25,7 @@ public class OrderRepository {
     }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
-        String jpql = "select o From Order o join o.member m";
+        String jpql = "select o Form Order o join o.member m";
         boolean isFirstCondition = true;
 
         //Search order status
@@ -49,7 +49,6 @@ public class OrderRepository {
             }
             jpql += " m.name like :name";
         }
-
         TypedQuery<Order> query = em.createQuery(jpql, Order.class)
                 .setMaxResults(1000);
 
@@ -61,6 +60,5 @@ public class OrderRepository {
         }
 
         return query.getResultList();
-
     }
 }

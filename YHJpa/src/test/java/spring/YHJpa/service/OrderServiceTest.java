@@ -12,7 +12,7 @@ import spring.YHJpa.domain.Order;
 import spring.YHJpa.domain.OrderStatus;
 import spring.YHJpa.domain.item.Book;
 import spring.YHJpa.domain.item.Item;
-import spring.YHJpa.exception.NotEnoughStockException;
+import spring.YHJpa.exception.NotEnoghStockException;
 import spring.YHJpa.repository.OrderRepository;
 
 import javax.persistence.EntityManager;
@@ -30,14 +30,17 @@ public class OrderServiceTest {
 
     @Autowired
     OrderService orderService;
+
     @Autowired
     OrderRepository orderRepository;
 
     @Test
     public void orderProduct() throws Exception {
+
         //given
         Member member = createMember();
         Item item = createBook("country JPA", 10000, 10);
+
         int orderCount = 2;
 
         //when
@@ -46,17 +49,19 @@ public class OrderServiceTest {
         //then
         Order getOrder = orderRepository.findOne(orderId);
 
-        assertEquals("When ordering the product, the status is ORDER", OrderStatus.ORDER,
+        assertEquals("When ordering product, the status is ORDER.", OrderStatus.ORDER,
                 getOrder.getStatus());
-        assertEquals("The number of product types ordered must be correct.", 1,
+        assertEquals("The number of product types must be correct.", 1,
                 getOrder.getOrderItems().size());
-        assertEquals("Order price is price * quantity", 10000 * 2,
+        assertEquals("Order price is price * quantity.", 10000 * 2,
                 getOrder.getTotalPrice());
-        assertEquals("The stock should be reduced by the order quantity.", 8, item.getStockQuantity());
+        assertEquals("Stock should be reduced by the order quantity.", 8,
+                item.getStockQuantity());
     }
 
-    @Test(expected = NotEnoughStockException.class)
-    public void productOrder_stockQuantityExceeded() throws Exception {
+    @Test(expected = NotEnoghStockException.class)
+    public void orderProduct_stockQuantityExceeded() throws Exception {
+
         //given
         Member member = createMember();
         Item item = createBook("country JPA", 10000, 10);
@@ -67,32 +72,30 @@ public class OrderServiceTest {
         orderService.order(member.getId(), item.getId(), orderCount);
 
         //then
-        fail("An out of stock exception should be made.");
-    }
+        fail("Out of stock exception should be thrown.");
+     }
 
-    @Test
-    public void cancelOrder() {
-        //given
-        Member member = createMember();
-        Item item = createBook("country JPA", 10000, 10);
+     @Test
+     public void cancelOrder() {
 
-        int orderCount = 2;
+         //given
+         Member member = createMember();
+         Item item = createBook("country JPA", 10000, 10);
 
-        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+         int orderCount = 2;
 
-        //when
-        orderService.cancelOrder(orderId);
+         Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
 
-        //then
-        Order getOrder = orderRepository.findOne(orderId);
+         //when
+         orderService.cancelOrder(orderId);
 
-        assertEquals("When canceling an order, the status is CANCEL.", OrderStatus.CANCEL,
-                getOrder.getStatus());
-        assertEquals("Products whose orders have been canceled should increase their inventory accordingly.",
-                10, item.getStockQuantity());
-    }
-
-
+         //then
+         Order getOrder = orderRepository.findOne(orderId);
+         assertEquals("When the order is canceled, the status is CANCEL.", OrderStatus.CANCEL,
+                 getOrder.getStatus());
+         assertEquals("Products with canceld orders must increase inventory accordingly.", 10,
+                 item.getStockQuantity());
+     }
     private Member createMember() {
         Member member = new Member();
         member.setName("member1");
@@ -109,4 +112,5 @@ public class OrderServiceTest {
         em.persist(book);
         return book;
     }
+
 }

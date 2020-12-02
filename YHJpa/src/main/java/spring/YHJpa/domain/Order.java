@@ -23,6 +23,7 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -30,8 +31,9 @@ public class Order {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    private LocalDateTime OrderDate;
+    private LocalDateTime orderDate;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     //==Association Method==//
@@ -66,9 +68,8 @@ public class Order {
     //==Business Logic==//
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
-            throw new IllegalStateException("Products that have been shipped cannot be cancelled.");
+            throw new IllegalStateException("Products that have been already shipped can not be cancelled. ");
         }
-
         this.setStatus(OrderStatus.CANCEL);
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
@@ -76,6 +77,9 @@ public class Order {
     }
 
     //==Lookup Logic==//
+    /*
+    View price for all orders
+     */
     public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderItem orderItem : orderItems) {

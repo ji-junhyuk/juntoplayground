@@ -17,9 +17,12 @@ import java.util.List;
 public class OrderService {
 
     private final MemberRepository memberRepository;
-    private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
+    private final OrderRepository orderRepository;
 
+    /*
+    order
+     */
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
 
@@ -32,31 +35,30 @@ public class OrderService {
         delivery.setAddress(member.getAddress());
         delivery.setStatus(DeliveryStatus.READY);
 
-        //Create Ordered item
+        //Create ordered item
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
-        //Create Order
+        //Create order
         Order order = Order.createOrder(member, delivery, orderItem);
 
-        //Store Order
+        //Store order
         orderRepository.save(order);
         return order.getId();
     }
 
-    /**
-     * cancellation order
+    /*
+    Cancellation order
      */
     @Transactional
     public void cancelOrder(Long orderId) {
-        //lookup order entity
+        //Lookup entity
         Order order = orderRepository.findOne(orderId);
-
-        //cancel order
+        //Cancel order
         order.cancel();
     }
 
-    /**
-     * search order
+    /*
+    Search order
      */
     public List<Order> findOrders(OrderSearch orderSearch) {
         return orderRepository.findAllByString(orderSearch);

@@ -11,15 +11,16 @@ import javax.persistence.*;
 @Getter @Setter
 public class OrderItem {
 
-    @Id @GeneratedValue
-    @Column(name = "order_item_id" )
+    @Id
+    @GeneratedValue
+    @Column(name = "order_item_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 
@@ -47,5 +48,4 @@ public class OrderItem {
     public int getTotalPrice() {
         return getOrderPrice() * getCount();
     }
-
 }

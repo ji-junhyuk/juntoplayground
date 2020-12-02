@@ -14,8 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private  final MemberRepository memberRepository;
 
+    /*
+    Sign up
+     */
     @Transactional
     public Long join(Member member) {
 
@@ -31,6 +34,9 @@ public class MemberService {
         }
     }
 
+    /*
+    View all member
+     */
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
