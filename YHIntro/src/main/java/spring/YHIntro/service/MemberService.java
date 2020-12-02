@@ -19,6 +19,10 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
+    /*
+    Sign up
+     */
+
     public Long join(Member member) {
 
         validateDuplicateMember(member);
@@ -33,6 +37,9 @@ public class MemberService {
                 });
     }
 
+    /*
+    View all member
+     */
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }

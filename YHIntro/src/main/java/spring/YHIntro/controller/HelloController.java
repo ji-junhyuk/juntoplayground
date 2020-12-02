@@ -39,7 +39,7 @@ public class HelloController {
 
     @Getter @Setter
     static class Hello {
-
         private String name;
     }
+
 }

@@ -3,6 +3,7 @@ package spring.YHIntro.repository;
 import spring.YHIntro.domain.Member;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
