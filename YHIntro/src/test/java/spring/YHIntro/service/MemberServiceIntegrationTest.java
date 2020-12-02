@@ -28,15 +28,16 @@ class MemberServiceIntegrationTest {
 
         //given
         Member member = new Member();
-        member.setName("1");
-
+        member.setName("hello");
 
         //when
         Long saveId = memberService.join(member);
 
         //then
         Member findMember = memberRepository.findById(saveId).get();
-        assertEquals(member.getId(), findMember.getName());
+        assertEquals(member.getName(), findMember.getName());
+
+//        assertEquals(member.getId(), findMember.getName());
     }
 
     @Test
