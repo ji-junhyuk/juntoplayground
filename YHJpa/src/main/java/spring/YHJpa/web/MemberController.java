@@ -22,7 +22,7 @@ public class MemberController {
     private final MemberService memberService;
 
     //login
-    @GetMapping("/members/log")
+    @GetMapping("/members/login")
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
         return "members/loginMemberForm";
