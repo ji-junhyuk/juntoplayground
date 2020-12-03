@@ -24,8 +24,17 @@ public class MemberService {
 
         validateDuplicateMember(member);
         validateDuplicateName(member);
+        validatePwdMember(member);
         memberRepository.save(member);
         return member.getNumber();
+    }
+
+    private void validatePwdMember(Member member) {
+        String pwdCheck = member.getPwd();
+
+        if (!pwdCheck.equals(member.getPwd2())) {
+            throw new IllegalStateException("Passwords do not match.");
+        }
     }
 
     private void validateDuplicateName(Member member) {
@@ -52,4 +61,5 @@ public class MemberService {
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
+
 }
