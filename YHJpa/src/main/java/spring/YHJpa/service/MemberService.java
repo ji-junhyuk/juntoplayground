@@ -62,4 +62,21 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
+    /*
+    Check member existence
+     */
+    public boolean logingo(Member member) {
+
+        boolean check = false;
+
+        List<Member> sql = memberRepository.Login(member.getId(), member.getPwd());
+
+        if (!sql.isEmpty()) {
+            System.out.println("exist");
+            check = true;
+        } else {
+            System.out.println("fail");
+        }
+        return check;
+    }
 }
