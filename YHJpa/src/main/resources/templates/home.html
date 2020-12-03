@@ -6,6 +6,17 @@
 </head>
 <body>
 <div class="container">
+
+    <!-- Message output part according to login status -->
+    <div style="float: right;">
+        <div th:if="${session.id}">
+            hello
+            <span th:text="${session.id}"></span>
+            customer!
+        </div>
+        <div th:unless="${session.id}">please login!</div>
+    </div>
+
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="jumbotron">
         <h1>HELLO SHOP</h1>
