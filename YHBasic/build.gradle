@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'hello'
+group = 'spring'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -13,6 +13,7 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
+
 
 repositories {
 	mavenCentral()
@@ -33,6 +34,8 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	testCompile 'junit:junit:4.12'
+	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
