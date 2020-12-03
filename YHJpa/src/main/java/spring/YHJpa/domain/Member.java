@@ -12,9 +12,17 @@ import java.util.List;
 @Setter
 public class Member {
 
-    @Id @GeneratedValue
-    @Column(name = "member_id")
-    private Long id;
+    private String id;
+
+    @Id
+    @GeneratedValue
+    @Column(name = "number")
+    private Long number;
+//    private Long id;
+
+    private String pwd;
+
+    private String pwd2;
 
     private String name;
 
