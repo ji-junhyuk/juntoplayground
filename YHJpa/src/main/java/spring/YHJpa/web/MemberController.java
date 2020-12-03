@@ -49,8 +49,17 @@ public class MemberController {
         return "redirect:/";
     }
 
+    //logout
+    @GetMapping("members/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("id");
+        System.out.println("@@@ logout success @@@");
+        return "redirect:/";
+    }
+
     @GetMapping(value = "/members/new")
     public String createForm(Model model) {
+
         model.addAttribute("memberForm", new MemberForm());
         return "members/createMemberForm";
     }
