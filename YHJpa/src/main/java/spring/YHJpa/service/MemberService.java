@@ -23,8 +23,16 @@ public class MemberService {
     public Long join(Member member) {
 
         validateDuplicateMember(member);
+        validateDuplicateName(member);
         memberRepository.save(member);
-        return member.getId();
+        return member.getNumber();
+    }
+
+    private void validateDuplicateName(Member member) {
+        List<Member> findMembers = memberRepository.findByName(member.getName());
+        if (!findMembers.isEmpty()) {
+            throw new IllegalStateException("The name is already in use.");
+        }
     }
 
     private void validateDuplicateMember(Member member) {
