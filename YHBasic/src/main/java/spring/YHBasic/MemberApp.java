@@ -1,5 +1,6 @@
 package spring.YHBasic;
 
+import spring.YHBasic.domain.Grade;
 import spring.YHBasic.domain.Member;
 import spring.YHBasic.service.MemberService;
 import spring.YHBasic.service.MemberServiceImpl;
