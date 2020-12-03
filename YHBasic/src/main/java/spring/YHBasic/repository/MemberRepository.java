@@ -4,7 +4,7 @@ import spring.YHBasic.domain.Member;
 
 public interface MemberRepository {
 
-    Member save(Member member);
+    void save(Member member);
 
     Member findById(Long memberId);
 }
