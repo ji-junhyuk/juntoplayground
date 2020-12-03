@@ -25,6 +25,7 @@ import static org.junit.Assert.*;
 @Transactional
 public class OrderServiceTest {
 
+/*
     @PersistenceContext
     EntityManager em;
 
@@ -112,5 +113,6 @@ public class OrderServiceTest {
         em.persist(book);
         return book;
     }
+*/
 
 }
