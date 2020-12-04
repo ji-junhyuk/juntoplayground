@@ -11,7 +11,7 @@ public class TestController {
 
     @RequestMapping("/index")
     public String index(Model model) {
-        model.addAttribute("msg", "input your id");
+        model.addAttribute("msg", "input your id.");
 
         return "index";
     }

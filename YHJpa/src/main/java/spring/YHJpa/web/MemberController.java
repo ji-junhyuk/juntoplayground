@@ -82,7 +82,6 @@ public class MemberController {
         member.setAddress(address);
 
         memberService.join(member);
-
         return "redirect:/";
     }
 

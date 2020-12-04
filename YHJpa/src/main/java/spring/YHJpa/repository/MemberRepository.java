@@ -34,6 +34,7 @@ public class MemberRepository {
     }
 
     public List<Member> Login(String id, String pwd) {
+
         return em.createQuery("select m from Member m where m.id = :id and m.pwd = :pwd", Member.class)
                 .setParameter("id", id)
                 .setParameter("pwd", pwd)
