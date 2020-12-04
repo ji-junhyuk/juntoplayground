@@ -27,27 +27,26 @@ public class MemberService {
         validatePwdMember(member);
         memberRepository.save(member);
         return member.getNumber();
-    }
 
-    private void validatePwdMember(Member member) {
-        String pwdCheck = member.getPwd();
-
-        if (!pwdCheck.equals(member.getPwd2())) {
-            throw new IllegalStateException("Passwords do not match.");
+    private void validateDuplicateMember(Member member) {
+        List<Member> findMembers = memberRepository.findByName(member.getName());
+        if (!findMembers.isEmpty()) {
+            throw new IllegalStateException("Already existing member.");
         }
     }
 
     private void validateDuplicateName(Member member) {
         List<Member> findMembers = memberRepository.findByName(member.getName());
         if (!findMembers.isEmpty()) {
-            throw new IllegalStateException("The name is already in use.");
+            throw new IllegalStateException("the name is already in use.");
         }
     }
 
-    private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getName());
-        if (!findMembers.isEmpty()) {
-            throw new IllegalStateException("Already existing member.");
+    private void validatePwdMember(Member member) {
+        String pwdCheck = member.getPwd();
+
+        if (!pwdCheck.equals(member.getPwd2())) {
+            throw new IllegalStateException("Passwords do not match");
         }
     }
 
