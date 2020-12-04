@@ -1,11 +1,13 @@
 package spring.YHBasic.discount;
 
-import spring.YHBasic.domain.Grade;
-import spring.YHBasic.domain.Member;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import spring.YHBasic.domain.Grade;
+import spring.YHBasic.domain.Member;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RateDiscountPolicyTest {
 
@@ -26,7 +28,7 @@ class RateDiscountPolicyTest {
     }
 
     @Test
-    @DisplayName("If you are not a VIP, the discount should not be applied")
+    @DisplayName("Discount should not apply unless you are a VIP")
     public void vip_x() {
 
         //given

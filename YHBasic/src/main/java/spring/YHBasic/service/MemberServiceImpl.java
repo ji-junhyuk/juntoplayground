@@ -2,6 +2,7 @@ package spring.YHBasic.service;
 
 import spring.YHBasic.domain.Member;
 import spring.YHBasic.repository.MemberRepository;
+import spring.YHBasic.repository.MemoryMemberRepository;
 
 public class MemberServiceImpl implements MemberService {
 

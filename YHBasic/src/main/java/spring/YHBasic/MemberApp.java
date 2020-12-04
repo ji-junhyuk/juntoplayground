@@ -1,10 +1,11 @@
 package spring.YHBasic;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import spring.YHBasic.domain.Grade;
 import spring.YHBasic.domain.Member;
 import spring.YHBasic.service.MemberService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import spring.YHBasic.service.MemberServiceImpl;
 
 public class MemberApp {
 
@@ -16,7 +17,7 @@ public class MemberApp {
         memberService.join(member);
 
         Member findMember = memberService.findMember(1L);
-        System.out.println("new member = " + member.getName());
-        System.out.println("find member = " + findMember.getName());
+        System.out.println("new Member = " + member.getName());
+        System.out.println("find Member = " + findMember.getName());
     }
 }

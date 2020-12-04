@@ -1,6 +1,9 @@
 package spring.YHBasic;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import spring.YHBasic.discount.DiscountPolicy;
+import spring.YHBasic.discount.FixDiscountPolicy;
 import spring.YHBasic.discount.RateDiscountPolicy;
 import spring.YHBasic.repository.MemberRepository;
 import spring.YHBasic.repository.MemoryMemberRepository;
@@ -8,8 +11,6 @@ import spring.YHBasic.service.MemberService;
 import spring.YHBasic.service.MemberServiceImpl;
 import spring.YHBasic.service.OrderService;
 import spring.YHBasic.service.OrderServiceImpl;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
