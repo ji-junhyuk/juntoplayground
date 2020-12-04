@@ -2,6 +2,7 @@ package spring.YHBasic;
 
 import spring.YHBasic.discount.DiscountPolicy;
 import spring.YHBasic.discount.FixDiscountPolicy;
+import spring.YHBasic.discount.RateDiscountPolicy;
 import spring.YHBasic.repository.MemberRepository;
 import spring.YHBasic.repository.MemoryMemberRepository;
 import spring.YHBasic.service.MemberService;
@@ -27,6 +28,7 @@ public class AppConfig {
     }
 
     public DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+//        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 }
