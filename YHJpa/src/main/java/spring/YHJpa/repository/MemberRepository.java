@@ -32,4 +32,11 @@ public class MemberRepository {
                 .setParameter("name", name)
                 .getResultList();
     }
+
+    public List<Member> Login(String id, String pwd) {
+        return em.createQuery("select m form Member m where m.id = :id and m. pwd = :pwd", Member.class)
+                .setParameter("id", id)
+                .setParameter("pwd", pwd)
+                .getResultList();
+    }
 }
