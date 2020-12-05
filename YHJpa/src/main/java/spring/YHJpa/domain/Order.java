@@ -32,8 +32,12 @@ public class Order {
 
     private LocalDateTime orderDate;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     //Association Method
     public void setMember(Member member) {
+
         this.member = member;
         member.getOrders().add(this);
     }
@@ -47,4 +51,45 @@ public class Order {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
+    //==Create Method==//
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+    //==Business Logic==//
+    /*
+    Cancellation order
+     */
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("Products that have been already shipped cannot be cancelled.");
+        }
+
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    //==Lookup Logic==//
+    /*
+    View All the price for orders
+     */
+    public in getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+    }
+
 }
