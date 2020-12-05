@@ -84,12 +84,11 @@ public class Order {
     /*
     View All the price for orders
      */
-    public in getTotalPrice() {
+    public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderItem orderItem : orderItems) {
             totalPrice += orderItem.getTotalPrice();
         }
         return totalPrice;
     }
-
 }
