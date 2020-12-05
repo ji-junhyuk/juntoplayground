@@ -9,7 +9,6 @@ import spring.YHIntro.repository.MemoryMemberRepository;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
 public class MemberService {
 
