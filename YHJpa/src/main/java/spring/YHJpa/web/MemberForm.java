@@ -9,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class MemberForm {
 
-    @NotEmpty(message = "Mamber name is necessary")
+    @NotEmpty(message = "Member name is necessary.")
     private String name;
 
     private String city;

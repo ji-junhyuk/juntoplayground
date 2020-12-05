@@ -12,7 +12,8 @@ import java.util.List;
 @Setter
 public class Category {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "category_id")
     private Long id;
 
@@ -31,9 +32,11 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
 
-    //==Association Method==//
+    //Association Method
     public void addChildCategory(Category child) {
         this.child.add(child);
         child.setParent(this);
     }
+
+
 }
