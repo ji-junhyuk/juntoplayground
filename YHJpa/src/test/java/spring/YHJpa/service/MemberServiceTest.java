@@ -53,4 +53,5 @@ public class MemberServiceTest {
         //then
         fail("Error must occur.");
     }
+
 }

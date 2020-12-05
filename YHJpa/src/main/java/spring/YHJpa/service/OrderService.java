@@ -21,12 +21,12 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     /*
-    order
+    Order
      */
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
 
-        //Lookup entity
+        //lookup entity
         Member member = memberRepository.findOne(memberId);
         Item item = itemRepository.findOne(itemId);
 
@@ -38,28 +38,25 @@ public class OrderService {
         //Create ordered item
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
-        //Create order
+        //create Order
         Order order = Order.createOrder(member, delivery, orderItem);
 
-        //Store order
+        //store Order
         orderRepository.save(order);
         return order.getId();
     }
 
     /*
-    Cancellation order
+    cancel order
      */
     @Transactional
     public void cancelOrder(Long orderId) {
-        //Lookup entity
+        //Lookup order entity
         Order order = orderRepository.findOne(orderId);
-        //Cancel order
+        //cancel order
         order.cancel();
     }
 
-    /*
-    Search order
-     */
     public List<Order> findOrders(OrderSearch orderSearch) {
         return orderRepository.findAllByString(orderSearch);
     }
