@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import spring.YHIntro.domain.Member;
 import spring.YHIntro.repository.MemoryMemberRepository;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemberServiceTest {
@@ -29,6 +30,21 @@ class MemberServiceTest {
     public void join() throws Exception {
 
         //given
+        Member member = new Member();
+        member.setName("hello");
+
+        //when
+        Long saveId = memberService.join(member);
+
+        //then
+        Member findMember = memberRepository.findById(saveId).get();
+        assertEquals(member.getName(), findMember.getName());
+    }
+
+    @Test
+    public void duplicateMemberException() throws Exception {
+
+        //given
         Member member1 = new Member();
         member1.setName("spring");
 
@@ -40,8 +56,8 @@ class MemberServiceTest {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.join(member2));
 
-        Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
-
         //then
+        assertThat(e.getMessage()).isEqualTo("Already existing member.");
      }
+
 }

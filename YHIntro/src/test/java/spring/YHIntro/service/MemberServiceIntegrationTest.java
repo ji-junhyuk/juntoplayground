@@ -1,6 +1,5 @@
 package spring.YHIntro.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.YHIntro.domain.Member;
 import spring.YHIntro.repository.MemoryMemberRepository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -21,7 +21,7 @@ class MemberServiceIntegrationTest {
     MemberService memberService;
 
     @Autowired
-    MemberRepository memberRepository;
+    MemoryMemberRepository memberRepository;
 
     @Test
     public void join() throws Exception {
@@ -36,8 +36,6 @@ class MemberServiceIntegrationTest {
         //then
         Member findMember = memberRepository.findById(saveId).get();
         assertEquals(member.getName(), findMember.getName());
-
-//        assertEquals(member.getId(), findMember.getName());
     }
 
     @Test
@@ -56,6 +54,7 @@ class MemberServiceIntegrationTest {
                 () -> memberService.join(member2));
 
         //then
-        Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
+        assertThat(e.getMessage()).isEqualTo("Already existing member.");
      }
+
 }
