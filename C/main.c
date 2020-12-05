@@ -2,11 +2,45 @@
 
 int main()
 {
-    char alpha;
+    int score;
+    char grade;
+    printf("enter the score:");
+    scanf("%d", &score);
 
-    printf("알파벳 입력: ");
-    scanf("%c", &alpha);
-    printf("알파벳 %d은(는) 10진수로 %d이다.", alpha, alpha);
+    switch (score/10) {
+        case 10:
+        case 9:
+            printf("grade: 'A'\n");
+            printf("Your %d score is %c credit.", score, grade);
+            break;
+        case 8:
+            printf("grade: B\n");
+            break;
+        case 7:
+            printf("grade: C\n");
+            break;
+        default:
+            printf("grade: D");
+    }
 
-    return 0;
+
+/*   int score;
+   char grade;
+
+    printf("enter the score:");
+    scanf("%d", &score);
+
+    if (score >= 90) {
+        grade = 'A';
+    } else if (score >= 80) {
+        grade = 'B';
+    } else if (score >= 70) {
+        grade = 'C';
+    } else {
+        grade = 'D';
+    }
+
+    printf("Your %d score is %c credit.", score, grade);
+
+    return 0;*/
 }
