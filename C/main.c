@@ -1,13 +1,9 @@
 #include <stdio.h>
 
-int main() {
-    for (int i = 65; i < 128; ++i) {
-        printf("%c", i);
+int main()
+{
 
-
-        if (i % 8 == 0)
-            printf("\n");
-        continue;
-
+    for (int i = 1; i <= 10; ++i) {
+        printf("tree %d\n", i);
     }
 }
