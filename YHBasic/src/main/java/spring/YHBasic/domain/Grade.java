@@ -1,5 +1,5 @@
 package spring.YHBasic.domain;
 
-public enum Grade {
-    BASIC, VIP
+public enum  Grade {
+    VIP, BASIC
 }
