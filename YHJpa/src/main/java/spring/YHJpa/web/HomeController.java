@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Slf4j
-public class MemberController {
+public class HomeController {
 
     @RequestMapping("/")
     public String home() {
