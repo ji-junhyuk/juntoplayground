@@ -3,10 +3,7 @@ package spring.YHJpa.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import spring.YHJpa.domain.Member;
 import spring.YHJpa.domain.Order;
 import spring.YHJpa.domain.OrderSearch;
@@ -48,11 +45,19 @@ public class OrderController {
 
     @GetMapping(value = "/orders")
     public String orderList(@ModelAttribute("orderSearch")
-                                        OrderSearch orderSearch, Model model) {
+                                    OrderSearch orderSearch, Model model) {
 
         List<Order> orders = orderService.findOrders(orderSearch);
         model.addAttribute("orders", orders);
 
         return "order/orderList";
+    }
+
+    @PostMapping(value = "/orders/{orderId}/cancel")
+    public String cancelOrder(@PathVariable("orderId") Long orderId) {
+
+        orderService.cancelOrder(orderId);
+
+        return "redirect:/orders";
     }
 }
