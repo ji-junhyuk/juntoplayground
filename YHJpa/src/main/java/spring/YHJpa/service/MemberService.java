@@ -27,6 +27,7 @@ public class MemberService {
         validatePwdMember(member);
         memberRepository.save(member);
         return member.getNumber();
+    }
 
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findByName(member.getName());
@@ -49,10 +50,10 @@ public class MemberService {
             throw new IllegalStateException("Passwords do not match");
         }
     }
-      
-     /*
-    Check member existence
-     */
+
+    /*
+   Check member existence
+    */
     public boolean logingo(Member member) {
 
         boolean check = false;
@@ -66,16 +67,21 @@ public class MemberService {
             System.out.println("fail");
         }
         return check;
+    }
+
       
 
     /*
     View all member
      */
+/*
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
+*/
 
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
 }
+
