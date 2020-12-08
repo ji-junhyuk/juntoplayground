@@ -20,7 +20,7 @@ public class ItemService {
         itemRepository.save(item);
     }
 
-    private Item findOne(Long itemId) {
+    public Item findOne(Long itemId) {
         return itemRepository.findOne(itemId);
     }
 
