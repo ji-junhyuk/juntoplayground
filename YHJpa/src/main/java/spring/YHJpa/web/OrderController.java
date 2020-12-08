@@ -18,9 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
+    private final OrderService orderService;
     private final MemberService memberService;
     private final ItemService itemService;
-    private final OrderService orderService;
 
     @GetMapping(value = "/order")
     public String createForm(Model model) {
@@ -44,8 +44,9 @@ public class OrderController {
     }
 
     @GetMapping(value = "/orders")
-    public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch,
-                            Model model) {
+    public String orderList(@ModelAttribute("orderSearch")
+                                    OrderSearch orderSearch, Model model) {
+
         List<Order> orders = orderService.findOrders(orderSearch);
         model.addAttribute("orders", orders);
 

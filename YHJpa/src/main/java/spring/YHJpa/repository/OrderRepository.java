@@ -25,10 +25,11 @@ public class OrderRepository {
     }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
+
         String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
 
-        //Search Order Status
+        //Search order status
         if (orderSearch.getOrderStatus() != null) {
             if (isFirstCondition) {
                 jpql += " where";
@@ -39,7 +40,7 @@ public class OrderRepository {
             jpql += " o.status = :status";
         }
 
-        //Search member name
+        //Search Member name
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             if (isFirstCondition) {
                 jpql += " where";
@@ -56,7 +57,6 @@ public class OrderRepository {
         if (orderSearch.getOrderStatus() != null) {
             query = query.setParameter("status", orderSearch.getOrderStatus());
         }
-
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             query = query.setParameter("name", orderSearch.getMemberName());
         }

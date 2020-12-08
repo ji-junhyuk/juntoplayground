@@ -19,7 +19,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -35,9 +35,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    //Association Method
+    //==Association Method==//
     public void setMember(Member member) {
-
         this.member = member;
         member.getOrders().add(this);
     }
@@ -67,7 +66,7 @@ public class Order {
 
     //==Business Logic==//
     /*
-    Cancellation order
+    Cancel order
      */
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
@@ -82,7 +81,7 @@ public class Order {
 
     //==Lookup Logic==//
     /*
-    View All the price for orders
+    View Price for all orders
      */
     public int getTotalPrice() {
         int totalPrice = 0;

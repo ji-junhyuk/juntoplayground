@@ -22,7 +22,7 @@ public class MemberController {
     @GetMapping(value = "/members/new")
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
-        return "members/createMemberForm";
+        return "/members/createMemberForm";
     }
 
     @PostMapping(value = "/members/new")
@@ -32,7 +32,7 @@ public class MemberController {
             return "members/createMemberForm";
         }
 
-        Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
+        Address address = new Address(form.getCity(), form.getStreet(), form.getStreet());
         Member member = new Member();
         member.setName(form.getName());
         member.setAddress(address);

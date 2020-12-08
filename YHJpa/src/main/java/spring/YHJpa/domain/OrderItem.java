@@ -26,6 +26,7 @@ public class OrderItem {
     private Order order;
 
     private int orderPrice;
+
     private int count;
 
     //==Create Method==//
@@ -41,7 +42,7 @@ public class OrderItem {
 
     //==Business Logic==//
     /*
-    order cancel
+    Cancel order
      */
     public void cancel() {
         getItem().addStock(count);
@@ -49,7 +50,7 @@ public class OrderItem {
 
     //==Lookup Logic==//
     /*
-    View price for all orders.
+    view Price for all ordered items
      */
     public int getTotalPrice() {
         return getOrderPrice() * getCount();

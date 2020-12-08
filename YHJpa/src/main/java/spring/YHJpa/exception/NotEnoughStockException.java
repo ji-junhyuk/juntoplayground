@@ -1,7 +1,6 @@
 package spring.YHJpa.exception;
 
 public class NotEnoughStockException extends RuntimeException {
-
     public NotEnoughStockException() {
     }
 

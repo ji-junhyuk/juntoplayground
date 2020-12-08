@@ -51,15 +51,16 @@ public class OrderServiceTest {
 
         assertEquals("When ordering the product, the status is ORDER.", OrderStatus.ORDER,
                 getOrder.getStatus());
-        assertEquals("The number of product types ordered must be correct.", 1,
+        assertEquals("The number of items ordered must be correct.", 1,
                 getOrder.getOrderItems().size());
-        assertEquals("The order price is price * quantity.", 10000 * 2,
+        assertEquals("Order price is price * quantity.", 10000 * 2,
                 getOrder.getTotalPrice());
-        assertEquals("Stock should be reduced by the order quantity.", 8,
+        assertEquals("The stock must be reduced by the order quantity.", 8,
                 item.getStockQuantity());
     }
+
     @Test(expected = NotEnoughStockException.class)
-    public void orderStockQuantityExceeded() throws Exception {
+    public void orderInventoryQuantityExceeded() throws Exception {
 
         //given
         Member member = createMember();
@@ -71,11 +72,11 @@ public class OrderServiceTest {
         orderService.order(member.getId(), item.getId(), orderCount);
 
         //then
-        fail("An out of stock exception should be thrown.");
+        fail("There should be an out of stock exception.");
      }
 
      @Test
-     public void orderCancel() {
+     public void cancelOrder() throws Exception {
 
          //given
          Member member = createMember();
@@ -91,10 +92,10 @@ public class OrderServiceTest {
          //then
          Order getOrder = orderRepository.findOne(orderId);
 
-         assertEquals("When canceling an order, the status is CANCEL.",
-                 OrderStatus.CANCEL, getOrder.getStatus());
-         assertEquals("Products whose orders have been canceled should increase inventory accordingly", 10,
-                 item.getStockQuantity());
+         assertEquals("When canceling an order, the status is CANCEL", OrderStatus.CANCEL,
+                 getOrder.getStatus());
+         assertEquals("Products with cancecled orders must increase inventory accordingly",
+                 10, item.getStockQuantity());
      }
 
     private Member createMember() {

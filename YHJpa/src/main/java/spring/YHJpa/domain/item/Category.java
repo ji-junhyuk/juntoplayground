@@ -2,6 +2,7 @@ package spring.YHJpa.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import spring.YHJpa.domain.Address;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -32,11 +33,9 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
 
-    //Association Method
+    //==Association Method==//
     public void addChildCategory(Category child) {
         this.child.add(child);
         child.setParent(this);
     }
-
-
 }
