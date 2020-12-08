@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import spring.YHJpa.domain.item.Book;
 import spring.YHJpa.domain.item.Item;
@@ -43,5 +44,11 @@ public class ItemController {
         List<Item> items = itemService.findItems();
         model.addAttribute("items", items);
         return "items/itemList";
+    }
+
+    @PostMapping(value = "/items/{itemId}/edit")
+    public String updateItem(@ModelAttribute("form") BookForm form) {
+        itemService.updateItem(form.getId(), form.getName(), form.getPrice(), form.getStockQuantity());
+        return "redirect:/items";
     }
 }
