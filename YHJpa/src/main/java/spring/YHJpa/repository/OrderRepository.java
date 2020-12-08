@@ -25,6 +25,7 @@ public class OrderRepository {
     }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
+
         String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
 
@@ -39,7 +40,7 @@ public class OrderRepository {
             jpql += " o.status = :status";
         }
 
-        //Search member name
+        //Search Member name
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             if (isFirstCondition) {
                 jpql += " where";
@@ -49,6 +50,7 @@ public class OrderRepository {
             }
             jpql += " m.name like :name";
         }
+
         TypedQuery<Order> query = em.createQuery(jpql, Order.class)
                 .setMaxResults(1000);
 

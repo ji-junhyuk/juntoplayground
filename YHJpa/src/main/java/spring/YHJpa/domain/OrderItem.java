@@ -8,7 +8,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "order_item")
-@Getter @Setter
+@Getter
+@Setter
 public class OrderItem {
 
     @Id
@@ -40,11 +41,17 @@ public class OrderItem {
     }
 
     //==Business Logic==//
+    /*
+    Cancel order
+     */
     public void cancel() {
         getItem().addStock(count);
     }
 
     //==Lookup Logic==//
+    /*
+    view Price for all ordered items
+     */
     public int getTotalPrice() {
         return getOrderPrice() * getCount();
     }

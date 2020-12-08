@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private  final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     /*
     Sign up
@@ -49,19 +49,8 @@ public class MemberService {
             throw new IllegalStateException("Passwords do not match");
         }
     }
-
-    /*
-    View all member
-     */
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
-    }
-
-    public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
-    }
-
-    /*
+      
+     /*
     Check member existence
      */
     public boolean logingo(Member member) {
@@ -77,5 +66,16 @@ public class MemberService {
             System.out.println("fail");
         }
         return check;
+      
+
+    /*
+    View all member
+     */
+    public Member findOne(Long memberId) {
+        return memberRepository.findOne(memberId);
+    }
+
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
     }
 }

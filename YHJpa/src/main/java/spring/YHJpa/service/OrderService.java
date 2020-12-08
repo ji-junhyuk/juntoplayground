@@ -20,9 +20,6 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
 
-    /*
-    order
-     */
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
 
@@ -47,13 +44,12 @@ public class OrderService {
     }
 
     /*
-    Cancellation order
+    Cancel order
      */
     @Transactional
     public void cancelOrder(Long orderId) {
-        //Lookup entity
+
         Order order = orderRepository.findOne(orderId);
-        //Cancel order
         order.cancel();
     }
 

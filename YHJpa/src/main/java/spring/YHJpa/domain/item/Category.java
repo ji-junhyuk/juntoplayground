@@ -2,6 +2,7 @@ package spring.YHJpa.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import spring.YHJpa.domain.Address;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +13,8 @@ import java.util.List;
 @Setter
 public class Category {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "category_id")
     private Long id;
 

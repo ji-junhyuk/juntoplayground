@@ -18,7 +18,6 @@ public class Member {
     @GeneratedValue
     @Column(name = "number")
     private Long number;
-//    private Long id;
 
     private String pwd;
 

@@ -12,9 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52ec6164-d771-4fc0-a4b3-2e43d20dd597" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,11 +48,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -66,6 +60,15 @@
       <workItem from="1606955440271" duration="555000" />
       <workItem from="1606966491044" duration="3211000" />
       <workItem from="1606974438437" duration="7328000" />
+      <workItem from="1607146233148" duration="2327000" />
+      <workItem from="1607200981287" duration="2943000" />
+      <workItem from="1607224815248" duration="9693000" />
+      <workItem from="1607247750727" duration="252000" />
+      <workItem from="1607248731357" duration="2307000" />
+      <workItem from="1607288476853" duration="2064000" />
+      <workItem from="1607303788175" duration="3624000" />
+      <workItem from="1607311022377" duration="3876000" />
+      <workItem from="1607323507272" duration="5301000" />
     </task>
     <servers />
   </component>

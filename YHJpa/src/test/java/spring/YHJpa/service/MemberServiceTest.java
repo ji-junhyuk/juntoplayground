@@ -36,21 +36,21 @@ public class MemberServiceTest {
         assertEquals(member, memberRepository.findOne(saveId));
      }
 
-    @Test(expected = IllegalStateException.class)
-    public void duplicateMemberException() throws Exception {
+     @Test(expected = IllegalStateException.class)
+     public void duplicateMemberException() throws Exception {
 
-        //given
-        Member member1 = new Member();
-        member1.setName("kim");
+         //given
+         Member member1 = new Member();
+         member1.setName("kim");
 
-        Member member2 = new Member();
-        member2.setName("kim");
+         Member member2 = new Member();
+         member2.setName("kim");
 
-        //when
-        memberService.join(member1);
-        memberService.join(member2);
+         //when
+         memberService.join(member1);
+         memberService.join(member2);
 
-        //then
-        fail("Error must occur.");
-    }
+         //then
+         fail("Error must occur.");
+      }
 }

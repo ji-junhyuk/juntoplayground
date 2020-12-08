@@ -19,10 +19,9 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -66,10 +65,14 @@ public class Order {
     }
 
     //==Business Logic==//
+    /*
+    Cancel order
+     */
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
-            throw new IllegalStateException("Products that have been already shipped can not be cancelled. ");
+            throw new IllegalStateException("Products that have been already shipped cannot be cancelled.");
         }
+
         this.setStatus(OrderStatus.CANCEL);
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
@@ -78,7 +81,7 @@ public class Order {
 
     //==Lookup Logic==//
     /*
-    View price for all orders
+    View Price for all orders
      */
     public int getTotalPrice() {
         int totalPrice = 0;

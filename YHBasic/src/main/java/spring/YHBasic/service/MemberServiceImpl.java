@@ -2,6 +2,7 @@ package spring.YHBasic.service;
 
 import spring.YHBasic.domain.Member;
 import spring.YHBasic.repository.MemberRepository;
+import spring.YHBasic.repository.MemoryMemberRepository;
 
 public class MemberServiceImpl implements MemberService {
 
@@ -17,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member findMember(Long memberId) {
-        return memberRepository.findById(memberId);
+    public Member findMember(Long id) {
+        return memberRepository.findById(id);
     }
 }
