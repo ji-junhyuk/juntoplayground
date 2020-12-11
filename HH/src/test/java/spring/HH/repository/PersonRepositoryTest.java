@@ -20,7 +20,7 @@ class PersonRepositoryTest {
     @Autowired
     private PersonRepository personRepository;
 
-    @Test
+/*    @Test
     void crud() {
         Person person = new Person();
         person.setName("martin");
@@ -40,14 +40,14 @@ class PersonRepositoryTest {
 
     @Test
     void constructorTest() {
-        Person person = new Person("martin", 10);
+        Person person = new Person("martin", 10);*/
 //        Person person = new Person(1L, "martin", 10, "Soccer", LocalDate.of(1994, 03, 03));
-    }
+//    }
 
     @Test
     void hashCodeAndEquals() {
-        Person person1 = new Person("martin", 10);
-        Person person2 = new Person("martin", 10);
+        Person person1 = new Person("martin", 10, "A");
+        Person person2 = new Person("martin", 10, "A");
 
         System.out.println(person1.equals(person2));
         System.out.println(person1.hashCode());

@@ -10,19 +10,14 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@EqualsAndHashCode
 @Data
 public class Person {
 
     @Id
     @GeneratedValue
-    @ToString.Exclude
     private Long id;
 
     @NonNull
@@ -33,5 +28,23 @@ public class Person {
 
     private String hobby;
 
+    @NonNull
+    private String bloodType;
+
+    private String address;
+
     private LocalDate birthday;
+
+    private String job;
+
+    @ToString.Exclude
+    private String phoneNumber;
+
+    private boolean block;
+
+    private String blockReason;
+
+    private LocalDate blockStartDate;
+
+    private LocalDate blockEndDate;
 }
