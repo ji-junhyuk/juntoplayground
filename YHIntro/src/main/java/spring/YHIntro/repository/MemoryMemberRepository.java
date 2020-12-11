@@ -8,6 +8,7 @@ import java.util.*;
 public class MemoryMemberRepository implements MemberRepository {
 
     private static Map<Long, Member> store = new HashMap<>();
+
     private static long sequence = 0L;
 
     @Override
@@ -18,8 +19,8 @@ public class MemoryMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findById(Long memberId) {
-        return Optional.ofNullable(store.get(memberId));
+    public Optional<Member> findById(Long id) {
+        return Optional.ofNullable(store.get(id));
     }
 
     @Override
