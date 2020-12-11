@@ -1,16 +1,19 @@
 package spring.YHIntro.repository;
 
-import lombok.RequiredArgsConstructor;
 import spring.YHIntro.domain.Member;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 public class JpaMemberRepository implements MemberRepository {
 
     private final EntityManager em;
+
+    public JpaMemberRepository(EntityManager em) {
+        this.em = em;
+    }
 
     @Override
     public Member save(Member member) {
@@ -19,8 +22,8 @@ public class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findById(Long memberId) {
-        Member member = em.find(Member.class, memberId);
+    public Optional<Member> findById(Long id) {
+        Member member = em.find(Member.class, id);
         return Optional.ofNullable(member);
     }
 
@@ -29,6 +32,7 @@ public class JpaMemberRepository implements MemberRepository {
         List<Member> result = em.createQuery("select m from Member m where m.name = :name", Member.class)
                 .setParameter("name", name)
                 .getResultList();
+
         return result.stream().findAny();
     }
 
