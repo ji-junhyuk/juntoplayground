@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RateDiscountPolicyTest {
 
-    RateDiscountPolicy rateDiscountPolicy = new RateDiscountPolicy();
+    RateDiscountPolicy discountPolicy = new RateDiscountPolicy();
 
     @Test
     public void vip_o() {
@@ -19,7 +19,7 @@ class RateDiscountPolicyTest {
         Member member = new Member(1L, "memberVIP", Grade.VIP);
 
         //when
-        int discount = rateDiscountPolicy.discount(member, 10000);
+        int discount = discountPolicy.discount(member, 10000);
 
         //then
         assertThat(discount).isEqualTo(1000);
@@ -29,10 +29,10 @@ class RateDiscountPolicyTest {
     public void vip_x() {
 
         //given
-        Member member = new Member(2L, "memberBASIC", Grade.BASIC);
+        Member member = new Member(2L, "memberBasic", Grade.BASIC);
 
         //when
-        int discount = rateDiscountPolicy.discount(member, 10000);
+        int discount = discountPolicy.discount(member, 10000);
 
         //then
         assertThat(discount).isEqualTo(0);

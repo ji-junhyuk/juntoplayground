@@ -10,8 +10,8 @@ import spring.YHBasic.service.MemberServiceImpl;
 public class MemberApp {
 
     public static void main(String[] args) {
-        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-        MemberService memberService = ac.getBean("memberService", MemberService.class);
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
 
         Member member = new Member(1L, "memberA", Grade.VIP);
         memberService.join(member);

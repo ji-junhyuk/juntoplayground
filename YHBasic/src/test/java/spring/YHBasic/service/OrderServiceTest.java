@@ -1,5 +1,6 @@
 package spring.YHBasic.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spring.YHBasic.AppConfig;
@@ -8,11 +9,12 @@ import spring.YHBasic.domain.Member;
 import spring.YHBasic.domain.Order;
 
 import static org.assertj.core.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 class OrderServiceTest {
 
     MemberService memberService;
+
     OrderService orderService;
 
     @BeforeEach

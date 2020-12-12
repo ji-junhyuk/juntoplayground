@@ -1,9 +1,9 @@
 package spring.YHBasic.domain;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @ToString
 public class Order {
 
     private Long memberId;
@@ -18,17 +18,7 @@ public class Order {
         this.discountPrice = discountPrice;
     }
 
-    private int calculatePrice() {
+    public int calculatePrice() {
         return itemPrice - discountPrice;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "memberId=" + memberId +
-                ", itemName='" + itemName + '\'' +
-                ", itemPrice=" + itemPrice +
-                ", discountPrice=" + discountPrice +
-                '}';
     }
 }
