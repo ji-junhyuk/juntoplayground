@@ -1,8 +1,9 @@
 package spring.YHBasic.domain;
 
 import lombok.Getter;
+import lombok.ToString;
 
-@Getter
+@Getter @ToString
 public class Order {
 
     private Long memberId;
