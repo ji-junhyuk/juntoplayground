@@ -3,9 +3,7 @@ package spring.HH.domain;
 import lombok.*;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -40,11 +38,7 @@ public class Person {
     @ToString.Exclude
     private String phoneNumber;
 
-    private boolean block;
-
-    private String blockReason;
-
-    private LocalDate blockStartDate;
-
-    private LocalDate blockEndDate;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Block block;
 }
