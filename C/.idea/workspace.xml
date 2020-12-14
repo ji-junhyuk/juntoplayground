@@ -11,7 +11,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4cb1d422-045b-45a4-8071-6c8e325fa737" name="Default Changelist" comment="">
+    <list default="true" id="9a27e5a7-5984-4623-88ce-dbc6d41d9d2f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1lPBIhG6ixRoRbnPDKpuR98JNcU" />
+  <component name="ProjectId" id="1ldV0UtckE9PkqXK0vYRdjLLk5o" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -39,6 +43,11 @@
     <property name="cf.first.check.clang-format" value="false" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="C" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="C" TARGET_NAME="C" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="C" RUN_TARGET_NAME="C">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -53,19 +62,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4cb1d422-045b-45a4-8071-6c8e325fa737" name="Default Changelist" comment="" />
-      <created>1607488767245</created>
+      <changelist id="9a27e5a7-5984-4623-88ce-dbc6d41d9d2f" name="Default Changelist" comment="" />
+      <created>1607926731306</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1607488767245</updated>
-      <workItem from="1607488768523" duration="4638000" />
-      <workItem from="1607647220855" duration="599000" />
-      <workItem from="1607658952679" duration="1825000" />
-      <workItem from="1607660822459" duration="3686000" />
-      <workItem from="1607721929932" duration="319000" />
-      <workItem from="1607736324193" duration="4878000" />
-      <workItem from="1607795110795" duration="6431000" />
-      <workItem from="1607825870328" duration="2963000" />
+      <updated>1607926731306</updated>
+      <workItem from="1607926733035" duration="6024000" />
     </task>
     <servers />
   </component>
@@ -82,6 +84,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
