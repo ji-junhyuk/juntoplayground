@@ -1,29 +1,43 @@
+#include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-void nrpira(int n)
+#define swap(type, x , y) do { type t = x; x = y; y = t;} while (0)
+void shuffle(int a[], int n)
 {
-	int i, j;
-
-	for (i = 1; i <= n; i++) {							/* i 행 (i = 1, 2, ..., n) */
-		for (j = 1; j <= i - 1; j++)					/* i-1 개의 ' '을 출력 */
-			putchar(' ');
-		for (j = 1; j <= (n - i) * 2 + 1; j++)			/* (n-i) * 2 + 1개의 숫자를 출력 */
-			printf("%d", i % 10);
-		putchar('\n');
-	}
+    srand(time(NULL));
+    for (int i = n - 1; i > 0; --i) {
+        int j = rand() % (i + 1);
+        if (i != j) {
+            swap(int, a[i], a[j]);
+        }
+    }
 }
 
 int main(void)
 {
-	int n;
+    int i;
+    int *x;
+    int nx;
 
-	puts("Pyramid.");
-	do {
-		printf("\nfloor : ");
-		scanf("%d", &n);
-	} while (n <= 0);
+    printf("number of element:");
+    scanf("%d", &nx);
+    x = calloc(nx, sizeof(int));
 
-	nrpira(n);
+    printf("%d enter the number\n", nx);
+    for (int i = 0; i < nx; ++i) {
+        printf("x[%d]: ", i);
+        scanf("%d", &x[i]);
+    }
 
-	return 0;
+    shuffle(x, nx);
+    for (int i = 0; i < nx; ++i) {
+        printf("y[%d] = %d\n", i, x[i]);
+    }
+
+    free(x);
+
+    return 0;
 }
+
+
