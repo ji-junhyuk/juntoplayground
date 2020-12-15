@@ -1,6 +1,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+<<<<<<< HEAD
 
 #define swap(type, x , y) do { type t = x; x = y; y = t;} while (0)
 void shuffle(int a[], int n)
@@ -41,3 +42,16 @@ int main(void)
 }
 
 
+=======
+#include <time.h>
+
+int main() {
+    int x, y;
+
+    srand(time(NULL));
+    x = rand() % 6;
+    y = rand() % 6;
+
+    printf("%d, %d\n", x, y);
+}
+>>>>>>> 1ec6ad6223aecf8ecfd9578d309c137eb93a52eb
