@@ -2,8 +2,10 @@ package spring.HH.domain;
 
 import lombok.*;
 import org.springframework.web.bind.annotation.RestController;
+import spring.HH.domain.dto.Birthday;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -31,7 +33,9 @@ public class Person {
 
     private String address;
 
-    private LocalDate birthday;
+    @Valid
+    @Embedded
+    private Birthday birthday;
 
     private String job;
 

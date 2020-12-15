@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import spring.HH.domain.Person;
+import spring.HH.domain.dto.Birthday;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -58,5 +59,58 @@ class PersonRepositoryTest {
         System.out.println("**********");
         System.out.println(map);
         System.out.println(map.get(person2));
+    }
+    private void givenPeople() {
+        givenPerson("martin", 10, "A");
+        givenPerson("david", 9, "B");
+    }
+
+    @Test
+    public void findByBloodType() {
+
+        //given
+        givenPerson("martin", 10, "A");
+        givenPerson("david", 9, "B");
+        givenPerson("dennis", 8, "O");
+        givenPerson("saphio", 7, "AB");
+        givenPerson("benny", 7, "A");
+        givenPerson("bob", 7, "A");
+
+        List<Person> result = personRepository.findByBloodType("A");
+
+        result.forEach(System.out::println);
+
+//        System.out.println(result);
+        //when
+
+        //then
+    }
+    @Test
+    public void findByBirthdayBetween() {
+
+        //given
+        givenPerson("martin", 10, "A", LocalDate.of(1991, 8, 30));
+        givenPerson("david", 9, "B", LocalDate.of(1992, 2, 10));
+        givenPerson("dennis", 8, "O", LocalDate.of(1993, 5, 4));
+        givenPerson("saphio", 7, "AB", LocalDate.of(1994, 3, 3));
+        givenPerson("benny", 7, "A", LocalDate.of(1996, 3, 3));
+
+        List<Person> result = personRepository.findByMonthOfBirthday(8);
+
+        result.forEach(System.out::println);
+
+        //when
+
+        //then
+    }
+
+    private void givenPerson(String name, int age, String bloodType) {
+        givenPerson(name, age, bloodType, null);
+    }
+
+    private void givenPerson(String name, int age, String bloodType, LocalDate birthday) {
+        Person person = new Person(name, age, bloodType);
+        person.setBirthday(new Birthday(birthday));
+        personRepository.save(person);
     }
 }

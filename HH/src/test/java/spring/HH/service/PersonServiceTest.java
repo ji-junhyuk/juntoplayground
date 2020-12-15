@@ -41,6 +41,20 @@ class PersonServiceTest {
     }
 
     @Test
+    public void getPeopleByName() {
+
+        //given
+        givenPeople();
+
+        //when
+        List<Person> result = personService.getPeopleByName("martin");
+
+        //then
+        result.forEach(System.out::println);
+
+    }
+
+    @Test
     public void cascadeTest() {
 
         //given
@@ -92,10 +106,6 @@ class PersonServiceTest {
         givenBlockPerson("martin", 11, "AB");
     }
 
-    private void givenPerson(String name, int age, String bloodType) {
-        personRepository.save(new Person(name, age, bloodType));
-    }
-
     private void givenBlockPerson(String name, int age, String bloodType) {
         Person blockPerson = new Person(name, age, bloodType);
         blockPerson.setBlock(new Block(name));
@@ -103,4 +113,28 @@ class PersonServiceTest {
         personRepository.save(blockPerson);
     }
 
+    @Test
+    public void findByBloodType() {
+
+        //given
+        givenPerson("martin", 10, "A");
+        givenPerson("david", 9, "B");
+        givenPerson("dennis", 8, "O");
+        givenPerson("saphio", 7, "AB");
+        givenPerson("benny", 7, "A");
+        givenPerson("bob", 7, "A");
+
+        List<Person> result = personRepository.findByBloodType("A");
+
+        result.forEach(System.out::println);
+
+//        System.out.println(result);
+        //when
+
+        //then
+    }
+
+    private void givenPerson(String name, int age, String bloodType) {
+        personRepository.save(new Person(name, age, bloodType));
+    }
 }
