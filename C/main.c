@@ -1,57 +1,61 @@
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< HEAD
 
-#define swap(type, x , y) do { type t = x; x = y; y = t;} while (0)
-void shuffle(int a[], int n)
+int bin_search2(const int a[], int  n, int key)
 {
-    srand(time(NULL));
-    for (int i = n - 1; i > 0; --i) {
-        int j = rand() % (i + 1);
-        if (i != j) {
-            swap(int, a[i], a[j]);
+    int pl = 0;
+    int pr = n - 1;
+    int pc;
+
+    do {
+        pc = (pl + pr) / 2;
+        if (a[pc] == key) {
+            while (pc > pl && a[pc - 1] == key)
+                pc--;
+            return pc;
+        } else if (a[pc] < key) {
+            pl = pc + 1;
+        } else {
+            pr = pc - 1;
         }
-    }
+    } while (pl <= pr);
+
+    return 01;
 }
 
 int main(void)
 {
-    int i;
+    int i, nx, ky, idx;
     int *x;
-    int nx;
 
-    printf("number of element:");
+    puts("Binary Search");
+    printf("number of elements:");
     scanf("%d", &nx);
     x = calloc(nx, sizeof(int));
 
-    printf("%d enter the number\n", nx);
-    for (int i = 0; i < nx; ++i) {
-        printf("x[%d]: ", i);
-        scanf("%d", &x[i]);
+    printf("Enter in ascending order");
+    printf("x[0]: ");
+    scanf("%d", &x[0]);
+
+    for (int i = 1; i < nx; ++i) {
+        do {
+            printf("x[%d]: ", i);
+            scanf("%d", &x[i]);
+        } while (x[i] < x[i - 1]);
     }
 
-    shuffle(x, nx);
-    for (int i = 0; i < nx; ++i) {
-        printf("y[%d] = %d\n", i, x[i]);
+    printf("Search value: ");
+    scanf("%d", &ky);
+
+    idx = bin_search2(x, nx, ky);
+
+    if (idx == -1) {
+        puts("Failed to search.");
+    } else {
+        printf("%d x[%d]\n", ky, idx);
     }
 
     free(x);
 
     return 0;
 }
-
-
-=======
-#include <time.h>
-
-int main() {
-    int x, y;
-
-    srand(time(NULL));
-    x = rand() % 6;
-    y = rand() % 6;
-
-    printf("%d, %d\n", x, y);
-}
->>>>>>> 1ec6ad6223aecf8ecfd9578d309c137eb93a52eb
