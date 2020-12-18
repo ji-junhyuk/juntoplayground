@@ -11,13 +11,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a27e5a7-5984-4623-88ce-dbc6d41d9d2f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    <list default="true" id="8594da09-6b60-4de8-8770-374f0fd2d48b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/IntStack.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IntStack.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IntStackTest.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,14 +25,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ClangdSettings">
-    <option name="clangTidyViaClangd" value="false" />
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1ldV0UtckE9PkqXK0vYRdjLLk5o" />
+  <component name="ProjectId" id="1loyqeFRBMqwMaIgGjOoMNFFWAa" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -43,8 +42,6 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="inlay.hints.ObjectiveC" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
@@ -66,19 +63,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="9a27e5a7-5984-4623-88ce-dbc6d41d9d2f" name="Default Changelist" comment="" />
-      <created>1607926731306</created>
+      <changelist id="8594da09-6b60-4de8-8770-374f0fd2d48b" name="Default Changelist" comment="" />
+      <created>1608277930329</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1607926731306</updated>
-      <workItem from="1607926733035" duration="6024000" />
-<<<<<<< HEAD
-      <workItem from="1607996068225" duration="742000" />
-      <workItem from="1608002366355" duration="3225000" />
-      <workItem from="1608012629757" duration="4989000" />
-      <workItem from="1608029810244" duration="3220000" />
-=======
->>>>>>> 1ec6ad6223aecf8ecfd9578d309c137eb93a52eb
+      <updated>1608277930329</updated>
+      <workItem from="1608277931622" duration="917000" />
     </task>
     <servers />
   </component>
@@ -95,5 +85,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/IntStackTest.c</url>
+          <line>57</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
