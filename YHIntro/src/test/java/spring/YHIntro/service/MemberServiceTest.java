@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import spring.YHIntro.domain.Member;
 import spring.YHIntro.repository.MemoryMemberRepository;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemberServiceTest {
@@ -56,6 +57,7 @@ class MemberServiceTest {
                 () -> memberService.join(member2));
 
         //then
-        Assertions.assertThat(e.getMessage()).isEqualTo("Already existing member.");
-    }
+        assertThat(e.getMessage()).isEqualTo("Already existing member.");
+     }
+
 }

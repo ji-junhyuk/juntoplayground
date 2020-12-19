@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HelloController {
 
+    @GetMapping("hello")
+    public String hello(Model model) {
+        model.addAttribute("data", "hello~!");
+        return "hello";
+    }
+
     @GetMapping("hello-mvc")
     public String helloMvc(@RequestParam("name") String name, Model model) {
         model.addAttribute("name", name);
@@ -32,7 +38,7 @@ public class HelloController {
     }
 
     @Getter @Setter
-    static class Hello {
+    public static class Hello {
 
         private String name;
     }
