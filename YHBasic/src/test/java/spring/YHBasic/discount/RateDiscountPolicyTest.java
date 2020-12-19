@@ -1,7 +1,9 @@
 package spring.YHBasic.discount;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import spring.YHBasic.AppConfig;
 import spring.YHBasic.domain.Grade;
 import spring.YHBasic.domain.Member;
 
@@ -10,7 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RateDiscountPolicyTest {
 
-    RateDiscountPolicy discountPolicy = new RateDiscountPolicy();
+    DiscountPolicy discountPolicy;
+
+    @BeforeEach
+    public void beforeEach() {
+        AppConfig appConfig = new AppConfig();
+        discountPolicy = appConfig.discountPolicy();
+    }
 
     @Test
     public void vip_o() {
@@ -29,7 +37,7 @@ class RateDiscountPolicyTest {
     public void vip_x() {
 
         //given
-        Member member = new Member(2L, "memberBasic", Grade.BASIC);
+        Member member = new Member(2L, "memberBASIC", Grade.BASIC);
 
         //when
         int discount = discountPolicy.discount(member, 10000);
@@ -37,5 +45,4 @@ class RateDiscountPolicyTest {
         //then
         assertThat(discount).isEqualTo(0);
     }
-
 }
