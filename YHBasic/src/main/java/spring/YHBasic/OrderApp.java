@@ -1,24 +1,30 @@
 package spring.YHBasic;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import spring.YHBasic.domain.Grade;
 import spring.YHBasic.domain.Member;
+import spring.YHBasic.domain.Order;
 import spring.YHBasic.service.MemberService;
-import spring.YHBasic.service.MemberServiceImpl;
+import spring.YHBasic.service.OrderService;
 
-public class MemberApp {
+public class OrderApp {
 
+    @Autowired
+    MemberService memberService;
 
+    @Autowired
+    OrderService orderService;
 
     public static void main(String[] args) {
         AppConfig appConfig = new AppConfig();
         MemberService memberService = appConfig.memberService();
+        OrderService orderService = appConfig.orderService();
+
         Member member = new Member(1L, "memberA", Grade.VIP);
         memberService.join(member);
 
-        Member findMember = memberService.findMember(1L);
-        System.out.println("new member = " + member.getName());
-        System.out.println("find member = " + findMember.getName());
+        Order order = orderService.createOrder(1L, "itemA", 10000);
+
+        System.out.println("order = " + order);
     }
 }
