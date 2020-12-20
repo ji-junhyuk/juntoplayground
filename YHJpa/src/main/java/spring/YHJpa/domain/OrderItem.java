@@ -39,4 +39,20 @@ public class OrderItem {
 
         return orderItem;
     }
+
+    //==Business Logic==//
+    /*
+    Cancel order
+     */
+    public void cancel() {
+        getItem().addStock(count);
+    }
+
+    //==Lookup Logic==//
+    /*
+    View price for all ordered items
+     */
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
+    }
 }
