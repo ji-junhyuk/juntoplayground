@@ -2,37 +2,39 @@
 // Created by junto on 12/20/20.
 //
 
-#ifndef ___ArrayIntQueue
-#define ___ArrayIntQueue
+#ifndef ___IntQueue
+#define ___IntQueue
 
 typedef struct {
     int max;
     int num;
+    int front;
+    int rear;
     int *que;
-} ArrayIntQueue;
+} IntQueue;
 
-int Initialize(ArrayIntQueue *q, int max);
+int Initialize(IntQueue *q, int max);
 
-int Enque(ArrayIntQueue *q, int x);
+int Enque(IntQueue *q, int x);
 
-int Deque(ArrayIntQueue *q, int *x);
+int Deque(IntQueue *q, int *x);
 
-int Peek(const ArrayIntQueue *q, int *x);
+int Peek(const IntQueue *q, int *x);
 
-void Clear(ArrayIntQueue *q);
+void Clear(IntQueue *q);
 
-int Capacity(const ArrayIntQueue *q);
+int Capacity(const IntQueue *q);
 
-int Size(const ArrayIntQueue *q);
+int Size(const IntQueue *q);
 
-int IsEmpty(const ArrayIntQueue *q);
+int IsEmpty(const IntQueue *q);
 
-int IsFull(const ArrayIntQueue *q);
+int IsFull(const IntQueue *q);
 
-int Search(const ArrayIntQueue *q, int x);
+int Search(const IntQueue *q, int x);
 
-void Print(const ArrayIntQueue *q);
+void Print(const IntQueue *q);
 
-void Terminate(ArrayIntQueue *q);
+void Terminate(IntQueue *q);
 
 #endif

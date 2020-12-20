@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include "ArrayIntQueue.h"
 
-int Initialize(ArrayIntQueue *q, int max)
+int Initialize(IntQueue *q, int max)
 {
-    q->num = 0;
+    q->num = q->front = q->rear = 0;
     if ((q->que = calloc(max, sizeof(int))) == NULL) {
         q->max = 0;
         return -1;
@@ -17,81 +17,85 @@ int Initialize(ArrayIntQueue *q, int max)
     return 0;
 }
 
-int Enque(ArrayIntQueue *q, int x)
+int Enque(IntQueue *q, int x)
 {
     if (q->num >= q->max)
         return -1;
     else {
-        q->que[q->num++] = x;
+        q->num++;
+        q->que[q->rear++] = x;
+        if (q->rear == q-> max)
+            q->rear = 0;
         return 0;
     }
 }
 
-int Deque(ArrayIntQueue *q, int *x)
+int Deque(IntQueue *q, int *x)
 {
-    if (q->num <=0)
-        return -1;
+    if (q->num <= 0)
+            return -1;
     else {
-        *x = q->que[0];
-        for (int i = 0; i < q->num - 1; ++i)
-            q->que[i] = q->que[i + 1];
         q->num--;
+        *x = q->que[q->front++];
+        if (q->front == q->max)
+            q->front = 0;
         return 0;
     }
 }
 
-int Peek(const ArrayIntQueue *q, int *x)
+int Peek(const IntQueue *q, int *x)
 {
     if (q->num <= 0)
         return -1;
-    *x = q->que[0];
+    *x = q->que[q->front];
     return 0;
 }
 
-void Clear(ArrayIntQueue *q)
+void Clear(IntQueue *q)
 {
-    q->num = 0;
+    q->num = q->front = q->rear = 0;
 }
 
-int Capacity(const ArrayIntQueue *q)
+int Capacity(const IntQueue *q)
 {
     return q->max;
 }
 
-int Size(const ArrayIntQueue *q)
+int Size(const IntQueue *q)
 {
     return q->num;
 }
 
-int IsEmpty(const ArrayIntQueue *q)
+int IsEmpty(const IntQueue *q)
 {
     return q->num <= 0;
 }
 
-int IsFull(const ArrayIntQueue *q)
+int IsFull(const IntQueue *q)
 {
     return q->num >= q->max;
 }
 
-int Search(const ArrayIntQueue *q, int x)
+int Search(const IntQueue *q, int x)
 {
+    int i, idx;
     for (int i = 0; i < q->num; ++i) {
-        if (q->que[i] == x)
-            return i;
+        if (q->que[idx = (i + q->front) % q->max] == x)
+            return idx;
     }
     return -1;
 }
 
-void Print(const ArrayIntQueue *q)
+void Print(const IntQueue *q)
 {
     for (int i = 0; i < q->num; ++i)
-        printf("%d ", q->que[i]);
+        printf("%d ", q->que[(i + q->front) % q->max]);
     putchar('\n');
 }
 
-void Terminate(ArrayIntQueue *q)
+void Terminate(IntQueue *q)
 {
     if (q-> que != NULL)
         free(q->que);
-    q->max = q->num = 0;
+    q->max = q->num = q->front = q->rear = 0;
 }

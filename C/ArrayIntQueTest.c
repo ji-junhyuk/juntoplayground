@@ -7,7 +7,7 @@
 
 int main(void)
 {
-    ArrayIntQueue  que;
+    IntQueue que;
 
     if (Initialize(&que, 64) == -1) {
         puts("failed to create que");
