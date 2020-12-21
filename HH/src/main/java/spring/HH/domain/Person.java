@@ -2,9 +2,8 @@ package spring.HH.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.Valid;
 import java.time.LocalDate;
 
 @Entity
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 public class Person {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
@@ -31,10 +30,16 @@ public class Person {
 
     private String address;
 
+    @Valid
+    @Embedded
     private LocalDate birthday;
 
     private String job;
 
     @ToString.Exclude
     private String phoneNumber;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Block block;
 }
