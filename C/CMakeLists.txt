@@ -3,4 +3,4 @@ project(C C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(C ArrayIntQueue.h ArrayIntQueue.c ArrayIntQueTest.c)
+add_executable(C IntDequeue.h IntDeque.c IntDequeueTest.c)
