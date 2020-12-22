@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spring.HH.domain.Block;
 import spring.HH.domain.Person;
 import spring.HH.domain.dto.PersonDto;
+import spring.HH.exception.PersonNotFoundException;
 import spring.HH.repository.BlockRepository;
 import spring.HH.repository.PersonRepository;
 
@@ -27,24 +28,25 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public Person getPerson(Long id) {
-        Person person = personRepository.findById(id).orElse(null);
 
-        log.info("person : {}", person);
-
-        return person;
+        return personRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public void put(Person person) {
+    public void put(PersonDto personDto) {
+        Person person = new Person();
+        person.set(personDto);
+        person.setName(personDto.getName());
+
         personRepository.save(person);
     }
 
     @Transactional
     public void modify(Long id, PersonDto personDto) {
-        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not exists."));
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 
         if (!person.getName().equals(personDto.getName())) {
-            throw new RuntimeException("Name is different.");
+            throw new PersonNotFoundException();
         }
 
         person.set(personDto);
@@ -54,7 +56,7 @@ public class PersonService {
 
     @Transactional
     public void modify(Long id, String name) {
-        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Id is not exist."));
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 
         person.setName(name);
 
@@ -62,7 +64,7 @@ public class PersonService {
     }
 
     public void delete(Long id) {
-        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Id is not exist."));
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 
         person.setDeleted(true);
 
