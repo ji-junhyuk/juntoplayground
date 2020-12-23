@@ -47,6 +47,11 @@
 # CMake
 cmake-build-*/
 
+# CMakeList, C/.idea/workspace.xml
+C/CMakeLists.txt
+C/.idea/workspace.xml
+
+
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
 
