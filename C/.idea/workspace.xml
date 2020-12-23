@@ -13,6 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8594da09-6b60-4de8-8770-374f0fd2d48b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +75,8 @@
       <workItem from="1608521608021" duration="10000" />
       <workItem from="1608632691799" duration="2599000" />
       <workItem from="1608665222246" duration="58000" />
+      <workItem from="1608685186802" duration="2833000" />
+      <workItem from="1608693200248" duration="4523000" />
     </task>
     <servers />
   </component>
@@ -91,5 +94,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/hanoi.c</url>
+          <line>16</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

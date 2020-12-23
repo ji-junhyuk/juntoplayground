@@ -3,7 +3,7 @@ project(C C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(C IntStack.h IntStack.c recur_nr2.c)
+add_executable(C IntStack.c IntStack.h q5-8.c)
 
 
 
