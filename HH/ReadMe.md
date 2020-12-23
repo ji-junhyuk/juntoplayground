@@ -1,6 +1,8 @@
 configuration
+
   JsonConfig
-  -serializer
+  - serializer
+  
     BirthdaySerializer
 
 controller
