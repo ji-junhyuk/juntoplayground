@@ -6,29 +6,46 @@ configuration
     BirthdaySerializer
 
 controller
+
   HelloWorldController(test)
+  
   PersonController(test)
+  
   GroupController
-  -dto
+  
+  - dto
+  
     PersonDto
     
 domain
+
   Person
+  
   Group
-  -dto
+  
+  - dto
+  
     Birthday
     
 exception
+
   GlobalExceptionHandler
+  
   PersonNotFoundException
+  
   RenameIsnotPermitted
-  -dto
+  
+  - dto
+  
     ErrorResponse
    
 repository
+
   PersonRepository(test)
   
 service
+
   PersonService(test)
+  
   
 etc. (data.sql, hello.http)
