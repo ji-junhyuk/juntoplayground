@@ -1,4 +1,4 @@
-package spring.HH.domain;
+package spring.HH.domain.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

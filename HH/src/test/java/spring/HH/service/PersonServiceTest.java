@@ -7,10 +7,13 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import spring.HH.domain.Birthday;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import spring.HH.domain.dto.Birthday;
 import spring.HH.domain.Person;
-import spring.HH.domain.dto.PersonDto;
+import spring.HH.controller.dto.PersonDto;
 import spring.HH.repository.PersonRepository;
 
 import java.time.LocalDate;
@@ -21,7 +24,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class PersonServiceTest {
 
@@ -31,6 +33,24 @@ class PersonServiceTest {
     @Mock
     private PersonRepository personRepository;
 
+    @Test
+    public void getAll() {
+
+        //when
+        when(personRepository.findAll(any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Lists.newArrayList(
+                        new Person("martin"),
+                        new Person("dennis"),
+                        new Person("tony"))));
+
+        Page<Person> result = personService.getAll(PageRequest.of(0, 3));
+
+        //then
+        assertThat(result.getNumberOfElements()).isEqualTo(3);
+        assertThat(result.getContent().get(0).getName()).isEqualTo("martin");
+        assertThat(result.getContent().get(1).getName()).isEqualTo("dennis");
+        assertThat(result.getContent().get(2).getName()).isEqualTo("tony");
+    }
 
     @Test
     public void getPeopleByName() {

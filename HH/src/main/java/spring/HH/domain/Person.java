@@ -4,12 +4,11 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
-import spring.HH.domain.dto.PersonDto;
+import spring.HH.controller.dto.PersonDto;
+import spring.HH.domain.dto.Birthday;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 

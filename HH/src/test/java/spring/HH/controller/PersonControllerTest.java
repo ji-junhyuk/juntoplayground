@@ -2,41 +2,33 @@ package spring.HH.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.test.web.client.RequestMatcher;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.result.ModelResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.util.NestedServletException;
-import spring.HH.domain.Birthday;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
+import spring.HH.domain.dto.Birthday;
 import spring.HH.domain.Person;
-import spring.HH.domain.dto.PersonDto;
+import spring.HH.controller.dto.PersonDto;
 import spring.HH.repository.PersonRepository;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.ModelResultMatchers.*;
+
 
 @SpringBootTest
+@Transactional
 class PersonControllerTest {
-
-    @Autowired
-    private PersonController personController;
 
     @Autowired
     private PersonRepository personRepository;
@@ -45,19 +37,32 @@ class PersonControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private MappingJackson2HttpMessageConverter messageConverter;
+    private WebApplicationContext wac;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     void beforeEach() {
+
         mockMvc = MockMvcBuilders
-                .standaloneSetup(personController)
-                .setMessageConverters(messageConverter)
+                .webAppContextSetup(wac)
                 .alwaysDo(print())
                 .build();
     }
 
+    @Test
+    public void getAll() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/person")
+                .param("page", "1")
+                .param("size ","2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalPage").value(3))
+                .andExpect(jsonPath("$.totalElements").value(6))
+                .andExpect(jsonPath("$.numberOfElements").value(2))
+                .andExpect(jsonPath("$.content.[0].name").value("dennis"))
+                .andExpect(jsonPath("$.content.[1].name").value("sophia"));
+     }
     @Test
     public void getPerson() throws Exception {
 
@@ -103,17 +108,50 @@ class PersonControllerTest {
          //given
          PersonDto dto = new PersonDto();
 
-         //when
-
          //then
          mockMvc.perform(
                  MockMvcRequestBuilders.post("/api/person")
                          .contentType(MediaType.APPLICATION_JSON)
                          .content(toJsonString(dto)))
+                 .andExpect(status().isBadRequest())
                  .andExpect(jsonPath("$.code").value(500))
-                 .andExpect(jsonPath("$.message").value("Cant be aware of server exception."));
-
+                 .andExpect(jsonPath("$.message").value("Name is necessary."));
       }
+
+      @Test
+      public void postPersonIfNameIsEmptyString() throws Exception {
+
+          //given
+          PersonDto dto = new PersonDto();
+          dto.setName("");
+
+          //when
+          mockMvc.perform(
+                  MockMvcRequestBuilders.post("/api/person")
+                          .contentType(MediaType.APPLICATION_JSON)
+                          .contentType(toJsonString(dto)))
+                  .andExpect(status().isBadRequest())
+                  .andExpect(jsonPath("$.code").value(400))
+                  .andExpect(jsonPath("$.message").value("Name is necessary."));
+       }
+
+       @Test
+       public void postPersonIfNameIsBlankString() throws Exception {
+
+           //given
+           PersonDto dto = new PersonDto();
+           dto.setName(" ");
+
+           //then
+           mockMvc.perform(
+                   MockMvcRequestBuilders.post("/api/person")
+                           .contentType(MediaType.APPLICATION_JSON)
+                           .content(toJsonString(dto)))
+                   .andExpect(status().isBadRequest())
+                   .andExpect(jsonPath("$.code").value(400))
+                   .andExpect(jsonPath("$.message").value("Name is Necessary"));
+
+        }
       @Test
       public void modifyPerson() throws Exception {
 

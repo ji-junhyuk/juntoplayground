@@ -1,8 +1,9 @@
-package spring.HH.domain;
+package spring.HH.configuration.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import spring.HH.domain.dto.Birthday;
 
 import java.io.IOException;
 import java.time.LocalDate;

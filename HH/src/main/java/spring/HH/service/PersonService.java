@@ -2,17 +2,17 @@ package spring.HH.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import spring.HH.domain.Block;
 import spring.HH.domain.Person;
-import spring.HH.domain.dto.PersonDto;
+import spring.HH.controller.dto.PersonDto;
 import spring.HH.exception.PersonNotFoundException;
-import spring.HH.repository.BlockRepository;
+import spring.HH.exception.RenameIsNotPermittedException;
 import spring.HH.repository.PersonRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -20,6 +20,11 @@ public class PersonService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    public Page<Person> getAll(Pageable pageable) {
+
+        return personRepository.findAll(pageable);
+    }
 
     public List<Person> getPeopleByName(String name) {
 
@@ -46,7 +51,7 @@ public class PersonService {
         Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 
         if (!person.getName().equals(personDto.getName())) {
-            throw new PersonNotFoundException();
+            throw new RenameIsNotPermittedException();
         }
 
         person.set(personDto);

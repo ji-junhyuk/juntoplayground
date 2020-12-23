@@ -2,15 +2,16 @@ package spring.HH.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.HH.domain.Person;
-import spring.HH.domain.dto.PersonDto;
-import spring.HH.exception.PersonNotFoundException;
-import spring.HH.exception.RenameIsNotPermittedException;
-import spring.HH.repository.PersonRepository;
+import spring.HH.controller.dto.PersonDto;
 import spring.HH.service.PersonService;
+
+import javax.validation.Valid;
 
 @RequestMapping(value = "/api/person")
 @RestController
@@ -20,6 +21,11 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+    @GetMapping
+    public Page<Person> getAll(@PageableDefault Pageable pageable) {
+        return personService.getAll(pageable);
+    }
+
     @GetMapping("/{id}")
     public Person getPerson(@PathVariable Long id) {
         return personService.getPerson(id);
@@ -27,7 +33,7 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void postPerson(@RequestBody PersonDto personDto) {
+    public void postPerson(@RequestBody @Valid PersonDto personDto) {
         personService.put(personDto);
     }
 
@@ -44,21 +50,5 @@ public class PersonController {
     @DeleteMapping("/{id}")
     public void deletePerson(@PathVariable Long id) {
         personService.delete(id);
-    }
-
-    @ExceptionHandler(value = RenameIsNotPermittedException.class)
-    public ResponseEntity<ErrorResponse> handleRenameNoPermittedException(RenameIsNotPermittedException exception) {
-        return new ResponseEntity<>(ErrorResponse.of(HttpStatus.BAD_REQUEST, exception.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = PersonNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlePersonNotFoundException(PersonNotFoundException exception) {
-        return new ResponseEntity<>(ErrorResponse.of(HttpStatus.BAD_REQUEST, exception.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException exception) {
-        log.error("Server error: {}", exception.getMessage(), exception);
-        return new ResponseEntity<>(ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, "Cant be aware of server exception."), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
