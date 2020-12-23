@@ -3,49 +3,50 @@ configuration
 &nbsp;&nbsp;  JsonConfig
 &nbsp;&nbsp;- serializer
   
-&nbsp;&nbsp;    BirthdaySerializer
+&nbsp;&nbsp;&nbsp;    BirthdaySerializer
+
 
 controller
 
-  HelloWorldController(test)
+ &nbsp;&nbsp; HelloWorldController(test)
   
-  PersonController(test)
+&nbsp;&nbsp;  PersonController(test)
   
   GroupController
   
-  - dto
-  
-    PersonDto
-    
+ 
 domain
 
-  Person
+ &nbsp;&nbsp; Person
   
-  Group
+ &nbsp;&nbsp; Group
   
-  - dto
+ &nbsp;&nbsp; - dto
   
-    Birthday
+  &nbsp;&nbsp;&nbsp;  Birthday
+    
     
 exception
 
-  GlobalExceptionHandler
+  &nbsp;&nbsp;GlobalExceptionHandler
   
-  PersonNotFoundException
+  &nbsp;&nbsp;PersonNotFoundException
   
-  RenameIsnotPermitted
+ &nbsp;&nbsp; RenameIsnotPermitted
   
-  - dto
+  &nbsp;&nbsp;- dto
   
-    ErrorResponse
+  &nbsp;&nbsp;&nbsp;  ErrorResponse
+   
    
 repository
 
-  PersonRepository(test)
+  &nbsp;&nbsp; PersonRepository(test)
+  
   
 service
 
-  PersonService(test)
+  &nbsp;&nbsp; PersonService(test)
   
   
 etc. (data.sql, hello.http)
