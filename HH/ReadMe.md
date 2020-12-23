@@ -32,7 +32,7 @@ exception
   
   &nbsp;&nbsp;PersonNotFoundException
   
- &nbsp;&nbsp; RenameIsnotPermitted
+ &nbsp;&nbsp;RenameIsnotPermitted
   
   &nbsp;&nbsp;- dto
   
