@@ -3,7 +3,8 @@ project(C C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(C bubble.c)
+add_executable(C doit_dataStructure_algorithm_C 01_Q1.c)
+
 
 
 
