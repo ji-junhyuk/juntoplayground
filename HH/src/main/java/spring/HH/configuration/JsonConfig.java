@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import spring.HH.configuration.serializer.BirthdaySerializer;
+import spring.HH.domain.dto.Birthday;
 
 @Configuration
 public class JsonConfig {
