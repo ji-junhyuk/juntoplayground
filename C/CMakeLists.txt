@@ -3,8 +3,4 @@ project(C C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(C doit_dataStructure_algorithm_C 01_Q1.c)
-
-
-
-
+add_executable(C algorithm/main.c)
