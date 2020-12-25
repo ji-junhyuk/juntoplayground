@@ -7,28 +7,23 @@
 
 #define swap(type, x, y) do { type t = x; x = y; y = t; } while (0)
 
-void bubble(int a[], int n)
+int is_sorted(int a[], int n)
 {
-    for (int i = 0; i < n - 1; ++i) {
-        int exchg = 0;
-        for (int j = n - 1; j > i; --j)
-            if (a[j-1] > a[j]) {
-                swap(int, a[j-1], a[j]);
-                exchg++;
-            }
-        if (exchg == 0) break;
+    for (int i = n - 1; i > 0; --i) {
+        if (a[i - 1] > a[i])
+            return 0;
     }
+    return 1;
 }
 
 int main(void)
 {
-    int nx;
+    int i, nx, sorted;
     int *x;
 
-    puts("bubble sort:");
-    printf("number of element: ");
+    puts("bublle sort deepening");
+    printf("number of element:");
     scanf("%d", &nx);
-
     x = calloc(nx, sizeof(int));
 
     for (int i = 0; i < nx; ++i) {
@@ -36,13 +31,12 @@ int main(void)
         scanf("%d", &x[i]);
     }
 
-    bubble(x, nx);
+    sorted = is_sorted(x, nx);
 
-    puts("Ascending order.");
-
-    for (int i = 0; i < nx; ++i) {
-        printf("x[%d] = %d\n", i, x[i]);
-    }
+    if (sorted)
+        puts("array is arranged.");
+    else
+        puts("array is not arranged.");
 
     free(x);
 
