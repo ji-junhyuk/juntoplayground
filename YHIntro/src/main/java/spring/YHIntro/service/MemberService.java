@@ -2,6 +2,7 @@ package spring.YHIntro.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import spring.YHIntro.domain.Member;
 import spring.YHIntro.repository.MemberRepository;
 import spring.YHIntro.repository.MemoryMemberRepository;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
