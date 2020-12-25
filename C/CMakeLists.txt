@@ -3,4 +3,4 @@ project(C C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(C )
+add_executable(C algorithm/selection.c)
