@@ -7,10 +7,13 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 public class JpaMemberRepository implements MemberRepository {
 
     private final EntityManager em;
+
+    public JpaMemberRepository(EntityManager em) {
+        this.em = em;
+    }
 
     @Override
     public Member save(Member member) {

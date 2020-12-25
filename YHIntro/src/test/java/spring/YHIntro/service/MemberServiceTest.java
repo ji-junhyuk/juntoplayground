@@ -59,5 +59,4 @@ class MemberServiceTest {
         //then
         assertThat(e.getMessage()).isEqualTo("Already existing member.");
      }
-
 }

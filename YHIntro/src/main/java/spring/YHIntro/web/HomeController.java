@@ -10,7 +10,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        log.info("home Controller");
+        log.info("home controller");
         return "home";
     }
 }
