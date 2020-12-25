@@ -1,6 +1,7 @@
 package spring.YHIntro.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import spring.YHIntro.domain.Member;
 import spring.YHIntro.repository.MemberRepository;
 import spring.YHIntro.repository.MemoryMemberRepository;
@@ -8,6 +9,7 @@ import spring.YHIntro.repository.MemoryMemberRepository;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class MemberService {
 
