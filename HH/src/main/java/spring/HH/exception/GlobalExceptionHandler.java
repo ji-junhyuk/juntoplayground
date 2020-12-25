@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RenameIsNotPermittedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleRenameNoPermittedExcecption(RenameIsNotPermittedException ex) {
+    public ErrorResponse handleRenameNoPermittedException(RenameIsNotPermittedException ex) {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 

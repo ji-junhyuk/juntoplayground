@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
+
     private int code;
     private String message;
 

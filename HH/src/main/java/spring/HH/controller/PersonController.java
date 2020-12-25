@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import spring.HH.domain.Person;
 import spring.HH.controller.dto.PersonDto;
+import spring.HH.domain.Person;
 import spring.HH.service.PersonService;
 
 import javax.validation.Valid;

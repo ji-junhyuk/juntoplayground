@@ -1,19 +1,20 @@
 package spring.HH.repository;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import spring.HH.domain.dto.Birthday;
 import spring.HH.domain.Person;
+import spring.HH.domain.dto.Birthday;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest
-class PersonRepositoryTest {
+public class PersonRepositoryTest {
 
     @Autowired
     private PersonRepository personRepository;
@@ -35,8 +36,7 @@ class PersonRepositoryTest {
                 () -> assertThat(person.getAddress()).isEqualTo("seoul"),
                 () -> assertThat(person.getBirthday()).isEqualTo(Birthday.of(LocalDate.of(1991, 7, 10))),
                 () -> assertThat(person.getJob()).isEqualTo("officer"),
-                () -> assertThat(person.getPhoneNumber()).isEqualTo("010-1111-2222"),
-                () -> assertThat(person.isDeleted()).isEqualTo(false)
+                () -> assertThat(person.getPhoneNumber()).isEqualTo("010-1111-2222")
         );
     }
 
@@ -70,7 +70,7 @@ class PersonRepositoryTest {
     public void findPeopleDeleted() {
 
         //given
-        List<Person> people = personRepository.findPeopleDeleted();
+        List<Person> people = personRepository.findPeoPleDeleted();
 
         //when
         assertThat(people.size()).isEqualTo(1);

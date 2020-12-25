@@ -49,15 +49,19 @@ public class Person {
         if (!ObjectUtils.isEmpty(personDto.getHobby())) {
             this.setHobby(personDto.getHobby());
         }
+
         if (!ObjectUtils.isEmpty(personDto.getAddress())) {
             this.setAddress(personDto.getAddress());
         }
+
         if (!ObjectUtils.isEmpty(personDto.getJob())) {
             this.setJob(personDto.getJob());
         }
+
         if (!ObjectUtils.isEmpty(personDto.getPhoneNumber())) {
             this.setPhoneNumber(personDto.getPhoneNumber());
         }
+
         if (personDto.getBirthday() != null) {
             this.setBirthday(Birthday.of(personDto.getBirthday()));
         }
@@ -65,7 +69,7 @@ public class Person {
 
     public Integer getAge() {
         if (this.birthday != null) {
-            return LocalDate.now().getYear() - this.birthday.getYearOfBirthday() +1;
+            return LocalDate.now().getYear() - this.birthday.getYearOfBirthday() + 1;
         } else {
             return null;
         }

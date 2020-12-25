@@ -1,5 +1,6 @@
 package spring.HH.service;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,9 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import spring.HH.domain.dto.Birthday;
-import spring.HH.domain.Person;
 import spring.HH.controller.dto.PersonDto;
+import spring.HH.domain.Person;
+import spring.HH.domain.dto.Birthday;
 import spring.HH.repository.PersonRepository;
 
 import java.time.LocalDate;
@@ -21,11 +22,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PersonServiceTest {
+public class PersonServiceTest {
 
     @InjectMocks
     private PersonService personService;
@@ -41,7 +43,8 @@ class PersonServiceTest {
                 .thenReturn(new PageImpl<>(Lists.newArrayList(
                         new Person("martin"),
                         new Person("dennis"),
-                        new Person("tony"))));
+                        new Person("tony")
+                )));
 
         Page<Person> result = personService.getAll(PageRequest.of(0, 3));
 
@@ -54,22 +57,30 @@ class PersonServiceTest {
 
     @Test
     public void getPeopleByName() {
+
+        //given
         when(personRepository.findByName("martin"))
                 .thenReturn(Lists.newArrayList(new Person("martin")));
 
+        //when
         List<Person> result = personService.getPeopleByName("martin");
 
+        //then
         assertThat(result.size()).isEqualTo(1);
         assertThat(result.get(0).getName()).isEqualTo("martin");
     }
 
     @Test
     public void getPerson() {
+
+        //given
         when(personRepository.findById(1L))
                 .thenReturn(Optional.of(new Person("martin")));
 
+        //when
         Person person = personService.getPerson(1L);
 
+        //then
         assertThat(person.getName()).isEqualTo("martin");
     }
 
@@ -95,98 +106,93 @@ class PersonServiceTest {
 
         //then
         verify(personRepository, times(1)).save(argThat(new IsPersonWillBeInserted()));
-
     }
 
-    @Test
-    public void modifyIfPersonNotFound() {
+   @Test
+   public void modifyIfPersonNotFound() {
 
-        //given
-        when(personRepository.findById(1L))
-                .thenReturn(Optional.empty());
+       //given
+       when(personRepository.findById(1L))
+               .thenReturn(Optional.empty());
 
-        //when
+       //then
+       assertThrows(RuntimeException.class, () -> personService.modify(1L, mockPersonDto()));
+   }
 
-        //then
-        assertThrows(RuntimeException.class, () -> personService.modify(1L, mockPersonDto()));
-    }
+   @Test
+   public void modifyIfNameisDifferent() {
 
-    @Test
-    public void modifyIfNameIsDifferent() {
+       //given
+       when(personRepository.findById(1L))
+               .thenReturn(Optional.of(new Person("tony")));
 
-        //given
-        when(personRepository.findById(1L))
-                .thenReturn(Optional.of(new Person("tony")));
+       //then
+       assertThrows(RuntimeException.class, () -> personService.modify(1L, mockPersonDto()));
+   }
 
-        //then
-        assertThrows(RuntimeException.class, () -> personService.modify(1L, mockPersonDto()));
-    }
+   @Test
+   public void modify() {
 
-    @Test
-    public void modify() {
+       //given
+       when(personRepository.findById(1L))
+               .thenReturn(Optional.of(new Person("martin")));
 
-        //given
-        when(personRepository.findById(1L))
-                .thenReturn(Optional.of(new Person("martin")));
+       //when
+       personService.modify(1L, mockPersonDto());
 
-        //when
-        personService.modify(1L, mockPersonDto());
+       //then
+       verify(personRepository, times(1)).save(argThat(new IsPersonWillBeUpdated()));
+   }
 
-        //then
-        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeUpdated()));
-    }
+   @Test
+   public void modifyByNameIfPersonNotFound() {
 
-    @Test
-    public void modifyByNameIfPersonNotFound() {
+       //given
+       when(personRepository.findById(1L))
+               .thenReturn(Optional.empty());
 
-        //given
-        when(personRepository.findById(1L))
-                .thenReturn(Optional.empty());
+       //then
+       assertThrows(RuntimeException.class, () -> personService.modify(1L, "daniel"));
+   }
 
-        //when
+   @Test
+   public void modifyByName() {
 
-        //then
-        assertThrows(RuntimeException.class, () -> personService.modify(1L, "daniel"));
-    }
+       //given
+       when(personRepository.findById(1L))
+               .thenReturn(Optional.of(new Person("martin")));
 
-    @Test
-    public void modifyByName() {
+       //when
+       personService.modify(1L, "daniel");
 
-        //given
-        when(personRepository.findById(1L))
-                .thenReturn(Optional.of(new Person("martin")));
+       //then
+       verify(personRepository, times(1)).save(argThat(new IsNameWillBeUpdated()));
+   }
 
-        //when
-        personService.modify(1L, "daniel");
+   @Test
+   public void deleteIfPersonNotFound() {
 
-        //then
-        verify(personRepository, times(1)).save(argThat(new IsNameWillBeUpdated()));
-    }
+       //given
+       when(personRepository.findById(1L))
+               .thenReturn(Optional.empty());
 
-    @Test
-    public void deleteIfPersonNotFound() {
+       //then
+       assertThrows(RuntimeException.class, () -> personService.delete(1L));
+   }
 
-        //given
-        when(personRepository.findById(1L))
-                .thenReturn(Optional.empty());
+   @Test
+   public void delete() {
 
-        //then
-        assertThrows(RuntimeException.class, () -> personService.delete(1L));
-    }
+       //given
+       when(personRepository.findById(1L))
+               .thenReturn(Optional.of(new Person("martin")));
 
-    @Test
-    public void delete() {
+       //when
+       personService.delete(1L);
 
-        //given
-        when(personRepository.findById(1L))
-                .thenReturn(Optional.of(new Person("martin")));
-
-        //when
-        personService.delete(1L);
-
-        //then
-        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeDeleted()));
-    }
+       //then
+       verify(personRepository, times(1)).save(argThat(new IsPersonWillBeDeleted()));
+   }
 
     private PersonDto mockPersonDto() {
 
@@ -225,22 +231,23 @@ class PersonServiceTest {
         private boolean equals(Object actual, Object expected) {
             return expected.equals(actual);
         }
-
     }
+
     private static class IsNameWillBeUpdated implements ArgumentMatcher<Person> {
 
         @Override
         public boolean matches(Person person) {
             return person.getName().equals("daniel");
         }
-
     }
+
     private static class IsPersonWillBeDeleted implements ArgumentMatcher<Person> {
 
         @Override
         public boolean matches(Person person) {
             return person.isDeleted();
         }
-
     }
+
+
 }

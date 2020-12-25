@@ -1,25 +1,19 @@
 package spring.HH.controller;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-class HelloWorldControllerTest {
+public class HelloWorldControllerTest {
 
     @Autowired
     private WebApplicationContext wac;
@@ -33,22 +27,24 @@ class HelloWorldControllerTest {
                 .alwaysDo(print())
                 .build();
     }
-    @Test
-    void helloWorld() throws Exception {
 
+    @Test
+    public void helloWorld() throws Exception {
+
+        //then
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/helloWorld"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("HelloWorld"));
-    }
+                .andExpect(content().string("HelloWorld"));
+     }
 
-    @Test
-    void mockMvcTest() throws Exception {
+     @Test
+     public void mockMvcTest() throws Exception {
 
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/helloException"))
-                .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.code").value(500))
-                .andExpect(jsonPath("$.message").value("An unknown server error occurred."));
-    }
+         //then
+         mockMvc.perform(MockMvcRequestBuilders.get("/api/helloException"))
+                 .andExpect(status().isInternalServerError())
+                 .andExpect(jsonPath("$.code").value(500))
+                 .andExpect(jsonPath("$.message").value("An unknown server error occurred."));
+      }
 }
