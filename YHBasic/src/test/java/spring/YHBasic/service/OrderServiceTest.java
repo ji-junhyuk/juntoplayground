@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spring.YHBasic.AppConfig;
+import spring.YHBasic.discount.DiscountPolicy;
 import spring.YHBasic.domain.Grade;
 import spring.YHBasic.domain.Member;
 import spring.YHBasic.domain.Order;
