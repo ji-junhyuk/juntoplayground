@@ -7,6 +7,9 @@ import spring.YHBasic.AppConfig;
 import spring.YHBasic.domain.Grade;
 import spring.YHBasic.domain.Member;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 class MemberServiceTest {
 
     MemberService memberService;
@@ -20,14 +23,14 @@ class MemberServiceTest {
     @Test
     public void join() {
 
-        //given
+        //Given
         Member member = new Member(1L, "memberA", Grade.VIP);
 
-        //when
+        //When
         memberService.join(member);
         Member findMember = memberService.findMember(1L);
 
-        //then
-        Assertions.assertThat(member).isEqualTo(findMember);
+        //Then
+        assertThat(member).isEqualTo(findMember);
     }
 }
