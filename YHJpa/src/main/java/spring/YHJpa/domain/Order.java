@@ -42,7 +42,7 @@ public class Order {
 
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
-        orderitem.setOrder(this);
+        orderItem.setOrder(this);
     }
 
     public void setDelivery(Delivery delivery) {
