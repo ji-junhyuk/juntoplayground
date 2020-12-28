@@ -27,7 +27,7 @@ public class OrderService {
         Item item = itemRepository.findOne(itemId);
 
         Delivery delivery = new Delivery();
-        delivery.setAddress(member.getAdress());
+        delivery.setAddress(member.getAddress());
         delivery.setStatus(DeliveryStatus.READY);
 
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
