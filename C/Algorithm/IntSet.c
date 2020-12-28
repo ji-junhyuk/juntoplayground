@@ -26,6 +26,11 @@ int IsMember (const IntSet *s, int n)
     return -1;
 }
 
+int IsFull(const IntSet *s)
+{
+    return s->num >= s -> max;
+}
+
 void Add(IntSet *s, int n)
 {
     if (s->num < s->max && IsMember(s, n) == -1)
@@ -98,6 +103,7 @@ IntSet *Intersection(IntSet *s1, const IntSet *s2, const IntSet *s3)
 IntSet *Difference(IntSet *s1, const IntSet *s2, const IntSet *s3)
 {
     int i, j;
+
     s1 -> num = 0;
     for (i = 0; i < s2->num; i++) {
         for (j = 0; j < s3->num; j++)
@@ -107,6 +113,77 @@ IntSet *Difference(IntSet *s1, const IntSet *s2, const IntSet *s3)
             Add(s1, s2->set[I]);
     }
     return s1;
+}
+
+IntSet *SymmetricDifference(IntSet *s1, const IntSet *s2, const IntSet *s3)
+{
+    int i;
+
+    s1->num = 0;
+
+    for (i = 0; i < s2->num; i++)
+        if (IsMember(s3, s2->set[i]) == -1)
+            Add(s1, s2->set[i]);
+
+    return s1;
+}
+
+IntSet *ToUnion(IntSet *s1, const IntSet *s2)
+{
+    int i;
+
+    for (i = 0; i < s2->num; i++)
+        Add(s1, s2->set[i]);
+
+    return s1;
+}
+
+IntSet *ToIntersection(IntSet *s1, const IntSet *s2)
+{
+    int i = 0;
+
+    while (i < s1->num) {
+        if (IsMember(s2, s1->set[i]) == -1)
+            Remove(s1, s1->set[i]);
+        else
+            i++;
+    }
+
+    return s1;
+}
+
+IntSet *ToDifference(IntSet *s1, const IntSet *s2)
+{
+    int i;
+
+    for (i = 0; i < s2->num; i++)
+        Remove(s1, s2->set[i]);
+
+    return s1;
+}
+
+Int IsSubset(const IntSet *s1, const IntSet *s2)
+{
+    int i, j;
+
+    for (i = 0; i < s1->num; i++) {
+        for (j = 0; j < s2->num; j++)
+            if (s1->set[i] == s2->set[j])
+                break;
+        if (j == s2->num)
+            return 0;
+    }
+
+    return 1;
+}
+
+int IsProperSubset(const IntSet *s1, const IntSet *s2)
+{
+    int i;
+
+    if (s1->num >= s2->num)
+        return 0;
+    return IsSubset(s1, s2);
 }
 
 void Print(const IntSet *s)
@@ -125,6 +202,11 @@ void PrintLn(const IntSet *s)
     putchar('\n');
 }
 
+void Clear(IntSet *s)
+{
+    Print(s);
+    putchar('\n');
+}
 void Terminate(IntSet *s)
 {
     if (s->set != NULL) {
