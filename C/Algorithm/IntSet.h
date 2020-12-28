@@ -23,7 +23,7 @@ int Capacity(const IntSet *s);
 
 int Size(const IntSet *s);
 
-void Assign(Intset *s1, const IntSet *s2);
+void Assign(IntSet *s1, const IntSet *s2);
 
 int Equal(const IntSet *s1, const IntSet *s2);
 

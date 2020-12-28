@@ -110,7 +110,7 @@ IntSet *Difference(IntSet *s1, const IntSet *s2, const IntSet *s3)
             if (s2->set[i] == s3->set[j])
                 break;
         if (j == s3->num)
-            Add(s1, s2->set[I]);
+            Add(s1, s2->set[i]);
     }
     return s1;
 }
@@ -162,7 +162,7 @@ IntSet *ToDifference(IntSet *s1, const IntSet *s2)
     return s1;
 }
 
-Int IsSubset(const IntSet *s1, const IntSet *s2)
+int IsSubset(const IntSet *s1, const IntSet *s2)
 {
     int i, j;
 
@@ -207,6 +207,7 @@ void Clear(IntSet *s)
     Print(s);
     putchar('\n');
 }
+
 void Terminate(IntSet *s)
 {
     if (s->set != NULL) {
