@@ -70,20 +70,66 @@ class HelloWorldControllerTest {
     * GenerationType : TABLE, SEQUENCE, IDENTITY, AUTO (default)
 * personRepository.save(person) 객체를 저장하고 System.out.println(personRepository.findAll(); 출력하게 되면 Person객체의 hashcode값이 출력된다. 이를 위해서 ToString을 사용함.
 
+* Lombok의 필요성
+  * 자바 코드에서 필요한 기본 메소드들을 자동으로 생성해줌
+  * 특히, entity는 반복적인 생성자, Getter, Setter들을 많이 생성하게 되어 Lombok이 유용함
+* @Getter
+  * getter는 class의 field variable의 값에 접근할 수 있는 메소드임
+  * @Getter를 선언하면 기본 getter를 생성해줌
+  * @Getter는 각 field variable에 선언할 수도 있고, class 상단에 선언할 수도 있음
+* @Setter
+  * setter는 class의 field variable의 값을 저장할 수 있는 메소드임
+  * @Setter를 선언하면 기본 setter을 생성ㅇ해줌
+  * @Setter는 각 field variable에 선언할 수도 있고, class 상단에 선언할 수도 있음
+* @ToString
+  * toString()은 기본적으로 해당 객체를 출력할 수 있도록 최상위 Object 객체에 선언되어 있음
+  * toString()을 override하여 자신이 원하는 값을 출력할 수 있도록 커스터마이징 할 수 있음
+  * Object 객체의 toString()은 해당 객체의 해쉬값을 출력하기 때문에, 일반적으로 toString()은 override 해야만 함
+  * @ToString을 사용하면, 일반적으로 사용하는 방식의 toString()을 자동으로 생성해줌
+  
+* @NoArgsConstructor
+  * 아무런 파라미터를 가지지 않은 생성자를 생성해줌
+* @AllArgsConstructor
+  * 전체 field variable을 파라미터로 가지는 생성자를 생성해줌
+* @RequiredArgsConstructor
+  * 필요한 field variable을 @NonNull로 선언하고, 해당 파라미터를 가지는 생성자를 생성해줌
+* @EqualsAndHashCode
+  * HashCode : 해시코드가 동일하면, 같은 객체라는 것을 의미함
+  * Equal : 해당 객체가 같은 값을 가지고 있다는 것을 의미함
+* @Data
+  * @Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode를 한꺼번에 선언해줌  
+  
 ```java
 @Entity
-@Getter 
-@Setter
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Data //Getter, Setter, ToString, EqualsAndHashcode, RequiredArgsConstructor
 public class Person {
 
     @Id
     @GeneratedValue
     private Long id;
-
+    
+    @NonNull
     private String name;
-
+    
+    @NonNull
     private int age;
+    
+    private String hobby;
+    
+    @NonNull
+    private String bloodType;
+
+    private String address;
+
+    private LocalDate birthday;
+
+    private String job;
+
+    @ToString.Exclude
+    private String phoneNumber;
 }
 
 ```java
@@ -103,7 +149,7 @@ class PersonRepositoryTest {
 
         personRepository.save(person);
 
-//        System.out.println(personRepository.findAll());
+        System.out.println(personRepository.findAll());
         
         //When
         List<Person> people = personRepository.findAll();
@@ -113,6 +159,67 @@ class PersonRepositoryTest {
         assertThat(people.get(0).getName()).isEqualTo("junhyuk");
         assertThat(people.get(0).getAge()).isEqualTo(28);
     }
+
+    @Test
+    void hashCodeAndEquals() {
+    
+        Person person1 = new Person("junhyuk", 28, "A");
+        Person person2 = new Person("junhyuk", 28, "A");
+
+        System.out.println(person1.equals(person2));
+        System.out.println(person1.hashCode());
+        System.out.println(person2.hashCode());
+
+        Map<Person, Integer> map = new HashMap<>();
+        map.put(person1, person1.getAge());
+
+        System.out.println(map);
+        System.out.println(map.get(person2));
+    }
 }
+```
+
+## 참고
+##### bloodType에 @NonNull을 추가하고 person1, 2 혈액형 값을 다르게 주었을 때, 구현누락으로 해당 객체가 같다고 출력된다.
+```java
+    @ToString.Exclude
+    private String phoneNumber;
+
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+
+        Person person = (Person) object;
+
+        if (!person.getName().equals(this.getName())) {
+            return false;
+        }
+        if (person.getAge() != this.getAge()) {
+            return false;
+        }
+        return true;
+    }
+
+    public int hashCode() {
+        return (name + age).hashCode();
+    }
+
+    @Test
+    void hashCodeAndEquals() {
+    
+        Person person1 = new Person("junhyuk", 28, "A");
+        Person person2 = new Person("junhyuk", 28, "B");
+
+        System.out.println(person1.equals(person2));
+        System.out.println(person1.hashCode());
+        System.out.println(person2.hashCode());
+
+        Map<Person, Integer> map = new HashMap<>();
+        map.put(person1, person1.getAge());
+
+        System.out.println(map);
+        System.out.println(map.get(person2));
+    }
 ```
 
