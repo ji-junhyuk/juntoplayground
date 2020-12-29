@@ -1,4 +1,4 @@
-package spring.HH.exception;
+package spring.HH.domain;
 
 import lombok.*;
 
@@ -37,4 +37,12 @@ public class Person {
 
     @ToString.Exclude
     private String phoneNumber;
+
+    private boolean block;
+
+    private boolean blockReason;
+
+    private boolean blockStartDate;
+
+    private boolean blockEndDate;
 }
