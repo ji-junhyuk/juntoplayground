@@ -21,7 +21,7 @@ class BlockRepositoryTest {
     void crud() {
 
         //Given
-        Block block = new Block();
+        Block block = new Block(); // Use NoArgsConstructor
         block.setName("junhyuk");
         block.setReason("so awesome");
         block.setStartDate(LocalDate.now());
