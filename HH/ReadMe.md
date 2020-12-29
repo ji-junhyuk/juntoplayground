@@ -359,6 +359,7 @@ class PersonServiceTest {
 ```
 
 ##### Block
+```java
 @Entity
 @Data
 @RequiredArgsConstructor // add (PersonRepositoryTest에서 name을 인자로 가지는 생성자가 있기 때문에, name에도 NonNull)
@@ -378,3 +379,4 @@ public class Block {
 
     private LocalDate endDate;
 }
+```
