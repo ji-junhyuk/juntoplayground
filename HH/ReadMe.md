@@ -380,3 +380,89 @@ public class Block {
     private LocalDate endDate;
 }
 ```
+
+##### PersonServiceTest 보완(JPA Relation) //junhyuk이름을 가진 아이 한명만 차단
+```java
+public class Person {
+
+    private boolean block; //delete
+
+    private boolean blockReason; //delete
+
+    private boolean blockStartDate; //delete
+
+    private boolean blockEndDate; //delete
+
+    @OneToOne
+    private Block block;
+}
+```
+
+```java
+@Service
+public class PersonService {
+
+    @Autowired
+    private PersonRepository personRepository;
+    
+    public List<Person> getPeopleExcludeBlocks() {
+        List<Person> people = personRepository.findAll();
+
+        return people.stream().filter(person -> person.getBlock() == null).collect(Collectors.toList());
+    }
+}
+
+```java
+@SpringBootTest
+class PersonServiceTest {
+
+    @Autowired
+    private PersonService personService;
+    @Autowired
+    private PersonRepository personRepository;
+    @Autowired
+    private BlockRepository blockRepository;
+
+    @Test
+    void getPeopleExcludeBlocks() {
+
+        //Given
+        givenPeoPle();
+        givenBlocks();
+
+        //When
+        List<Person> result = personService.getPeopleExcludeBlocks();
+
+        //Then
+//        System.out.println(result);
+        result.forEach(System.out::println);
+    }
+
+    private void givenPeoPle() {
+        givenPerson("junhyuk", 10, "B");
+        givenPerson("david", 9, "B");
+        givenPerson("dennis", 7, "O");
+        givenBlockPerson("junhyuk", 11, "AB");
+    }
+
+    private void givenBlocks() {
+        givenBlock("junhyuk");
+    }
+
+    private void givenPerson(String name, int age, String bloodType) {
+        personRepository.save(new Person(name, age, bloodType));
+    }
+
+    private void givenBlockPerson(String name, int age, String bloodType) {
+        Person blockPerson = new Person(name, age, bloodType);
+        blockPerson.setBlock(givenBlock(name));
+
+        personRepository.save(blockPerson);
+    }
+
+    private Block givenBlock(String name) {
+        return blockRepository.save(new Block(name));
+    }
+}
+```
+
