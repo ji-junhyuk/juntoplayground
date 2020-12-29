@@ -237,6 +237,9 @@ Person
 
 ##### Block
 ```java
+@Entity
+@Data
+
     @Id
     @GeneratedValue
     private Long id;
@@ -305,3 +308,73 @@ public class PersonService {
     }
 }
 ```
+
+##### PersonServiceTest
+```java
+@SpringBootTest
+class PersonServiceTest {
+
+    @Autowired
+    private PersonService personService;
+    @Autowired
+    private PersonRepository personRepository;
+    @Autowired
+    private BlockRepository blockRepository;
+
+    @Test
+    void getPeopleExcludeBlocks() {
+
+        //Given
+        givenPeoPle();
+        givenBlocks();
+
+        //When
+        List<Person> result = personService.getPeopleExcludeBlocks();
+
+        //Then
+//        System.out.println(result);
+        result.forEach(System.out::println);
+    }
+
+    private void givenPeoPle() {
+        givenPerson("junhyuk", 10, "B");
+        givenPerson("david", 9, "B");
+        givenPerson("dennis", 7, "O");
+        givenPerson("junhyuk", 11, "AB");
+    }
+
+    private void givenBlocks() {
+        givenBlock("junhyuk");
+    }
+
+    private void givenPerson(String name, int age, String bloodType) {
+        personRepository.save(new Person(name, age, bloodType));
+    }
+
+    private void givenBlock(String name) {
+        blockRepository.save(new Block(name));
+    }
+}
+//해당 getPeolpleExcludeBlocks를 실행하면 junhyuk이름을 가진 아이 둘 다 차단된다.
+```
+
+##### Block
+@Entity
+@Data
+@RequiredArgsConstructor // add (PersonRepositoryTest에서 name을 인자로 가지는 생성자가 있기 때문에, name에도 NonNull)
+@NoArgsConstructor // add (전에 사용하던 NoArgsContructor가 있기때문에, BlockRespositoryTest 에서 new Block (기본생성자)
+public class Block {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @NonNull
+    private String name;
+
+    private String reason;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+}
