@@ -224,3 +224,84 @@ Person
     }
 ```
 
+##### Person 
+```java
+    private boolean block;
+
+    private boolean blockReason;
+
+    private boolean blockStartDate;
+
+    private boolean blockEndDate;
+```
+
+##### Block
+```java
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
+
+    private String reason;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+```
+
+##### BlockRepository
+```java
+public interface BlockRepository extends JpaRepository<Block, Long> {
+}
+```
+
+##### BlockRepositoryTest
+```java
+@SpringBootTest
+class BlockRepositoryTest {
+
+    @Autowired
+    private BlockRepository blockRepository;
+
+    @Test
+    void crud() {
+
+        //Given
+        Block block = new Block();
+        block.setName("junhyuk");
+        block.setReason("so awesome");
+        block.setStartDate(LocalDate.now());
+        block.setEndDate(LocalDate.now());
+
+        blockRepository.save(block);
+
+        //When
+        List<Block> blocks = blockRepository.findAll();
+
+        //Then
+        assertThat(blocks.size()).isEqualTo(1);
+        assertThat(blocks.get(0).getName()).isEqualTo("junhyuk");
+    }
+```
+
+##### PersonService
+```java
+@Service
+public class PersonService {
+
+    @Autowired
+    private PersonRepository personRepository;
+    @Autowired
+    private BlockRepository blockRepository;
+
+    public List<Person> getPeopleExcludeBlocks() {
+        List<Person> people = personRepository.findAll();
+        List<Block> blocks = blockRepository.findAll();
+
+        List<String> blockNames = blocks.stream().map(Block::getName).collect(Collectors.toList());
+
+        return people.stream().filter(person -> !blockNames.contains(person.getName())).collect(Collectors.toList());
+    }
+}
+```
