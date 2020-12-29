@@ -56,7 +56,7 @@ class HelloWorldControllerTest {
 }
 ```
 
-###이론 
+## 이론 
 * JPA사용을 위한 의존성 추가하기
   * spring-boot-starter-data-jpa : JPA사용을 위한 스프링부트 스타터
   * h2 : 간단하게 사용할 수 있는 초경량 메모리 DB
@@ -181,6 +181,7 @@ class PersonRepositoryTest {
 
 ## 참고
 ##### bloodType에 @NonNull을 추가하고 person1, 2 혈액형 값을 다르게 주었을 때, 구현누락으로 해당 객체가 같다고 출력된다.
+Person
 ```java
     @ToString.Exclude
     private String phoneNumber;
