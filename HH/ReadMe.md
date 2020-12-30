@@ -665,3 +665,5 @@ PersonServiceTest
 // Jpa는 몇 가지 옵션을 통해 자동적으로 쿼리가 생성됨. 옵션을 잘 사용하도록 하는 것이 중요.
 // BlockPerson 2개 해제, fetch와 optional 삭제하여 원상복구함.
 ```
+![image](https://user-images.githubusercontent.com/67992469/103324875-7c868680-4a8c-11eb-9880-f447cc4cc804.png)
+
