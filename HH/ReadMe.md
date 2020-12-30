@@ -671,4 +671,145 @@ PersonServiceTest
 
 ![image](https://user-images.githubusercontent.com/67992469/103324875-7c868680-4a8c-11eb-9880-f447cc4cc804.png)
 
+##### PersonServiceTest
+```java
+    @Test
+    void getPeoPleByName() {
+    
+        //Given
+        givenPeoPle();
+        
+        //When
+        List<Person> result = personService.getPeopleByName("junhyuk");
+        
+        //Then
+        result.forEach(System.out::println);
+    }
+```
+##### PersonService
+```java
+    public List<Person> getPeopleByName(String name) {
+        List<Person> people = personRepository.findAll();
+
+        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
+    }
+// personServiceTest에 getPeopleByName 테스트 실행하면 junhyuk이름을 가진 2명이 출력되는 걸 확인.
+```
+
+##### PersonRepository 사용
+```java
+public interface PersonRepository extends JpaRepository<Person, Long> {
+
+    List<Person> findByName(String name); //find = select, By = where, Name = argument
+}
+```
+
+##### PersonService 수정
+```java
+    public List<Person> getPeopleByName(String name) {
+
+        return personRepository.findByName(name);
+    }
+```
+
+### PersonServiceTest
+```java
+    void getPeopleExcludeBlocks() {
+
+        //Given
+        givenPeoPle();
+
+        //When
+        List<Person> result = personService.getPeopleExcludeBlocks();
+
+        //Then
+//        System.out.println(result);
+        result.forEach(System.out::println);
+    }
+```
+
+##### PersonRepository 사용
+```java
+List<Person> findByBlockIsNull();
+```
+
+### PersonService 수정
+```java
+    public List<Person> getPeopleExcludeBlocks() {
+//        List<Person> people = personRepository.findAll();
+//        return people.stream().filter(person -> person.getBlock() == null).collect(Collectors.toList());
+        return personRepository.findByBlockIsNull();
+    }
+```
+
+##### PersonRepository 사용
+```java
+    List<Person> findByBloodType(String bloodType);
+```
+
+##### PersonRepositoryTest 
+```java
+    @Test
+    void findByBloodType() {
+
+        //Given
+        givenPerson("junhyuk", 28, "B");
+        givenPerson("Mary", 29, "A");
+        givenPerson("jacop", 27, "O");
+        givenPerson("sundae", 25, "AB");
+        givenPerson("sohee", 22, "A");
+
+        //When
+        List<Person> result = personRepository.findByBloodType("A");
+
+        //Then
+        result.forEach(System.out::println);
+    }
+
+    private void givenPerson(String name, int age, String bloodType) {
+        personRepository.save(new Person(name, age, bloodType));
+    }
+}
+```
+
+##### PersonRepository 사용
+```java
+List<Person> findByBirthdayBetween(LocalDate startDate, LocalDate endDate);
+```
+
+##### PersonRepositoryTest
+    @Test
+    void findByBirthdayBetween() {
+
+        //Given
+        givenPerson("junhyuk", 28, "B", LocalDate.of(1994, 3, 3));
+        givenPerson("Mary", 29, "A", LocalDate.of(1993, 8, 15));
+        givenPerson("jacop", 27, "O", LocalDate.of(1995, 12, 31));
+        givenPerson("sundae", 25, "AB", LocalDate.of(1997, 2, 11));
+        givenPerson("sohee", 22, "A", LocalDate.of(2000, 8, 7));
+
+        //When
+        List<Person> result = personRepository.findByBirthdayBetween(LocalDate.of(1993, 1, 1), LocalDate.of(2000, 12, 31));
+
+        //Then
+        result.forEach(System.out::println);
+    }
+
+//Method Overriding 
+
+    private void givenPerson(String name, int age, String bloodType) {  
+        givenPerson(name, age, bloodType, null);
+    }
+
+    private void givenPerson(String name, int age, String bloodType, LocalDate birthday) {
+        Person person = new Person(name, age, bloodType);
+        person.setBirthday(birthday);
+
+        personRepository.save(person);
+    }
+}
+
+## 8월 생일인 사람을 축하해주기 위해 8월생을 찾을려면 어떻게 테스트 로직을 만들어야할까? (LocalDate는 년/월/일 입력)
+
+
 
