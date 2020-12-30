@@ -810,7 +810,208 @@ List<Person> findByBirthdayBetween(LocalDate startDate, LocalDate endDate);
     }
 }
 ```
-## 8월 생일인 사람을 축하해주기 위해 8월생을 찾을려면 어떻게 테스트 로직을 만들어야할까? (LocalDate는 년/월/일 입력)
+## 8월 생일인 사람을 축하해주기 위해 8월생을 찾을려면 어떻게 테스트 로직을 만들어야할까? (LocalDate는 년/월/일 입력
+## 이론
+* @Embedded
+  * 다른 객체를 Entity의 속성으로 가져옴
+* @Embeddable
+  * 자기 객체를 다른 Entity의 속성으로 사용할 수 있음
+* @Query
+  * Naming 컨벤션에 따라 생성되는 쿼리가 아니라, 커스터마이징된 쿼리를 직접 지정하여 생성함
+  * ?1 (숫자)를 통해서 parameter를 순서대로 주입하여 사용할 수 있음
+  * @Param("A")으로 parameter를 받게 되면, :A로 파라미터를 주입하여 사용할 수 있음
+  * `nativeQuery=true`를 사용하게 되면, JPQL이 아니라 써준 그대로 네이티브 쿼리를 생성해줌
+* @Valid
+  * 해당 객체의 유효성을 검토하겠다는 것을 의미함
+* @Min
+  * 숫자관련 필드에서 최소값은 얼마인지 정의함
+* @Max
+  * 숫자관련 필드에서 최대값은 얼마인지 정의함
+
+##### domain/dto Birthday
+```java
+@Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class Birthday {
+    
+    private int yearOfBirthday;
+    private int monthOfBirthday;
+    private int dayOfBirthday;
+}
+```
+##### Person
+```java
+@Embedded
+private Birthday birthday;
+```
+
+##### PersonRepositoryTest
+```java
+    private void givenPerson(String name, int age, String bloodType, LocalDate birthday) {
+        Person person = new Person(name, age, bloodType);
+        person.setBirthday(new Birthday(birthday.getYear(), birthday.getMonthValue(), birthday.getDayOfMonth()));
+
+        personRepository.save(person);
+    }
+```
+
+##### PersonRepositoryTest  
+```java
+    @Test
+    void findByBirthdayBetween() {
+    ...
+    List<Person> result = personRepository.findByMonthOfBirthday(8);
+    ...
+    }
+```
+```java
+@Query(value = "select person from Person person where person.birthday.monthOfBirthday = ?1")
+    List<Person> findByMonthOfBirthday(int monthOfBirthday);
+// findByBirthdayBetween 테스트를 실행이 성공한다.
+``` 
+
+##### 8/7일생 추출하기
+```java
+@Query(value = "select person from Person person where person.birthday.monthOfBirthday = ?1 and person.birthday.dayOfBirthday = ?2")
+    List<Person> findByMonthOfBirthday(int monthOfBirthday, int dayOfBirthday);
+
+List<Person> result = personRepository.findByMonthOfBirthday(8, 7);
+```
+
+##### JPQL ?숫자 보다는 이름 매핑이 더 좋다
+```java
+@Query(value = "select person from Person person where person.birthday.monthOfBirthday = :monthOfBirthday and person.birthday.dayOfBirthday = :dayOfBirthday")
+    List<Person> findByMonthOfBirthday(@Param("monthOfBirthday") int monthOfBirthday, @Param("dayOfBirthday") int dayOfBirthday);
+```
+
+##### native query 옵션을 사용하게 되면 JPQL이 아니라 네이티브 쿼리로 작성할 수 있다.
+```java
+@Query(value = "select * from person where month_of_birthday = :monthOfBirthday and day_of_birthday = :dayOfBirthday", nativeQuery = true)
+    List<Person> findByMonthOfBirthday(@Param("monthOfBirthday") int monthOfBirthday, @Param("dayOfBirthday") int dayOfBirthday);
+```
+
+##### 8월 생일생 찾는 로직으로 원상복귀, 13월생을 찾는 것이 테스트코트에서 정상실행된다.
+```java
+  List<Person> result = personRepository.findByMonthOfBirthday(13);
+
+  private void givenPerson(String name, int age, String bloodType, LocalDate birthday) {
+        Person person = new Person(name, age, bloodType);
+        person.setBirthday(new Birthday(birthday.getYear(), 13, birthday.getDayOfMonth()));
+```
+
+```java
+Person
+    @Embedded
+    @Valid
+    private Birthday birthday;
+
+    private String job;
+
+Birthday
+    @Min(1)
+    @Max(12)
+    private int monthOfBirthday;
+
+    @Min(1)
+    @Max(31)
+    private int dayOfBirthday;
+// 13월생 찾는 것이 테스트코드에서 실패한다. 
+
+List<Person> result = personRepository.findByMonthOfBirthday(2);
+
+private void givenPerson(String name, int age, String bloodType, LocalDate birthday) {
+        Person person = new Person(name, age, bloodType);
+        person.setBirthday(new Birthday(birthday.getYear(), 2, 30));
+
+// 2월 30일은 없지만, 문법적으로 문제가 없기에 정상실행된다.
+``` 
+
+##### 날짜 타입으로 매핑하기
+```java
+@Embeddable
+@Data
+public class Birthday {
+
+    private int yearOfBirthday;
+
+    @Min(1)
+    @Max(12)
+    private int monthOfBirthday;
+
+    @Min(1)
+    @Max(31)
+    private int dayOfBirthday;
+
+    public Birthday(LocalDate birthday) {
+        this.yearOfBirthday = birthday.getYear();
+        this.monthOfBirthday = birthday.getMonthValue();
+        this.dayOfBirthday = birthday.getDayOfMonth();
+    }
+}
+```
+```java
+givenPerson("junhyuk", 28, "B", LocalDate.of(1994, 2, 30));
+
+List<Person> result = personRepository.findByMonthOfBirthday(2);
+
+person.setBirthday(new Birthday(birthday));
+
+// 2월 30일은 유효하지 않은 날짜타입이라고 출력된다.
+// 3/3일로 바꾸고, 3월생 찾기로 하고 생성자 추가하고 마무리한다.
+```
+
+##### JPA data.sql 사용하기, 테스트케이스 정리 (test/resources/data.sql)
+```java
+insert into person(`id`, `name`, `age`, `blood_type`) values (1, 'junhyuk', 28, 'B');
+
+// PersonRepositoryTest crud 실행, birthday(NotNull)이라 에러
+// Birthday int 를 Integer로 바꾸고 테스트 실행
+// Person, GeneratedValue = stategy.IDENTITY 로 변경
+```
+##### PersonRepository crud 테스트 수정
+```java
+    @Test
+    void crud() {
+
+        //Given
+        Person person = new Person();
+        person.setName("junhyuk");
+        person.setAge(28);
+        person.setBloodType("B");
+
+        personRepository.save(person);
+
+        //When
+        List<Person> people = personRepository.findByName("junhyuk");
+
+        //Then
+        assertThat(people.size()).isEqualTo(1);
+        assertThat(people.get(0).getName()).isEqualTo("junhyuk");
+        assertThat(people.get(0).getAge()).isEqualTo(28);
+    }
+
+// hashequals 삭제
+
+insert into person(`id`, `name`, `age`, `blood_type`) values (1, 'junhyuk', 28, 'B');
+insert into person(`id`, `name`, `age`, `blood_type`) values (2, 'mary', 31, 'A');
+insert into person(`id`, `name`, `age`, `blood_type`) values (3, 'sun', 33, 'O');
+insert into person(`id`, `name`, `age`, `blood_type`) values (4, 'proom', 21, 'A');
+insert into person(`id`, `name`, `age`, `blood_type`) values (5, 'malgum', 24, 'B');
+
+//given person 모두 삭제
+//많이 찾아봤지만. data.sql 이 적용이 안된다. 그냥 일일히 테스트 케이스에 추가하도록 하자.
+//테스트 케이스 나중에 정리하도록 하자.
+```
+
+## 이론
+
+
+
+
+
+
 
 
 
