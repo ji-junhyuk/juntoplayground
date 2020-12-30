@@ -505,9 +505,10 @@ public class Person {
     @OneToOne(cascade = CascadeType.PERSIST) // TransientPropertyValueException 해결, Person엔티티에서 block엔티티까지 함께 관리하겠다!
     private Block block;
 }
-
-##### PersonServiceTest에 casecadeTest 추가(casecade 동작원리를 알아보기 위해서) 
 ```
+##### PersonServiceTest에 casecadeTest 추가(casecade 동작원리를 알아보기 위해서) 
+
+```java
     @Test
     void casecadeTest() {
 
@@ -538,6 +539,7 @@ public class Person {
     private Block block;
 
 //Remove를 추가하면 blockRepository에 Remove한 person(3)이 반영된다.
+```
 
 ##### cascadeTest에 OrphanRemoval 테스트
 ```java
@@ -640,8 +642,8 @@ public class PersonService {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private Block block;
-```
 // person 쿼리 하나만 실행됨. block 쿼리는 실행되지 않음. 불필요한 쿼리 호출 줄이는 데 도움이 된다.
+```
 
 ```java
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, optional = false)
@@ -659,9 +661,7 @@ PersonServiceTest
         givenBlockPerson("dennis", 7, "O");
         givenBlockPerson("junhyuk", 11, "AB");
     }
-```
-// inner join으로 변경됨.
+// Eager 타입으로 변경 시 left Outer join, 하지만 Optional=false 이기때문에 쿼리 문이 inner join으로 실행됨.
 // Jpa는 몇 가지 옵션을 통해 자동적으로 쿼리가 생성됨. 옵션을 잘 사용하도록 하는 것이 중요.
-// BlockPerson 2개 해제, fetch와 optional 삭제
-
-
+// BlockPerson 2개 해제, fetch와 optional 삭제하여 원상복구함.
+```
