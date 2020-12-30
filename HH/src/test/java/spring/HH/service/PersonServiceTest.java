@@ -3,17 +3,21 @@ package spring.HH.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import spring.HH.domain.Block;
 import spring.HH.domain.Person;
 import spring.HH.repository.BlockRepository;
 import spring.HH.repository.PersonRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class PersonServiceTest {
 
     @Autowired
@@ -29,12 +33,18 @@ class PersonServiceTest {
         //Given
         givenPeoPle();
 
+        Block block = new Block();
+        block.setName("junhyuk");
+        blockRepository.save(block);
+
+
         //When
         List<Person> result = personService.getPeopleExcludeBlocks();
 
         //Then
-//        System.out.println(result);
-        result.forEach(System.out::println);
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.get(0).getName()).isEqualTo("junhyuk");
+        assertThat(result.get(1).getName()).isEqualTo("david");
     }
 
     @Test
@@ -44,35 +54,10 @@ class PersonServiceTest {
         givenPeoPle();
 
         //When
-        List<Person> result = personService.getPeopleByName("junhyuk");
+        List<Person> result = personService.getPeopleByName("dennis");
 
         //Then
-        result.forEach(System.out::println);
-    }
-
-    @Test
-    void casecadeTest() {
-
-        givenPeoPle();
-
-        List<Person> result = personRepository.findAll();
-        result.forEach(System.out::println);
-
-        Person person = result.get(3);
-        person.getBlock().setStartDate(LocalDate.now());
-        person.getBlock().setEndDate(LocalDate.now());
-
-        personRepository.save(person);
-        personRepository.findAll().forEach(System.out::println);
-
-//        personRepository.delete(person);
-//        personRepository.findAll().forEach(System.out::println);
-//        blockRepository.findAll().forEach(System.out::println);
-
-        person.setBlock(null);
-        personRepository.save(person);
-        personRepository.findAll().forEach(System.out::println);
-        blockRepository.findAll().forEach(System.out::println);
+        assertThat(result.size()).isEqualTo(1);
     }
 
     @Test
@@ -81,11 +66,11 @@ class PersonServiceTest {
         //Given
         givenPeoPle();
 
-        //When
-        Person person = personService.getPerson(3L);
+        //WhenExcludeBlock
+        Person result = personService.getPerson(1L);
 
         //Then
-        System.out.println(person);
+        assertThat(result.getName()).isEqualTo("junhyuk");
     }
 
     private void givenPeoPle() {
@@ -98,6 +83,7 @@ class PersonServiceTest {
     private void givenPerson(String name, int age, String bloodType) {
         personRepository.save(new Person(name, age, bloodType));
     }
+
 
     private void givenBlockPerson(String name, int age, String bloodType) {
         Person blockPerson = new Person(name, age, bloodType);
