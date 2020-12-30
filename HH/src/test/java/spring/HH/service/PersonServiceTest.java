@@ -38,6 +38,19 @@ class PersonServiceTest {
     }
 
     @Test
+    void getPeoPleByName() {
+
+        //Given
+        givenPeoPle();
+
+        //When
+        List<Person> result = personService.getPeopleByName("junhyuk");
+
+        //Then
+        result.forEach(System.out::println);
+    }
+
+    @Test
     void casecadeTest() {
 
         givenPeoPle();
@@ -73,7 +86,6 @@ class PersonServiceTest {
 
         //Then
         System.out.println(person);
-
     }
 
     private void givenPeoPle() {
