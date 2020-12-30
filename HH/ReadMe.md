@@ -667,7 +667,7 @@ PersonServiceTest
 ```
 
 ##### JPA Query Method (find = select, By = where ...)
-[참조 링크](https://docs.spring.io/spring-data/jpa/docs/1.4.3.RELEASE/reference/htmlsingle/#repository-query-keywords "spring"으로 이동합니다.)
+[참조 링크](https://docs.spring.io/spring-data/jpa/docs/1.4.3.RELEASE/reference/htmlsingle/#repository-query-keywords "spring")
 
 ![image](https://user-images.githubusercontent.com/67992469/103324875-7c868680-4a8c-11eb-9880-f447cc4cc804.png)
 
