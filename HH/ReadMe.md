@@ -132,7 +132,6 @@ public class Person {
     private String phoneNumber;
 }
 
-```java
 @SpringBootTest
 class PersonRepositoryTest {
 
@@ -381,6 +380,32 @@ public class Block {
 }
 ```
 
+## 이론
+* @OneToOne
+  * Entity를 1:1 관계로 연결해주는 어노테이션
+  * `optional=false`이면 `inner join`으로 쿼리가 생성됨
+  * `optional=true`로 하면 `left outer join`으로 쿼리가 생성됨
+
+* cascade
+  * 관련된 entity의 영속성을 함께 관리할 수 있도록 해줌
+  * CascadeType.PERSIST
+    * insert할 경우 관련 entity도 함께 insert함
+  * CascadeType.MERGE 
+    * update할 경우 관련 entity도 함께 update함
+  * CascadeType.REMOVE 
+    * delete할 경우 관련 entity도 함께 delete함
+  * CascadeType.ALL
+    * 모든 케이스에 대해 영속성을 함께 관리함
+* orphanRemoval (default = false)
+  * 관련 entity의 relation이 사라질 때, entity를 함께 삭제해줌
+
+* fetch (default = EAGER)
+  * FetchType.EAGER 
+    * 항상 relation이 있는 entity를 join하여 값을 함께 가져옴
+  * FetchType.LAZY 
+    * 해당 객체가 필요한 시점에 id를 통해 새로 select해서 값을 가져옴
+
+
 ##### PersonServiceTest 보완(JPA Relation) //junhyuk이름을 가진 아이 한명만 차단
 ```java
 public class Person {
@@ -396,9 +421,7 @@ public class Person {
     @OneToOne
     private Block block;
 }
-```
 
-```java
 @Service
 public class PersonService {
 
@@ -412,7 +435,6 @@ public class PersonService {
     }
 }
 
-```java
 @SpringBootTest
 class PersonServiceTest {
 
@@ -465,4 +487,181 @@ class PersonServiceTest {
     }
 }
 ```
+
+##### PersonServiceTest 에서 givenblock을 new Block으로 수정하면 TransientPropertyValueException 발생 (new Block)코드
+```java
+    private void givenBlockPerson(String name, int age, String bloodType) {
+        Person blockPerson = new Person(name, age, bloodType);
+        blockPerson.setBlock(new Block(name));
+
+        personRepository.save(blockPerson);
+    }
+//추가로 givenBlock 관련 메소드(2) 삭제하도록 한다.
+```
+
+
+```java
+public class Person {
+    @OneToOne(cascade = CascadeType.PERSIST) // TransientPropertyValueException 해결, Person엔티티에서 block엔티티까지 함께 관리하겠다!
+    private Block block;
+}
+
+##### PersonServiceTest에 casecadeTest 추가(casecade 동작원리를 알아보기 위해서) 
+```
+    @Test
+    void casecadeTest() {
+
+        givenPeoPle();
+        
+        List<Person> result = personRepository.findAll();
+        result.forEach(System.out::println);
+        
+        Person person = result.get(3);
+        person.getBlock().setStartDate(LocalDate.now());
+        person.getBlock().setEndDate(LocalDate.now());
+
+        personRepository.save(person);
+        personRepository.findAll().forEach(System.out::println);
+    }
+
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Block block;
+
+//MERGE를 추가하면 LocalDate.now 정보가 db에 반영된다.
+
+        personRepository.delete(person);
+        personRepository.findAll().forEach(System.out::println);
+        blockRepository.findAll().forEach(System.out::println);
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private Block block;
+
+//Remove를 추가하면 blockRepository에 Remove한 person(3)이 반영된다.
+
+##### cascadeTest에 OrphanRemoval 테스트
+```java
+    @Test
+    void casecadeTest() {
+
+        givenPeoPle();
+
+        List<Person> result = personRepository.findAll();
+        result.forEach(System.out::println);
+
+        Person person = result.get(3);
+        person.getBlock().setStartDate(LocalDate.now());
+        person.getBlock().setEndDate(LocalDate.now());
+
+        personRepository.save(person);
+        personRepository.findAll().forEach(System.out::println);
+
+//        personRepository.delete(person);
+//        personRepository.findAll().forEach(System.out::println);
+//        blockRepository.findAll().forEach(System.out::println);
+ 
+        person.setBlock(null);
+        personRepository.save(person);
+        personRepository.findAll().forEach(System.out::println);
+        blockRepository.findAll().forEach(System.out::println);
+    }
+
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Block block;
+
+
+//block이 해제되는 순간 blockRepository에도 반영된다. 불필요한 엔티티를 관리할 수 있게 된다.
+```
+
+##### fetch Test
+```java
+@Service
+@Slf4j
+public class PersonService {
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    public List<Person> getPeopleExcludeBlocks() {
+        List<Person> people = personRepository.findAll();
+
+        return people.stream().filter(person -> person.getBlock() == null).collect(Collectors.toList());
+    }
+
+    public Person getPerson(Long id) {
+        Person person = personRepository.findById(id).get();
+
+//        System.out.println("person = " + person);
+        log.info("person: {}", person);
+        
+        return person;
+    }
+}
+```
+
+##### PersonServiceTest 에 getPerson Test 추가
+```java
+    @Test
+    void getPerson() {
+
+        //Given
+        givenPeoPle();
+
+        //When
+        Person person = personService.getPerson(3L);
+
+        //Then
+        System.out.println(person);
+
+    }
+// PersonService에 추가한 log 형식에 맞춰 log가 출력되는 걸 확인할 수 있음.
+// Eager 타입이기 때문에 left outer join으로 block문이 하나의 쿼리문으로 실행된 걸 확인할 수 있음.
+
+public class Person {
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Block block;
+}
+
+public class PersonService {
+
+    @Transactional(readOnly = true)
+    public Person getPerson(Long id) {
+        Person person = personRepository.findById(id).get();
+    }
+}
+// Eager 타입을 LAZY타입으로 바꾸고, @Transactional 옵션을 추가하고 다시 getPerson Test를 실행시킴.
+// select 문이 2개로 나누어서 동작한다. 하나는 from person으로 동작하고, 다른 하나는 from block 으로 동작함.
+// Lazy를 하는 경우 실제로 Person객체를 호출할 때 block을 select를 하지 않고 block객체가 필요한 시점에 block id를 통해 select를 함.
+// 여기서는 person과 block이 한번에 찍힌 이유는 log를 찍었기 때문에 person과 block이 한번에 호출된 것이다.
+```
+
+```java
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Block block;
+```
+// person 쿼리 하나만 실행됨. block 쿼리는 실행되지 않음. 불필요한 쿼리 호출 줄이는 데 도움이 된다.
+
+```java
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, optional = false)
+    @ToString.Exclude
+    private Block block;
+
+// Eager로 변경하게 되면 left outer join으로 쿼리문이 실행됨
+// optional 기본값은 true, false로 주게되면 block의 값이 항상 필요하다는 의미가 된다.
+
+PersonServiceTest
+
+    private void givenPeoPle() {
+        givenBlockPerson("junhyuk", 10, "B");
+        givenBlockPerson("david", 9, "B");
+        givenBlockPerson("dennis", 7, "O");
+        givenBlockPerson("junhyuk", 11, "AB");
+    }
+```
+// inner join으로 변경됨.
+// Jpa는 몇 가지 옵션을 통해 자동적으로 쿼리가 생성됨. 옵션을 잘 사용하도록 하는 것이 중요.
+// BlockPerson 2개 해제, fetch와 optional 삭제
+
 
