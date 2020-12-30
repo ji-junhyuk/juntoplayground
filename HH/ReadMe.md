@@ -778,6 +778,7 @@ List<Person> findByBirthdayBetween(LocalDate startDate, LocalDate endDate);
 ```
 
 ##### PersonRepositoryTest
+```java
     @Test
     void findByBirthdayBetween() {
 
@@ -808,7 +809,7 @@ List<Person> findByBirthdayBetween(LocalDate startDate, LocalDate endDate);
         personRepository.save(person);
     }
 }
-
+```
 ## 8월 생일인 사람을 축하해주기 위해 8월생을 찾을려면 어떻게 테스트 로직을 만들어야할까? (LocalDate는 년/월/일 입력)
 
 
