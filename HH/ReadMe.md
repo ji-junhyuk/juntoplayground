@@ -1006,6 +1006,235 @@ insert into person(`id`, `name`, `age`, `blood_type`) values (5, 'malgum', 24, '
 ```
 
 ## 이론
+* @GetMapping
+  * Get 메소드의 Http 요청을 받을 수 있는 메소드임을 명시하는 어노테이션
+* @PathVariable
+  * Rest의 Url의 값을 읽어서 메소드의 파라미터로 매핑시킬 수 있도록 도와줌
+  * {id}로 표기하면, 해당 위치에 들어오는 문자열을 id 파라미터에 할당해줌
+
+```java
+@RestController
+@RequestMapping(value = "/api/person")
+public class PersonController {
+
+    @Autowired
+    private PersonService personService;
+
+    @GetMapping
+    public Person getPerson(Long id) {
+        return personService.getPerson(id);
+    }
+}
+```
+
+```
+GET http://localhost:8080/api/helloWorld
+
+###
+
+GET http://localhost:8080/api/person?id=1
+
+###
+```
+
+```java
+    @Transactional(readOnly = true)
+    public Person getPerson(Long id) {
+       
+        Optional<Person> person = personRepository.findById(id);
+
+        if (person.isPresent()) {
+            return person.get();
+        } else {
+            return null;
+        }
+        
+//        System.out.println("person = " + person);
+//        log.info("person: {}", person);
+
+//        return person;
+    }
+}
+```
+
+```java
+@Transactional(readOnly = true)
+    public Person getPerson(Long id) {
+
+        Person person = personRepository.findById(id).orElse(null);
+
+        log.info("person: {}", person);
+
+        return person;
+    }
+}
+```
+
+```java
+    @GetMapping
+    @RequestMapping(value = "{id}")
+    public Person getPerson(@PathVariable Long id) {
+        return personService.getPerson(id);
+    }
+}
+```
+```
+GET http://localhost:8080/api/person/1
+```
+```java
+@SpringBootTest
+class PersonControllerTest {
+
+    @Autowired
+    private PersonController personController;
+
+    private MockMvc mockMvc;
+
+    @Test
+    void getPerson() throws Exception {
+
+        //Given
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+
+        //Then
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/person/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+}
+```
+```java
+@RestController
+@RequestMapping(value = "/api/person")
+public class PersonController {
+
+    @Autowired
+    private PersonService personService;
+
+    @GetMapping(value = "{id}")
+    public Person getPerson(@PathVariable Long id) {
+        
+        return personService.getPerson(id);
+    }
+}
+```
+
+## 이론
+* @PostMapping
+  * Post 메소드의 Http 요청을 받을 수 있는 메소드임을 명시하는 어노테이션
+* @RequestBody
+  * Request Body에 있는 데이터를 읽어서 파라미터로 매핑할 수 있도록 도와줌
+* @ResponseStatus
+  * http 응답에 대한 코드값을 지정한 값으로 변경할 수 있음
+
+##### PersonService
+```java
+    @Transactional
+    public void put(Person person) {
+
+        personRepository.save(person);
+    }
+```
+```java
+    @PostMapping
+    public void postPerson(Person person) {
+
+        personService.put(person);
+
+        log.info("person -> {}", personRepository.findAll());
+    }
+```
+
+##### PersonServiceTest, Person
+```java
+    @Autowired
+    private PersonController personController;
+
+    private MockMvc mockMvc;
+
+    @Test
+    void postPerson() throws Exception {
+
+        //Given
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+//실행하면 Person에 NotNull들에 NULL값들이 채워져 있는 것을 알 수 있다.
+
+    @NonNull
+    @NotEmpty
+    @Column(nullable = false)
+    private String name;
+
+    @NonNull
+    @Min(1)
+    private int age;
+
+    private String hobby;
+
+    @NonNull
+    @NotEmpty
+    @Column(nullable = false)
+    private String bloodType;
+
+    private String address;
+```
+
+```java
+ mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person?name=junhyuk&age=28&bloodType=B"))
+                .andDo(print())
+                .andExpect(status().isOk());
+//Parameters = {name=[junhyuk], age=[28], bloodType=[B]} 출력된다. 이것을 Body에 넣으려면...
+```
+```java
+    @PostMapping
+    //postPerson(Person person) no annotation, Use RequestParam
+    public void postPerson(@RequestBody Person person) {
+
+        personService.put(person);
+
+        log.info("person -> {}", personRepository.findAll());
+    }
+```
+```java
+    @Test
+    void postPerson() throws Exception {
+
+        //Given
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+        .content("{\n" +
+                "    \"name\": \"junhyuk\",\n" +
+                "    \"age\": 20,\n" +
+                "    \"bloodType\": \"B\"\n" +
+                "}"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+// PostMapping (잘 생성되었는지 201번 테스트)
+// 어노테이션 추가
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+
+// testcase 수정
+.andExpect(status().isCreated());
+```
+
+
+
+
 
 
 
