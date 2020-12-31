@@ -37,7 +37,6 @@ class PersonServiceTest {
         block.setName("junhyuk");
         blockRepository.save(block);
 
-
         //When
         List<Person> result = personService.getPeopleExcludeBlocks();
 

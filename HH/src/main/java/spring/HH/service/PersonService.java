@@ -10,6 +10,7 @@ import spring.HH.repository.BlockRepository;
 import spring.HH.repository.PersonRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,11 +32,17 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public Person getPerson(Long id) {
-        Person person = personRepository.findById(id).get();
 
-//        System.out.println("person = " + person);
+        Person person = personRepository.findById(id).orElse(null);
+
         log.info("person: {}", person);
 
         return person;
+    }
+
+    @Transactional
+    public void put(Person person) {
+
+        personRepository.save(person);
     }
 }
