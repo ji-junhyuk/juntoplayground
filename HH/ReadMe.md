@@ -1111,7 +1111,7 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping(value = "{id}")
+    @GetMapping("/{id}")
     public Person getPerson(@PathVariable Long id) {
         
         return personService.getPerson(id);
@@ -1231,6 +1231,230 @@ public class PersonController {
 // testcase 수정
 .andExpect(status().isCreated());
 ```
+
+## 이론
+* @PutMapping
+  * Put 메소드의 Http 요청을 받을 수 있는 메소드임을 명시하는 어노테이션
+* @PatchMapping
+  * Patch 메소드의 Http 요청을 받을 수 있는 메소드임을 명시하는 어노테이션
+```java 
+//personController
+    @PutMapping("/{id}"}
+    public void modifyPerson(@PathVariable Long id, @RequestBody PersonDto personDto) {
+        personService.modify(id, personDto);
+
+        log.info("person -> {}", personRepository.findAll());
+    }
+```
+```java
+//personService
+     @Transactional
+    public void modify(Long id, PersonDto personDto) {
+        Person personAtDb = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+        
+	if (!personAtDb.getName().equals(personDto.getName())) {
+            throw new RuntimeException("Name is different.");
+        }
+
+        personAtDb.setName(personDto.getName());
+        personAtDb.setPhoneNumber(personDto.getPhoneNumber());
+        personAtDb.setJob(personDto.getJob());
+        
+        if (personDto.getBirthday() != null) {
+            personAtDb.setBirthday(new Birthday(personDto.getBirthday()));
+        }
+        
+        personAtDb.setAddress(personDto.getAddress());
+        personAtDb.setBloodType(personDto.getBloodType());
+        personAtDb.setHobby(personDto.getHobby());
+        personAtDb.setAge(personDto.getAge());
+
+        personRepository.save(personAtDb);
+    }
+```
+```java
+@Data
+public class PersonDto {
+
+    private String name;
+    private int age;
+    private String hobby;
+    private String bloodType;
+    private String address;
+    private LocalDate birthday; //Birthday birthday, return type (year, month, day)...
+    private String job;
+    private String phoneNumber;
+}
+```
+
+##### Person 로직 수정
+```java
+    public void set(PersonDto personDto) {
+        if (personDto.getAge() != 0) {
+            this.setAge(personDto.getAge());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getHobby())) {
+            this.setHobby(personDto.getHobby());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getBloodType())) {
+            this.setBloodType(personDto.getBloodType());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getAddress())) {
+            this.setAddress(personDto.getAddress());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getJob())) {
+            this.setJob(personDto.getJob());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getPhoneNumber())) {
+            this.setPhoneNumber(personDto.getPhoneNumber());
+        }
+    }
+```
+##### PersonService
+```java
+    @Transactional
+    public void modify(Long id, PersonDto personDto) {
+        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+
+        if (!person.getName().equals(personDto.getName())) {
+            throw new RuntimeException("Name is different.");
+        }
+
+        person.set(personDto);
+        
+        personRepository.save(person);
+    }
+}
+```
+
+##### Person의 이름만 수정하는 API
+```java
+    @PatchMapping("/{id}")
+    public void modifyPerson(@PathVariable Long id, String name) {
+        personService.modify(id, name);
+
+        log.info("person -> {}", personRepository.findAll());
+    }
+```
+```java
+    @Transactional
+    public void modify(Long id, String name) {
+        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+
+        person.setName(name);
+
+        personRepository.save(person);
+    }
+```
+```
+    @Test
+    void modifyName() throws Exception {
+
+        //Given
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/api/person/1")
+                        .param("name", "junhyuk"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+```    
+## 이론
+* @DeleteMapping
+  * Delete 메소드의 Http 요청을 받을 수 있는 메소드임을 명시하는 어노테이션 
+
+```java
+    @DeleteMapping("/{id}")
+    public void deletePerson(@PathVariable Long id) {
+        personService.delete(id);
+
+        log.info("person -> {}", personRepository.findAll());
+    }
+```
+```java
+    @Transactional
+    public void delete(Long id) {
+//        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+//        personRepository.delete(person);
+
+        personRepository.deleteById(id);
+    }
+```
+```java
+    @BeforeEach
+    void beforeEach() {
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+    }
+    
+    ...
+    
+    @Test
+    void deletePerson() throws Exception {
+
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/api/person/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+```
+
+##### delete하는 방식을 소프트하게 수정 (현업에서 쓰는 방식)
+```java
+//Person
+@Where(clause = "deleted = false")
+
+    @ToString.Exclude
+    private String phoneNumber;
+    
+    @ColumnDefault("0")
+    private boolean deleted;
+```
+
+```java
+    @Transactional
+    public void delete(Long id) {
+//        One way
+//        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+//        personRepository.delete(person);
+
+//        Two way
+//        personRepository.deleteById(id);
+
+        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+
+        person.setDeleted(true);
+
+        personRepository.save(person);
+    }
+```  
+
+##### Where 을 붙이게 되면 id가 삭제되어 쿼리문이 나간다. 삭제된 내용을 보고 싶다면
+```java
+//personRepository
+    @Query(value = "select person from Person person where person.deleted = true", nativeQuery = true)
+    List<Person> findPeopleDeleted();
+}
+
+//PersonControllerTest
+    @Autowired
+    private PersonRepository personRepository;
+    
+    deletePerson에 
+          //log.info(people deleted: {}, personRepository.findPeopleDeleted()); 
+	  하지만, log가 테스트케이스에선 적용이 안됨.
+    
+    
+
+
+  
 
 
 
