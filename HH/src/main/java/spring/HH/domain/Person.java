@@ -1,6 +1,11 @@
 package spring.HH.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
+import spring.HH.controller.dto.PersonDto;
 import spring.HH.domain.dto.Birthday;
 
 import javax.persistence.*;
@@ -14,6 +19,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
+@Where(clause = "deleted = false")
 public class Person {
 
     @Id
@@ -47,7 +53,36 @@ public class Person {
     @ToString.Exclude
     private String phoneNumber;
 
+    @ColumnDefault("0")
+    private boolean deleted;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private Block block;
+
+    public void set(PersonDto personDto) {
+        if (personDto.getAge() != 0) {
+            this.setAge(personDto.getAge());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getHobby())) {
+            this.setHobby(personDto.getHobby());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getBloodType())) {
+            this.setBloodType(personDto.getBloodType());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getAddress())) {
+            this.setAddress(personDto.getAddress());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getJob())) {
+            this.setJob(personDto.getJob());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getPhoneNumber())) {
+            this.setPhoneNumber(personDto.getPhoneNumber());
+        }
+    }
 }
