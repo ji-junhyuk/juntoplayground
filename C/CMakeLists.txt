@@ -3,4 +3,4 @@ project(C C)
 
 set(CMAKE_C_STANDARD 90)
 
-add_executable(C )
+add_executable(C algorithm/sum_for.c)
