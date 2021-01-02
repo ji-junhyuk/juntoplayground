@@ -1450,7 +1450,10 @@ public class PersonDto {
     deletePerson에 
           //log.info(people deleted: {}, personRepository.findPeopleDeleted()); 
 	  하지만, log가 테스트케이스에선 적용이 안됨.
-    
+```
+
+## 리팩토링 도메인 코드
+
     
 
 
