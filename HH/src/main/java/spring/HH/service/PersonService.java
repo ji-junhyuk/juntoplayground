@@ -17,11 +17,6 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public List<Person> getPeopleExcludeBlocks() {
-
-        return personRepository.findByBlockIsNull();
-    }
-
     public List<Person> getPeopleByName(String name) {
 
         return personRepository.findByName(name);

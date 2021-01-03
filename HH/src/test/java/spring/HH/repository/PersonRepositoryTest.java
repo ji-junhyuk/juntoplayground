@@ -59,7 +59,7 @@ class PersonRepositoryTest {
 
     private void givenPerson(String name, LocalDate birthday) {
         Person person = new Person(name);
-        person.setBirthday(new Birthday(birthday));
+//        person.setBirthday(new Birthday(birthday));
 
         personRepository.save(person);
     }
