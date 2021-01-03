@@ -29,10 +29,6 @@ int main(void)
 
 > #2 세 정수의 값을 입력하고 중앙값을 구합니다.
 ```c
-//
-// Created by junto on 21. 1. 2..
-//
-
 #include <stdio.h>
 
 int med3(int a, int b, int c)
@@ -236,8 +232,9 @@ int main(void)
     return 0;
 }
 ```
-
-
+# #3 검색
+# 이론
+- 
 
 
 
