@@ -1665,6 +1665,128 @@ public class JsonConfig {
 //getPerson test
 .andExpect(jsonPath("$.birthday").value("1991-08-15"))
 
+##### 24강 PersonControllerTest
+    @Test
+    void postPerson() throws Exception {
+        PersonDto dto = PersonDto.of("junhyuk", "programming", "Seoul", LocalDate.now(), "programmer", "010-1111-1112");
+        
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(toJsonString(dto)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+    }
+// PersonController
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    //postPerson(Person person) no annotation, Use RequestParam
+    public void postPerson(@RequestBody PersonDto personDto) {
+
+        personService.put(personDto);
+    }
+    
+// Person Service
+    @Transactional
+    public void put(PersonDto personDto) {
+        Person person = new Person();
+        person.set(personDto);
+        person.setName(personDto.getName());
+
+
+        personRepository.save(person);
+    }
+    
+        @Test
+    void postPerson() throws Exception {
+        PersonDto dto = PersonDto.of("junhyuk", "programming", "Seoul", LocalDate.now(), "programmer", "010-1111-1112");
+        
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(toJsonString(dto)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Person result = personRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0);
+
+        assertAll(
+                () -> assertThat(result.getName()).isEqualTo("junhyuk"),
+                () -> assertThat(result.getHobby()).isEqualTo("programming"),
+                () -> assertThat(result.getAddress()).isEqualTo("Seoul"),
+                () -> assertThat(result.getBirthday()).isEqualTo(Birthday.of(LocalDate.now())),
+                () -> assertThat(result.getJob()).isEqualTo("programmer"),
+                () -> assertThat(result.getPhoneNumber()).isEqualTo("010-1111-1112")
+        );
+    }
+```
+
+##### PersonRepositoryTest
+```java
+@SpringBootTest
+class PersonRepositoryTest {
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Test
+    void findByNmae() {
+        List<Person> people = personRepository.findByName("tony");
+        assertThat(people.size()).isEqualTo(1);
+
+        Person person = people.get(0);
+        assertAll(
+                () -> assertThat(person.getName()).isEqualTo("tony"),
+                () -> assertThat(person.getHobby()).isEqualTo("reading"),
+                () -> assertThat(person.getAddress()).isEqualTo("Seoul"),
+                () -> assertThat(person.getBirthday()).isEqualTo(LocalDate.of(1994, 3, 3)),
+                () -> assertThat(person.getJob()).isEqualTo("officer"),
+                () -> assertThat(person.getPhoneNumber()).isEqualTo("010-1111-1234"),
+                () -> assertThat(person.isDeleted()).isEqualTo(false)
+        );
+    }
+
+    @Test
+    void findByNameIfDeleted() {
+    
+        //When
+        List<Person> people = personRepository.findByName("andrew");
+
+        //Then
+        assertThat(people.size()).isEqualTo(0);
+    }
+    
+    @Test
+    void findByMonthOfBirthday() {
+    
+        //Given
+        List<Person> people = personRepository.findByMonthOfBirthday(8);
+        
+        //Then
+        assertThat(people.size()).isEqualTo(2);
+        assertAll(
+                () -> assertThat(people.get(0).getName()).isEqualTo("david"),
+                () -> assertThat(people.get(1).getName()).isEqualTo("tony")
+        );
+    }
+    
+    @Test
+    void findPeopleDeleted() {
+    
+        //Given
+        List<Person> people = personRepository.findPeopleDeleted();
+        
+        //Then
+        assertThat(people.size()).isEqualTo(1);
+        assertThat(people.get(0).getName()).isEqualTo("andrew");
+    }
+}
+```
+
 
 
   
