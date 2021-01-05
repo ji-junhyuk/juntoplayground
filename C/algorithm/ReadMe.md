@@ -245,3 +245,189 @@ int main(void)
   - **max**: **스택의 최대 용량**을 나타나는 멤버이다. 이 값은 배열 stk의 요소 개수와 같다.
   - **ptr**: **스택에 쌓여 있는 데이터의 개수**를 나타내는 멤버이다. 이 값을 스택 포인터(stack pointer)라고 한다. 가장 먼저 푸쉬된 바닥의 데이터는 stk[0], 가장 나중에 푸쉬된 꼭대기(top) 데이터는 stk[ptr-1]이다.
 - 큐: 큐(queue)는 데이터를 일시적으로 저장하기 위해 사용하는 자료구조로, 데이터의 입력과 출력의 순서는 선입선출(FIFO, First In First Out)이다.
+
+> stack
+```c
+int Initialize(IntStack *s, int max)
+{
+    s->ptr = 0;
+    if ((s->stk = calloc(max, sizeof(int))) == NULL) {
+        s->max = 0;
+        return -1;
+    }
+    s->max = max;
+    return 0;
+}
+
+int Push(IntStack *s, int x)
+{
+    if (s->ptr >= s->max)
+        return -1;
+    s->stk[s->ptr++] = x;
+    return 0;
+}
+
+int Pop(IntStack *s, int *x)
+{
+    if (s->ptr <= 0)
+        return -1;
+    *x = s->stk[--s->ptr];
+    return 0;
+}
+
+int Peek(const IntStack *s, int *x)
+{
+    if (s->ptr <= 0)
+        return -1;
+    *x = s->stk[s->ptr - 1];
+    return 0;
+}
+
+void Clear(IntStack *s)
+{
+    s->ptr = 0;
+}
+
+int Capacity(const IntStack *s)
+{
+    return s->max;
+}
+
+int Size(const IntStack *s)
+{
+    return s->ptr;
+}
+
+int IsEmpty(const IntStack *s)
+{
+    return s->ptr <= 0;
+}
+
+int IsFull(const IntStack *s)
+{
+    return s->ptr >= s->max;
+}
+
+int Search(const IntStack *s, int x)
+{
+    int i;
+    for (i = s->ptr -1; i >= 0; i--)
+        if (s->stk[i] == x)
+            return i;
+    return -1;
+}
+
+void Print(const IntStack *s)
+{
+    int i;
+    for (i = 0; i < s->ptr; i++)
+        printf("%d ", s->stk[i]);
+    putchar('\n');
+}
+
+void Terminate(IntStack *s)
+{
+    if (s->stk != NULL)
+        free(s->stk);
+    s->max = s->ptr = 0;
+}
+```
+
+> queue
+```c
+int Initialize(IntQueue *q, int max)
+{
+    q->num = q->front = q->rear = 0;
+    if ((q->que = calloc(max, sizeof(int))) == NULL) {
+        q->max = 0;
+        return -1;
+    }
+    q->max = max;
+    return 0;
+}
+
+int Enque(IntQueue *q, int x)
+{
+    if (q->num >= q->max)
+        return -1;
+    else {
+        q->num++;
+        q->que[q->rear++] = x;
+        if (q->rear == q-> max)
+            q->rear = 0;
+        return 0;
+    }
+}
+
+int Deque(IntQueue *q, int *x)
+{
+    if (q->num <= 0)
+        return -1;
+    else {
+        q->num--;
+        *x = q->que[q->front++];
+        if (q->front == q->max)
+            q->front = 0;
+        return 0;
+    }
+}
+
+int Peek(const IntQueue *q, int *x)
+{
+    if (q->num <= 0)
+        return -1;
+    *x = q->que[q->front];
+    return 0;
+}
+
+void Clear(IntQueue *q)
+{
+    q->num = q->front = q->rear = 0;
+}
+
+int Capacity(const IntQueue *q)
+{
+    return q->max;
+}
+
+int Size(const IntQueue *q)
+{
+    return q->num;
+}
+
+int IsEmpty(const IntQueue *q)
+{
+    return q->num <= 0;
+}
+
+int IsFull(const IntQueue *q)
+{
+    return q->num >= q->max;
+}
+
+int Search(const IntQueue *q, int x)
+{
+    int i, idx;
+    for (i = 0; i < q->num; i++) {
+        if (q->que[idx = (i + q->front) % q->max] == x)
+            return idx;
+    }
+    return -1;
+}
+
+void Print(const IntQueue *q)
+{
+    int i;
+    for (i = 0; i < q->num; i++)
+        printf("%d ", q->que[(i + q->front) % q->max]);
+    putchar('\n');
+}
+
+void Terminate(IntQueue *q)
+{
+    if (q->que != NULL)
+        free(q->que);
+    q->max = q->num = q->front = q->rear = 0;
+}
+```
+
