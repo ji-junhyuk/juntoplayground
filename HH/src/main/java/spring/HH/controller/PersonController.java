@@ -29,11 +29,9 @@ public class PersonController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //postPerson(Person person) no annotation, Use RequestParam
-    public void postPerson(@RequestBody Person person) {
+    public void postPerson(@RequestBody PersonDto personDto) {
 
-        personService.put(person);
-
-        log.info("person -> {}", personRepository.findAll());
+        personService.put(personDto);
     }
 
     @PutMapping("/{id}")

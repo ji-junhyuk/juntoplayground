@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest
 class PersonRepositoryTest {
@@ -22,45 +23,54 @@ class PersonRepositoryTest {
     private PersonRepository personRepository;
 
     @Test
-    void crud() {
+    void findByNmae() {
+        List<Person> people = personRepository.findByName("tony");
+        assertThat(people.size()).isEqualTo(1);
 
-        //Given
-        Person person = new Person();
-        person.setName("junhyuk");
-
-        personRepository.save(person);
-
-        //When
-        List<Person> result = personRepository.findByName("junhyuk");
-
-        //Then
-        assertThat(result.size()).isEqualTo(1);
-        assertThat(result.get(0).getName()).isEqualTo("junhyuk");
-//        assertThat(result.get(0).getAge()).isEqualTo(28);
+        Person person = people.get(0);
+        assertAll(
+                () -> assertThat(person.getName()).isEqualTo("tony"),
+                () -> assertThat(person.getHobby()).isEqualTo("reading"),
+                () -> assertThat(person.getAddress()).isEqualTo("Seoul"),
+                () -> assertThat(person.getBirthday()).isEqualTo(LocalDate.of(1994, 3, 3)),
+                () -> assertThat(person.getJob()).isEqualTo("officer"),
+                () -> assertThat(person.getPhoneNumber()).isEqualTo("010-1111-1234"),
+                () -> assertThat(person.isDeleted()).isEqualTo(false)
+        );
     }
 
     @Test
-    void findByBirthdayBetween() {
-
-        //Given
-        givenPerson("junhyuk", LocalDate.of(1994, 3, 3));
-        givenPerson("Mary",  LocalDate.of(1993, 8, 15));
-        givenPerson("jacop",  LocalDate.of(1995, 12, 31));
-        givenPerson("sundae",  LocalDate.of(1997, 2, 11));
-        givenPerson("sohee",  LocalDate.of(2000, 8, 7));
+    void findByNameIfDeleted() {
 
         //When
-        List<Person> result = personRepository.findByMonthOfBirthday(3);
+        List<Person> people = personRepository.findByName("andrew");
 
         //Then
-        assertThat(result.size()).isEqualTo(1);
-        assertThat(result.get(0).getAge()).isEqualTo(28);
+        assertThat(people.size()).isEqualTo(0);
     }
 
-    private void givenPerson(String name, LocalDate birthday) {
-        Person person = new Person(name);
-//        person.setBirthday(new Birthday(birthday));
+    @Test
+    void findByMonthOfBirthday() {
 
-        personRepository.save(person);
+        //Given
+        List<Person> people = personRepository.findByMonthOfBirthday(8);
+
+        //Then
+        assertThat(people.size()).isEqualTo(2);
+        assertAll(
+                () -> assertThat(people.get(0).getName()).isEqualTo("david"),
+                () -> assertThat(people.get(1).getName()).isEqualTo("tony")
+        );
+    }
+
+    @Test
+    void findPeopleDeleted() {
+
+        //Given
+        List<Person> people = personRepository.findPeopleDeleted();
+
+        //Then
+        assertThat(people.size()).isEqualTo(1);
+        assertThat(people.get(0).getName()).isEqualTo("andrew");
     }
 }
