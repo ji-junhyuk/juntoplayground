@@ -6,6 +6,7 @@
 #include "stdlib.h"
 #define swap(type, x, y) do { type t = x; x = y; y = t;} while(0)
 
+
 void bubble(int a[], int n)
 {
     int k = 0;
@@ -17,6 +18,7 @@ void bubble(int a[], int n)
                 swap(int, a[j - 1], a[j]);
                 last = j;
             }
+
         k = last;
     }
 }
