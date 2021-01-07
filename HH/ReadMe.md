@@ -1911,7 +1911,164 @@ class PersonServiceTest {
         return PersonDto.of("junhyuk", "programming", "seoul", LocalDate.now(), "programmer", "010-1111-1119");
     }
 ``` 
-  
+##### PersonService에서 Person.set(personDto) 주석처리 했을 경우 ModifyTest는 이것을 잡아내지 못한다.
+```java
+@Transactional
+    public void modify(Long id, PersonDto personDto) {
+        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+
+        if (!person.getName().equals(personDto.getName())) {
+            throw new RuntimeException("Name is different.");
+        }
+
+        // person.set(personDto);
+
+        personRepository.save(person);
+    }
+ @Test
+    void modify() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("junhyuk")));
+
+        //When
+        personService.modify(1L, mockPersonDto());
+
+        //Then
+//        verify(personRepository, times(1)).save(any(Person.class));
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeUpdated()));
+    }
+
+    private static class IsPersonWillBeUpdated implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return equals(person.getName(), "junhyuk")
+                    && equals(person.getHobby(), "programming")
+                    && equals(person.getAddress(), "seoul")
+                    && equals(person.getBirthday(), Birthday.of(LocalDate.now()))
+                    && equals(person.getJob(), "programmer")
+                    && equals(person.getPhoneNumber(), "010-1111-2222");
+        }
+
+        // NullpointerException
+        private boolean equals(Object actual, Object expected) {
+            return expected.equals(actual);
+        }
+    }
+```
+```java
+    @Test
+    void modifyByNameIfPersonNotFound() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //Then
+        assertThrows(RuntimeException.class, () -> personService.modify(1L, "daniel"));
+    }
+```
+```java
+    private static class IsNameWillBeUpdated implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return person.getName().equals("daniel");
+        }
+    }
+
+    @Test
+    void modifyByName() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("martin")));
+
+        //When
+        personService.modify(1L, "daniel");
+
+        //then
+        verify(personRepository, times(1)).save(argThat(new IsNameWillBeUpdated()));
+    }
+    @Test
+    void deleteIfPersonNotFound() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //Then
+        assertThrows(RuntimeException.class, () -> personService.delete(1L));
+    }    
+```
+```java
+    @Test
+    void delete() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("martin")));
+
+        //When
+        personService.delete(1L);
+
+        //Then
+        verify(personRepository, times(1)).save(any(Person.class));
+    }
+    
+    private static class IsPersonWillBeDeleted implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return person.isDeleted();
+        }
+    }
+    
+    @Test
+    void delete() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("martin")));
+
+        //When
+        personService.delete(1L);
+
+        //Then
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeDeleted()));
+    }
+```
+```java
+    private static class IsPersonWillBeInserted implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return equals(person.getName(), "junhyuk")
+                    && equals(person.getHobby(), "programming")
+                    && equals(person.getAddress(), "seoul")
+                    && equals(person.getBirthday(), Birthday.of(LocalDate.now()))
+                    && equals(person.getJob(), "programmer")
+                    && equals(person.getPhoneNumber(), "010-1111-2222");
+        }
+        
+        private boolean equals(Object actual, Object expected) {
+            return expected.equals(actual);
+        }
+    }
+    
+    @Test
+    void put() {
+
+        //When
+        personService.put(mockPersonDto());
+
+        //Then
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeInserted()));
+    }    
+```    
+   
 
 
 
