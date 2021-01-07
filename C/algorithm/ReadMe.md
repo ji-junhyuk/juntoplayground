@@ -430,4 +430,8 @@ void Terminate(IntQueue *q)
     q->max = q->num = q->front = q->rear = 0;
 }
 ```
+# #5 재귀
+# 이론
 
+# #6 검색
+# 이론
