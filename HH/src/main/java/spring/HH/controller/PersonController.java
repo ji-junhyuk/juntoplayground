@@ -3,9 +3,13 @@ package spring.HH.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.HH.controller.dto.PersonDto;
 import spring.HH.domain.Person;
+import spring.HH.exception.PersonNotFoundException;
+import spring.HH.exception.RenameIsNotPermittedException;
+import spring.HH.exception.dto.ErrorResponse;
 import spring.HH.repository.PersonRepository;
 import spring.HH.service.PersonService;
 
@@ -16,9 +20,6 @@ public class PersonController {
 
     @Autowired
     private PersonService personService;
-
-    @Autowired
-    private PersonRepository personRepository;
 
     @GetMapping("/{id}")
     public Person getPerson(@PathVariable Long id) {
@@ -36,22 +37,20 @@ public class PersonController {
 
     @PutMapping("/{id}")
     public void modifyPerson(@PathVariable Long id, @RequestBody PersonDto personDto) {
-        personService.modify(id, personDto);
-
-        log.info("person -> {}", personRepository.findAll());
+        try {
+            personService.modify(id, personDto);
+        } catch (RuntimeException ex) {
+            log.error(ex.getMessage(), ex);
+        }
     }
 
     @PatchMapping("/{id}")
     public void modifyPerson(@PathVariable Long id, String name) {
         personService.modify(id, name);
-
-        log.info("person -> {}", personRepository.findAll());
     }
 
     @DeleteMapping("/{id}")
     public void deletePerson(@PathVariable Long id) {
         personService.delete(id);
-
-        log.info("person -> {}", personRepository.findAll());
     }
 }

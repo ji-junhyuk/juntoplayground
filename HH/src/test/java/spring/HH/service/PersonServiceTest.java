@@ -7,12 +7,12 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import spring.HH.controller.dto.PersonDto;
 import spring.HH.domain.Person;
 import spring.HH.domain.dto.Birthday;
+import spring.HH.exception.PersonNotFoundException;
+import spring.HH.exception.RenameIsNotPermittedException;
 import spring.HH.repository.PersonRepository;
 
 import java.time.LocalDate;
@@ -86,7 +86,7 @@ class PersonServiceTest {
                 .thenReturn(Optional.empty());
 
         //Then
-        assertThrows(RuntimeException.class, () -> personService.modify(1L, mockPersonDto()));
+        assertThrows(PersonNotFoundException.class, () -> personService.modify(1L, mockPersonDto()));
     }
 
     @Test
@@ -97,7 +97,7 @@ class PersonServiceTest {
                 .thenReturn(Optional.of(new Person("tony")));
 
         //Then
-        assertThrows(RuntimeException.class, () -> personService.modify(1L, mockPersonDto()));
+        assertThrows(RenameIsNotPermittedException.class, () -> personService.modify(1L, mockPersonDto()));
     }
 
     @Test
@@ -123,7 +123,7 @@ class PersonServiceTest {
                 .thenReturn(Optional.empty());
 
         //Then
-        assertThrows(RuntimeException.class, () -> personService.modify(1L, "daniel"));
+        assertThrows(PersonNotFoundException.class, () -> personService.modify(1L, "daniel"));
     }
 
     @Test
@@ -148,7 +148,7 @@ class PersonServiceTest {
                 .thenReturn(Optional.empty());
 
         //Then
-        assertThrows(RuntimeException.class, () -> personService.delete(1L));
+        assertThrows(PersonNotFoundException.class, () -> personService.delete(1L));
     }
 
     @Test

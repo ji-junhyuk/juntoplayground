@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.HH.controller.dto.PersonDto;
 import spring.HH.domain.Person;
+import spring.HH.exception.PersonNotFoundException;
+import spring.HH.exception.RenameIsNotPermittedException;
 import spring.HH.repository.PersonRepository;
 
 import java.util.List;
@@ -39,10 +41,10 @@ public class PersonService {
 
     @Transactional
     public void modify(Long id, PersonDto personDto) {
-        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 
         if (!person.getName().equals(personDto.getName())) {
-            throw new RuntimeException("Name is different.");
+            throw new RenameIsNotPermittedException();
         }
 
         person.set(personDto);
@@ -52,7 +54,7 @@ public class PersonService {
 
     @Transactional
     public void modify(Long id, String name) {
-        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+        Person person = personRepository.findById(id).orElseThrow(RuntimeException::new);
 
         person.setName(name);
 
@@ -68,7 +70,7 @@ public class PersonService {
 //        Two way
 //        personRepository.deleteById(id);
 
-        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 
         person.setDeleted(true);
 
