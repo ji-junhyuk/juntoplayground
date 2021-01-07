@@ -3,6 +3,7 @@ package spring.HH.service;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import spring.HH.controller.dto.PersonDto;
 import spring.HH.domain.Person;
+import spring.HH.domain.dto.Birthday;
 import spring.HH.repository.PersonRepository;
 
 import java.time.LocalDate;
@@ -73,7 +75,7 @@ class PersonServiceTest {
         personService.put(mockPersonDto());
 
         //Then
-        verify(personRepository, times(1)).save(any(Person.class));
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeInserted()));
     }
 
     @Test
@@ -109,11 +111,113 @@ class PersonServiceTest {
         personService.modify(1L, mockPersonDto());
 
         //Then
-        verify(personRepository, times(1)).save(any(Person.class));
+//        verify(personRepository, times(1)).save(any(Person.class));
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeUpdated()));
+    }
+
+    @Test
+    void modifyByNameIfPersonNotFound() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //Then
+        assertThrows(RuntimeException.class, () -> personService.modify(1L, "daniel"));
+    }
+
+    @Test
+    void modifyByName() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("martin")));
+
+        //When
+        personService.modify(1L, "daniel");
+
+        //then
+        verify(personRepository, times(1)).save(argThat(new IsNameWillBeUpdated()));
+    }
+
+    @Test
+    void deleteIfPersonNotFound() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //Then
+        assertThrows(RuntimeException.class, () -> personService.delete(1L));
+    }
+
+    @Test
+    void delete() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("martin")));
+
+        //When
+        personService.delete(1L);
+
+        //Then
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeDeleted()));
     }
 
     private PersonDto mockPersonDto() {
 
         return PersonDto.of("junhyuk", "programming", "seoul", LocalDate.now(), "programmer", "010-1111-1119");
+    }
+
+    private static class IsPersonWillBeInserted implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return equals(person.getName(), "junhyuk")
+                    && equals(person.getHobby(), "programming")
+                    && equals(person.getAddress(), "seoul")
+                    && equals(person.getBirthday(), Birthday.of(LocalDate.now()))
+                    && equals(person.getJob(), "programmer")
+                    && equals(person.getPhoneNumber(), "010-1111-2222");
+        }
+
+        private boolean equals(Object actual, Object expected) {
+            return expected.equals(actual);
+        }
+    }
+
+    private static class IsPersonWillBeUpdated implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return equals(person.getName(), "junhyuk")
+                    && equals(person.getHobby(), "programming")
+                    && equals(person.getAddress(), "seoul")
+                    && equals(person.getBirthday(), Birthday.of(LocalDate.now()))
+                    && equals(person.getJob(), "programmer")
+                    && equals(person.getPhoneNumber(), "010-1111-2222");
+        }
+
+        // NullpointerException
+        private boolean equals(Object actual, Object expected) {
+            return expected.equals(actual);
+        }
+    }
+
+    private static class IsNameWillBeUpdated implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return person.getName().equals("daniel");
+        }
+    }
+
+    private static class IsPersonWillBeDeleted implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return person.isDeleted();
+        }
     }
 }
