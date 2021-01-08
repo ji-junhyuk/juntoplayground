@@ -2252,21 +2252,921 @@ public class GroupController {
 	}
 }
 ```
+## 
+```java
+//configuration/serializer
+public class BirthdaySerializer extends JsonSerializer<Birthday> {
+
+    @Override
+    public void serialize(Birthday value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        if (value != null) {
+            gen.writeObject(LocalDate.of(value.getYearOfBirthday(), value.getMonthOfBirthday(), value.getDayOfBirthday()));
+        }
+    }
+}
+//configuration
+@Configuration
+public class JsonConfig {
+
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(objectMapper);
+
+        return converter;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new BirthdayModule());
+        objectMapper.registerModule(new JavaTimeModule());
+
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+        return objectMapper;
+    }
+
+    static class BirthdayModule extends SimpleModule {
+
+        BirthdayModule() {
+            super();
+            addSerializer(Birthday.class, new BirthdaySerializer());
+        }
+    }
+}
+```
+```java
+//controller/dto
+@Data
+@NoArgsConstructor
+@AllArgsConstructor(staticName = "of")
+public class PersonDto {
+
+    @NotBlank(message = "Name is necessary.")
+    private String name;
+    private String hobby;
+    private String address;
+    private LocalDate birthday; //Birthday birthday, return type (year, month, day)...
+    private String job;
+    private String phoneNumber;
+}
+
+@RestController
+public class HelloWorldController {
+
+    @GetMapping(value = "/api/helloWorld")
+    public String helloWorld() {
+        return "HelloWorld";
+    }
+
+    @GetMapping(value = "/api/helloException")
+    public String helloException() {
+        throw new RuntimeException("Hello RuntimeException");
+    }
+}
+
+@RestController
+@RequestMapping(value = "/api/person")
+@Slf4j
+public class PersonController {
+
+    @Autowired
+    private PersonService personService;
+
+    @GetMapping
+    public Page<Person> getAll(@PageableDefault Pageable pageable) {
+        return personService.getAll(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public Person getPerson(@PathVariable Long id) {
+
+        return personService.getPerson(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    //postPerson(Person person) no annotation, Use RequestParam
+    public void postPerson(@RequestBody @Valid PersonDto personDto) {
+
+        personService.put(personDto);
+    }
+
+    @PutMapping("/{id}")
+    public void modifyPerson(@PathVariable Long id, @RequestBody PersonDto personDto) {
+        try {
+            personService.modify(id, personDto);
+        } catch (RuntimeException ex) {
+            log.error(ex.getMessage(), ex);
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public void modifyPerson(@PathVariable Long id, String name) {
+        personService.modify(id, name);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletePerson(@PathVariable Long id) {
+        personService.delete(id);
+    }
+}
+```
+```java
+//domain/dto
+@Embeddable
+@Data
+@NoArgsConstructor
+public class Birthday {
+
+    private Integer yearOfBirthday;
+    private Integer monthOfBirthday;
+    private Integer dayOfBirthday;
+
+    private Birthday(LocalDate birthday) {
+        this.yearOfBirthday = birthday.getYear();
+        this.monthOfBirthday = birthday.getMonthValue();
+        this.dayOfBirthday = birthday.getDayOfMonth();
+    }
+
+    public static Birthday of(LocalDate birthday) {
+        return new Birthday(birthday);
+    }
+}
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Data
+@Where(clause = "deleted = false")
+public class Person {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NonNull
+    @NotEmpty
+    @Column(nullable = false)
+    private String name;
+
+    private String hobby;
+
+    private String address;
+
+    @Embedded
+    @Valid
+    private Birthday birthday;
+
+    private String job;
+
+    private String phoneNumber;
+
+    @ColumnDefault("0")
+    private boolean deleted;
+
+    public void set(PersonDto personDto) {
+
+        if (!ObjectUtils.isEmpty(personDto.getHobby())) {
+            this.setHobby(personDto.getHobby());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getAddress())) {
+            this.setAddress(personDto.getAddress());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getJob())) {
+            this.setJob(personDto.getJob());
+        }
+
+        if (!ObjectUtils.isEmpty(personDto.getPhoneNumber())) {
+            this.setPhoneNumber(personDto.getPhoneNumber());
+        }
+    }
+
+    public Integer getAge() {
+        if (this.birthday != null) {
+            return LocalDate.now().getYear() - this.birthday.getYearOfBirthday() + 1;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean isBirthdayToday() {
+        return LocalDate.now().equals(LocalDate.of(this.birthday.getYearOfBirthday(), this.birthday.getMonthOfBirthday(), this.birthday.getDayOfBirthday()));
+    }
+}
+```
+```java
+//exception/dto, handler
+@Data
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class ErrorResponse {
+
+    private int code;
+    private String message;
+
+    public static ErrorResponse of(HttpStatus httpStatus, String message) {
+        return new ErrorResponse(httpStatus.value(), message);
+    }
+
+    public static ErrorResponse of(HttpStatus httpStatus, FieldError fieldError) {
+        if (fieldError == null) {
+            return new ErrorResponse(httpStatus.value(), "invalid params");
+        } else {
+            return new ErrorResponse(httpStatus.value(), fieldError.getDefaultMessage());
+        }
+    }
+}
+
+@Slf4j
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(RenameIsNotPermittedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleRenameNoPermittedException(RenameIsNotPermittedException ex) {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(PersonNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handlePersonNotFoundException(PersonNotFoundException ex) {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    @ResponseBody(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+//        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getBindingResult().getFieldError().getDefaultMessage());
+//    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleRuntimeException(RuntimeException ex) {
+        log.error("server error: {}", ex.getMessage(), ex);
+        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown server error is occurred.");
+    }
+}
+
+@Slf4j
+public class PersonNotFoundException extends RuntimeException {
+
+    private static final String MESSAGE = "Person Entity not exist.";
+    public PersonNotFoundException() {
+        super(MESSAGE);
+        log.error(MESSAGE);
+    }
+}
+
+@Slf4j
+public class RenameIsNotPermittedException extends RuntimeException {
+
+    private static final String MESSAGE = "Do not allow name changes.";
+    public RenameIsNotPermittedException() {
+        super(MESSAGE);
+        log.error(MESSAGE);
+    }
+}
+```
+```java
+//repository
+public interface PersonRepository extends JpaRepository<Person, Long> {
+
+    List<Person> findByName(String name); //find = select, By = where, Name = argument
+
+    @Query(value = "select person from Person person where person.birthday.monthOfBirthday = :monthOfBirthday")
+    List<Person> findByMonthOfBirthday(@Param("monthOfBirthday") int monthOfBirthday);
+
+    @Query(value = "select * from Person person where person.deleted = true", nativeQuery = true)
+    List<Person> findPeopleDeleted();
+}
+```
+```java
+//service
+@Service
+@Slf4j
+public class PersonService {
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    public Page<Person> getAll(Pageable pageable) {
+        return personRepository.findAll(pageable);
+    }
+
+    public List<Person> getPeopleByName(String name) {
+
+        return personRepository.findByName(name);
+    }
+
+    @Transactional(readOnly = true)
+    public Person getPerson(Long id) {
+
+        return personRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public void put(PersonDto personDto) {
+        Person person = new Person();
+        person.set(personDto);
+        person.setName(personDto.getName());
+
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void modify(Long id, PersonDto personDto) {
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
+
+        if (!person.getName().equals(personDto.getName())) {
+            throw new RenameIsNotPermittedException();
+        }
+
+        person.set(personDto);
+
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void modify(Long id, String name) {
+        Person person = personRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        person.setName(name);
+
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+//        One way
+//        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("Not exist id."));
+//        personRepository.delete(person);
+
+//        Two way
+//        personRepository.deleteById(id);
+
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
+
+        person.setDeleted(true);
+
+        personRepository.save(person);
+    }
+}
+```
+
+## Test
+@SpringBootTest
+class HelloWorldControllerTest {
+
+//    @Autowired
+//    private HelloWorldController helloWorldController;
+
+    @Autowired
+    private WebApplicationContext wac;
+
+    private MockMvc mockMvc;
+
+    @BeforeEach
+    void beforeEach() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(wac)
+//                .standaloneSetup(helloWorldController)
+                .alwaysDo(print())
+                .build();
+    }
+    @Test
+    void helloWorld() throws Exception {
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/helloWorld"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("HelloWorld"));
+    }
+
+    @Test
+    void helloException() throws Exception {
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/helloException"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.message").value("Unknown server error is occurred."));
+    }
+}
+
+@SpringBootTest
+@Transactional
+class PersonControllerTest {
+
+//    @Autowired
+//    private PersonController personController;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+//    @Autowired
+//    private MappingJackson2HttpMessageConverter messageConverter;
+
+//    @Autowired
+//    private GlobalExceptionHandler globalExceptionHandler;
+
+    @Autowired
+    private WebApplicationContext wac;
+
+    private MockMvc mockMvc;
+
+    @BeforeEach
+    void beforeEach() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(wac)
+//                .standaloneSetup(personController)
+//                .setMessageConverters()
+//                .setControllerAdvice(globalExceptionHandler)
+                .alwaysDo(print())
+                .build();
+    }
+
+    @Test
+    void getAll() throws Exception {
+
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/person")
+                        .param("page", "1")
+                        .param("size", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalPages").value(3))
+                .andExpect(jsonPath("$.totalElement").value(6))
+                .andExpect(jsonPath("$.numberOfElements").value(2))
+                .andExpect(jsonPath("$.content.[0].name").value("dennis"))
+                .andExpect(jsonPath("$.content.[1].name").value("sophia"));
+    }
+
+    @Test
+    void getPerson() throws Exception {
+
+        //Then
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/person/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("junhyuk"))
+                .andExpect(jsonPath("$.hobby").isEmpty())
+                .andExpect(jsonPath("address").isEmpty())
+                .andExpect(jsonPath("$.birthday").value("1991-08-15"))
+                .andExpect(jsonPath("$.job").isEmpty())
+                .andExpect(jsonPath("$.phoneNumber").isEmpty())
+                .andExpect(jsonPath("$.deleted").value(false))
+                .andExpect(jsonPath("$.age").isNumber())
+                .andExpect(jsonPath("$.birthdayToday").isBoolean());
+    }
+
+    @Test
+    void postPerson() throws Exception {
+        PersonDto dto = PersonDto.of("junhyuk", "programming", "Seoul", LocalDate.now(), "programmer", "010-1111-1112");
+
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(toJsonString(dto)))
+                .andExpect(status().isCreated());
+
+        Person result = personRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0);
+
+        assertAll(
+                () -> assertThat(result.getName()).isEqualTo("junhyuk"),
+                () -> assertThat(result.getHobby()).isEqualTo("programming"),
+                () -> assertThat(result.getAddress()).isEqualTo("Seoul"),
+                () -> assertThat(result.getBirthday()).isEqualTo(Birthday.of(LocalDate.now())),
+                () -> assertThat(result.getJob()).isEqualTo("programmer"),
+                () -> assertThat(result.getPhoneNumber()).isEqualTo("010-1111-1112")
+        );
+    }
+
+    @Test
+    void postPersonIfNameIsNull() throws Exception {
+
+        //Given
+        PersonDto dto = new PersonDto();
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(toJsonString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value("Name is necessary."));
+    }
+
+    @Test
+    void postPersonIfNameIsEmptyString() throws Exception {
+        PersonDto dto = new PersonDto();
+        dto.setName("");
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJsonString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value("Name is necessary"));
+    }
+
+    @Test
+    void postPersonIfNameIsBlankString() throws Exception {
+
+        //Given
+        PersonDto dto = new PersonDto();
+        dto.setName(" ");
+
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/person")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJsonString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value("Name is necessary"));
+}
+
+    @Test
+    void modifyPerson() throws Exception {
+        PersonDto dto = PersonDto.of("junhyuk", "programming", "Seoul", LocalDate.now(), "programmer", "010-1111-1112");
 
 
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/api/person/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(toJsonString(dto)))
+                .andExpect(status().isOk());
+
+        Person result = personRepository.findById(1L).get();
+
+        assertAll(
+                () -> assertThat(result.getName()).isEqualTo("junhyuk"),
+                () -> assertThat(result.getHobby()).isEqualTo("programming"),
+                () -> assertThat(result.getAddress()).isEqualTo("Seoul"),
+                () -> assertThat(result.getBirthday()).isEqualTo(Birthday.of(LocalDate.now())),
+                () -> assertThat(result.getJob()).isEqualTo("programmer"),
+                () -> assertThat(result.getPhoneNumber()).isEqualTo("010-1111-1112")
+        );
+    }
+
+    @Test
+    void modifyPersonIfNameIsDifferent() throws Exception {
+        PersonDto dto = PersonDto.of("jini", "programming", "Seoul", LocalDate.now(), "programmer", "010-1111-1112");
 
 
-  
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/api/person/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(toJsonString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value("Do not allow name changes."));
+    }
+    @Test
+    void modifyPersonIfPersonNotFound() throws Exception {
+        PersonDto dto = PersonDto.of("martin", "programming", "Seoul", LocalDate.now(), "programmer", "010-1111-1112");
 
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/api/person/10")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(toJsonString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value("Person Entitiy Not exist"));
+    }
 
+    @Test
+    void modifyName() throws Exception {
 
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/api/person/1")
+                        .param("name", "junhyuk"))
+                .andExpect(status().isOk());
 
+        assertThat(personRepository.findById(1L).get().getName()).isEqualTo("junhyuk");
+    }
 
+    @Test
+    void deletePerson() throws Exception {
 
+        //Then
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/api/person/1"))
+                .andExpect(status().isOk());
 
+        assertTrue(personRepository.findPeopleDeleted().stream().anyMatch(
+                person -> person.getId().equals(1L)
+        ));
+    }
 
+    @Test
+    void checkJsonString() throws Exception {
 
+        //Given
+        PersonDto dto = new PersonDto();
 
+        //When
+        dto.setName("junhyuk");
+        dto.setBirthday(LocalDate.now());
+        dto.setAddress("Seoul");
 
+        //Then
+        System.out.println(">>> " + toJsonString(dto));
+    }
 
+    private String toJsonString(PersonDto personDto) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(personDto);
+    }
+}
 
+@SpringBootTest
+class PersonRepositoryTest {
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Test
+    void findByNmae() {
+        List<Person> people = personRepository.findByName("tony");
+        assertThat(people.size()).isEqualTo(1);
+
+        Person person = people.get(0);
+        assertAll(
+                () -> assertThat(person.getName()).isEqualTo("tony"),
+                () -> assertThat(person.getHobby()).isEqualTo("reading"),
+                () -> assertThat(person.getAddress()).isEqualTo("Seoul"),
+                () -> assertThat(person.getBirthday()).isEqualTo(LocalDate.of(1994, 3, 3)),
+                () -> assertThat(person.getJob()).isEqualTo("officer"),
+                () -> assertThat(person.getPhoneNumber()).isEqualTo("010-1111-1234"),
+                () -> assertThat(person.isDeleted()).isEqualTo(false)
+        );
+    }
+
+    @Test
+    void findByNameIfDeleted() {
+
+        //When
+        List<Person> people = personRepository.findByName("andrew");
+
+        //Then
+        assertThat(people.size()).isEqualTo(0);
+    }
+
+    @Test
+    void findByMonthOfBirthday() {
+
+        //Given
+        List<Person> people = personRepository.findByMonthOfBirthday(8);
+
+        //Then
+        assertThat(people.size()).isEqualTo(2);
+        assertAll(
+                () -> assertThat(people.get(0).getName()).isEqualTo("david"),
+                () -> assertThat(people.get(1).getName()).isEqualTo("tony")
+        );
+    }
+
+    @Test
+    void findPeopleDeleted() {
+
+        //Given
+        List<Person> people = personRepository.findPeopleDeleted();
+
+        //Then
+        assertThat(people.size()).isEqualTo(1);
+        assertThat(people.get(0).getName()).isEqualTo("andrew");
+    }
+}
+
+@ExtendWith(MockitoExtension.class)
+@Transactional
+class PersonServiceTest {
+
+    @InjectMocks
+    private PersonService personService;
+    @Mock
+    private PersonRepository personRepository;
+
+    @Test
+    void getAll() {
+
+        //Given
+        when(personRepository.findAll(any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Lists.newArrayList(new Person("martin"), new Person("je"), new Person("nunu"))));
+
+        //When
+        Page<Person> result = personService.getAll(PageRequest.of(0, 3));
+
+        //Then
+        assertThat(result.getNumberOfElements()).isEqualTo(3);
+        assertThat(result.getContent().get(0).getName()).isEqualTo("martin");
+        assertThat(result.getContent().get(1).getName()).isEqualTo("je");
+        assertThat(result.getContent().get(2).getName()).isEqualTo("nunu");
+    }
+
+    @Test
+    void getPeoPleByName() {
+
+        when(personRepository.findByName("junhyuk"))
+                .thenReturn(Lists.newArrayList(new Person("junhyuk")));
+
+        List<Person> result = personService.getPeopleByName("junhyuk");
+
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.get(0).getName()).isEqualTo("junhyuk");
+    }
+
+    @Test
+    void getPerson() {
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("junhyuk")));
+
+        Person person = personService.getPerson(1L);
+
+        assertThat(person.getName()).isEqualTo("junhyuk");
+    }
+
+    @Test
+    void getPersonIfNotFound() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //When
+        Person person = personService.getPerson(1L);
+
+        //Then
+        assertThat(person).isNull();
+    }
+
+    @Test
+    void put() {
+
+        //When
+        personService.put(mockPersonDto());
+
+        //Then
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeInserted()));
+    }
+
+    @Test
+    void modifyIfPersonNotFound() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //Then
+        assertThrows(PersonNotFoundException.class, () -> personService.modify(1L, mockPersonDto()));
+    }
+
+    @Test
+    void modifyIfNameIsDifferent() {
+
+        //When
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("tony")));
+
+        //Then
+        assertThrows(RenameIsNotPermittedException.class, () -> personService.modify(1L, mockPersonDto()));
+    }
+
+    @Test
+    void modify() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("junhyuk")));
+
+        //When
+        personService.modify(1L, mockPersonDto());
+
+        //Then
+//        verify(personRepository, times(1)).save(any(Person.class));
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeUpdated()));
+    }
+
+    @Test
+    void modifyByNameIfPersonNotFound() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //Then
+        assertThrows(PersonNotFoundException.class, () -> personService.modify(1L, "daniel"));
+    }
+
+    @Test
+    void modifyByName() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("martin")));
+
+        //When
+        personService.modify(1L, "daniel");
+
+        //then
+        verify(personRepository, times(1)).save(argThat(new IsNameWillBeUpdated()));
+    }
+
+    @Test
+    void deleteIfPersonNotFound() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        //Then
+        assertThrows(PersonNotFoundException.class, () -> personService.delete(1L));
+    }
+
+    @Test
+    void delete() {
+
+        //Given
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("martin")));
+
+        //When
+        personService.delete(1L);
+
+        //Then
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeDeleted()));
+    }
+
+    private PersonDto mockPersonDto() {
+
+        return PersonDto.of("junhyuk", "programming", "seoul", LocalDate.now(), "programmer", "010-1111-1119");
+    }
+
+    private static class IsPersonWillBeInserted implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return equals(person.getName(), "junhyuk")
+                    && equals(person.getHobby(), "programming")
+                    && equals(person.getAddress(), "seoul")
+                    && equals(person.getBirthday(), Birthday.of(LocalDate.now()))
+                    && equals(person.getJob(), "programmer")
+                    && equals(person.getPhoneNumber(), "010-1111-2222");
+        }
+
+        private boolean equals(Object actual, Object expected) {
+            return expected.equals(actual);
+        }
+    }
+
+    private static class IsPersonWillBeUpdated implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return equals(person.getName(), "junhyuk")
+                    && equals(person.getHobby(), "programming")
+                    && equals(person.getAddress(), "seoul")
+                    && equals(person.getBirthday(), Birthday.of(LocalDate.now()))
+                    && equals(person.getJob(), "programmer")
+                    && equals(person.getPhoneNumber(), "010-1111-2222");
+        }
+
+        // NullpointerException
+        private boolean equals(Object actual, Object expected) {
+            return expected.equals(actual);
+        }
+    }
+
+    private static class IsNameWillBeUpdated implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return person.getName().equals("daniel");
+        }
+    }
+
+    private static class IsPersonWillBeDeleted implements ArgumentMatcher<Person> {
+
+        @Override
+        public boolean matches(Person person) {
+            return person.isDeleted();
+        }
+    }
+}
+```
