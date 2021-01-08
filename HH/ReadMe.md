@@ -2068,7 +2068,190 @@ class PersonServiceTest {
         verify(personRepository, times(1)).save(argThat(new IsPersonWillBeInserted()));
     }    
 ```    
-   
+## 이론
+* Parameter Validator란?
+  * 내부 로직에서 처리할 수 없는 입력값을 사전에 검증하고, 필요한 오류 및 메시지로 매핑해서 응답하는 것
+* @NotEmpty
+  * 해당 값이 null이거나 empty string("")에 대해서 검증하는 어노테이션
+  * 속성
+    * message : 해당 validation을 통과하지 못할 경우 표시할 오류 메시지
+* @NotBlank
+  * 해당 값이 null이거나 empty string("") 및 공백 문자열(" ")까지 검증하는 어노테이션
+* @Valid
+  * 일반적으로 validator는 해당 인자에 대해서만 검증하므로, 검증 대상이 객체이면 recursive하게 검증할 수 있도록 표시해주는 어노테이션
+
+* Pageable
+  * JPA에서 정의한 Paging을 위한 인터페이스
+  * 속성
+    * content
+    * totalPages
+    * totalElements
+    * numberOfElements
+* PageRequest
+  * Pageable 인터페이스를 구현한 구현체
+* @PageableDefault
+  * API에서 페이징을 위한 파라미터가 존재하지 않을 때, 페이징을 위한 기본값을 제공
+
+## SpringBoot Project 학습정리
+
+### SpringBoot 특성
+
+* 스프링의 생산성
+* Coding By Convention 활용 (CoC : Convention over Configuration)
+
+### 학습했던 내용 정리
+
+* 스프링부트 프로젝트 생성
+* Gradle을 이용한 의존성 관리
+* Iteration(반복주기) 개발로 2-cycle 개발 진행
+
+#### 1-cycle 내용정리
+
+* JPA
+  * Entity 생성
+  * @OneToOne Relation
+    * CascadeType
+    * FetchType
+    * Optional, orphanRemoval
+  * QueryMethod
+  * @Embedded
+  * @Valid
+  * @Query
+  * @Where (for soft-delete)
+  * Data.sql
+
+* SpringMvc
+  * @GetMapping
+  * @PostMapping
+  * @PutMapping
+  * @PatchMapping
+  * @DeleteMapping
+  * @PathVariable
+  * @RequestBody
+
+* Lombok
+  * @Getter
+  * @Setter
+  * @ToString
+  * @Constructor
+  * @EqualsAndHashCode
+  * @Data
+
+* SpringTest
+
+* Java8
+  * Stream
+  * Fileter
+  * Map
+
+#### 2-cycle 내용정리
+
+* SpringMvc
+  * CustomJsonSerializer
+
+* SpringTest
+  * MockMvc Test
+  * Matcher
+  * Junit5
+
+* MockTest
+  * Mockito
+  * CustomArgumentMatcher
+
+* Exception Handling
+  * CustomException
+  * ExceptionalHandler
+  * GlobalExceptionHandler
+
+* Parameter Validator
+  * @NotEmpty
+  * @NotBlank
+  * @Valid
+
+* Paging
+  * Pageable
+  * Page<T>
+
+### 추가로 학습할 것
+
+* FrontEnd 개발
+  * Web
+    * VueJs
+    * ReactJs
+  * App
+    * Android App
+    * IOS App
+
+* DB 연동
+  * MySQL
+  * MongDB
+
+* Spring(Boot)의 중급활용
+  * 추가적인 설정
+  * Customizing 설정
+
+* JPA 중급활용
+  * 다양한 Relation
+  * QueryDSL
+  * Jooq
+
+* 로직의 확장
+  * 추가적인 스펙
+
+```java
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Data
+public class Group {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	private String description;
+
+	@OneToMany
+	private List<Person> personList;
+}
+```
+
+```java
+@RequestMapping(value = "/api/group")
+@RestController
+public class GroupController {
+	@GetMapping
+	public List<Group getAll() {
+		return null;	// Group 전체 정보 가져오기
+	}
+
+	@GetMapping("/{id}")
+	public Group getGroup(@PathVariable Long id) {
+		return null;	// 특정 Group 정보 가져오기
+	}
+
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public void postGroup(@RequestBody Object groupDto) {	// DTO 구현필요
+		// Group 생성하기
+	}
+
+	@PatchMapping("/{id}")
+	public void modifyGroup(@PathVariable Long id, String description) {
+		// Group description 수정하기
+	}
+
+	@GetMapping("/{id}/people")
+	public List<Person getPeopleInGroup(@PathVariable Long id) {
+		return null;	// 특정 그룹의 Person 리스트 가져오기
+	}
+
+	@PutMapping("/{id}/person/{personId}")
+	public void putPersonInGroup(@PathVariable Long id, @PathVariable Long personId) {
+		// Person 정보를 Group 정보에 매핑하기
+	}
+}
+```
 
 
 
