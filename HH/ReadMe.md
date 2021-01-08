@@ -2618,6 +2618,7 @@ public class PersonService {
 ```
 
 ## Test
+```java
 @SpringBootTest
 class HelloWorldControllerTest {
 
