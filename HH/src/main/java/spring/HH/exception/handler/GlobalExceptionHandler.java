@@ -3,7 +3,9 @@ package spring.HH.exception.handler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import spring.HH.exception.PersonNotFoundException;
@@ -25,6 +27,12 @@ public class GlobalExceptionHandler {
     public ErrorResponse handlePersonNotFoundException(PersonNotFoundException ex) {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
+
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    @ResponseBody(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+//        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getBindingResult().getFieldError().getDefaultMessage());
+//    }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

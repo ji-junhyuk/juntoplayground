@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Data
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor(staticName = "of")
 public class PersonDto {
 
+    @NotBlank(message = "Name is necessary.")
     private String name;
     private String hobby;
     private String address;
