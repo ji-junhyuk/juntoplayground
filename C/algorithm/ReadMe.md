@@ -435,3 +435,6 @@ void Terminate(IntQueue *q)
 
 # #6 검색
 # 이론
+
+# #7 집합
+# 이론
