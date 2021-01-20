@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.*;
 public class OrderApiController {
 
     private final OrderRepository orderRepository;
+
     private final OrderQueryRepository orderQueryRepository;
 
     @GetMapping("/api/v1/orders")
@@ -32,9 +33,9 @@ public class OrderApiController {
             order.getMember().getName();
             order.getDelivery().getAddress();
             List<OrderItem> orderItems = order.getOrderItems();
-            orderItems.stream()
-                    .forEach(o -> o.getItem().getName());
+            orderItems.stream().forEach(o -> o.getItem().getName());
         }
+
         return all;
     }
 
@@ -43,7 +44,7 @@ public class OrderApiController {
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
-                .collect(toList());
+                .collect(Collectors.toList());
 
         return result;
     }
@@ -53,7 +54,7 @@ public class OrderApiController {
         List<Order> orders = orderRepository.findAllWithItem();
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
-                .collect(toList());
+                .collect(Collectors.toList());
 
         return result;
     }
@@ -65,7 +66,7 @@ public class OrderApiController {
         List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
-                .collect(toList());
+                .collect(Collectors.toList());
 
         return result;
     }
@@ -85,37 +86,38 @@ public class OrderApiController {
         List<OrderFlatDto> flats = orderQueryRepository.findAllByDto_flat();
 
         return flats.stream()
-                .collect(groupingBy(o -> new OrderQueryDto(o.getOrderId(), o.getName(),
-                        o.getOrderDate(), o.getOrderStatus(), o.getAddress()),
-                        mapping(o -> new OrderItemQueryDto(o.getOrderId(),
-                                o.getItemName(), o.getOrderPrice(), o.getCount()), toList())
-                        )).entrySet().stream()
-        .map(e-> new OrderQueryDto(e.getKey().getOrderId(), e.getKey().getName(), e.getKey().getOrderDate(), e.getKey().getOrderStatus(), e.getKey().getAddress(), e.getValue()))
-        .collect(toList());
+                .collect(groupingBy(o -> new OrderQueryDto(o.getOrderId(), o.getName(), o.getOrderDate(), o.getOrderStatus(), o.getAddress()),
+                        mapping(o -> new OrderItemQueryDto(o.getOrderId(), o.getItemName(), o.getOrderPrice(), o.getCount()), toList())
+                )).entrySet().stream()
+                .map(e -> new OrderQueryDto(e.getKey().getOrderId(), e.getKey().getName(), e.getKey().getOrderDate(), e.getKey().getOrderStatus(), e.getKey().getAddress(), e.getValue()))
+                .collect(toList());
     }
 
     @Data
     static class OrderDto {
+
         private Long orderId;
         private String name;
-        private LocalDateTime orderDate; //주문시간
+        private LocalDateTime orderDate;
         private OrderStatus orderStatus;
         private Address address;
-        private List<OrderItemDto> orderItems;
+        private List<OrderItemDto> orderitems;
+
         public OrderDto(Order order) {
             orderId = order.getId();
             name = order.getMember().getName();
             orderDate = order.getOrderDate();
             orderStatus = order.getStatus();
             address = order.getDelivery().getAddress();
-            orderItems = order.getOrderItems().stream()
+            orderitems = order.getOrderItems().stream()
                     .map(orderItem -> new OrderItemDto(orderItem))
-                    .collect(toList());
+                    .collect(Collectors.toList());
         }
     }
 
     @Data
     static class OrderItemDto {
+
         private String itemName;
         private int orderPrice;
         private int count;

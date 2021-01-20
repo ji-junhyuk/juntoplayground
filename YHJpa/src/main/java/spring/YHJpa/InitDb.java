@@ -20,7 +20,6 @@ public class InitDb {
         initService.dbInit1();
         initService.dbInit2();
     }
-
     @Component
     @Transactional
     @RequiredArgsConstructor
@@ -45,13 +44,13 @@ public class InitDb {
         }
 
         public void dbInit2() {
-            Member member = createMember("userB", "Jinju", "2", "2222");
+            Member member = createMember("userB", "Busan", "2", "2222");
             em.persist(member);
 
-            Book book1 = createBook("SPRING1 Book", 30000, 300);
+            Book book1 = createBook("Spring1 Book", 30000, 300);
             em.persist(book1);
 
-            Book book2 = createBook("SPRING2 Book", 40000, 400);
+            Book book2 = createBook("Spring2 Book", 40000, 400);
             em.persist(book2);
 
             Delivery delivery = createDelivery(member);
