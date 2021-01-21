@@ -1,6 +1,7 @@
 package spring.YHBasic.repository;
 
 import spring.YHBasic.domain.Member;
+import spring.YHBasic.repository.MemberRepository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class MemoryMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Member findById(Long id) {
-        return store.get(id);
+    public Member findById(Long memberId) {
+        return store.get(memberId);
     }
 }
