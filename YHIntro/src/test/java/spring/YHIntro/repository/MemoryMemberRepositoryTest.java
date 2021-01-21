@@ -2,6 +2,7 @@ package spring.YHIntro.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import spring.YHIntro.domain.Member;
 
 import java.util.List;
 
