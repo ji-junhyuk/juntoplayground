@@ -3,12 +3,14 @@ package spring.YHIntro.service;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 import spring.YHIntro.domain.Member;
 import spring.YHIntro.repository.MemoryMemberRepository;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Transactional
 class MemberServiceTest {
 
     MemberService memberService;

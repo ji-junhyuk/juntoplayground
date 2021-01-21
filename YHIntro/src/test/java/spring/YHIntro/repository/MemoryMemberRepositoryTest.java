@@ -2,12 +2,14 @@ package spring.YHIntro.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 import spring.YHIntro.domain.Member;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
+@Transactional(readOnly = true)
 class MemoryMemberRepositoryTest {
 
     MemoryMemberRepository repository = new MemoryMemberRepository();
