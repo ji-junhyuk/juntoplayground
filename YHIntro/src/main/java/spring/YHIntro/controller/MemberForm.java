@@ -1,4 +1,4 @@
-package spring.YHIntro.web;
+package spring.YHIntro.controller;
 
 import lombok.Getter;
 import lombok.Setter;

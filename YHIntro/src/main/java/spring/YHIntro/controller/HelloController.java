@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,7 +13,7 @@ public class HelloController {
 
     @GetMapping("hello")
     public String hello(Model model) {
-        model.addAttribute("data", "hello!!");
+        model.addAttribute("data", "hello!!~");
         return "hello";
     }
 
@@ -38,7 +37,8 @@ public class HelloController {
         return hello;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     static class Hello {
         private String name;
     }

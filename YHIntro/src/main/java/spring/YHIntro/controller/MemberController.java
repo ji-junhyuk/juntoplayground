@@ -1,4 +1,4 @@
-package spring.YHIntro.web;
+package spring.YHIntro.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping(value = "/members/new")
+    @GetMapping("/members/new")
     public String createForm() {
         return "members/createMemberForm";
     }
@@ -34,7 +34,6 @@ public class MemberController {
 
     @GetMapping(value = "/members")
     public String list(Model model) {
-
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members);
         return "members/memberList";

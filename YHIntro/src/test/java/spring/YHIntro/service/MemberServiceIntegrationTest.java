@@ -1,12 +1,11 @@
 package spring.YHIntro.service;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import spring.YHIntro.domain.Member;
+import spring.YHIntro.repository.MemberRepository;
 import spring.YHIntro.repository.MemoryMemberRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +20,7 @@ class MemberServiceIntegrationTest {
     MemberService memberService;
 
     @Autowired
-    MemoryMemberRepository memberRepository;
+    MemberRepository memberRepository;
 
     @Test
     public void join() throws Exception {
