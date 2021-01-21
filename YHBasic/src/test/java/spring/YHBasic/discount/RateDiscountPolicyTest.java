@@ -1,50 +1,40 @@
 package spring.YHBasic.discount;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import spring.YHBasic.AppConfig;
 import spring.YHBasic.domain.Grade;
 import spring.YHBasic.domain.Member;
-import spring.YHBasic.service.MemberService;
-import spring.YHBasic.service.OrderService;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RateDiscountPolicyTest {
 
-    DiscountPolicy rateDiscountPolicy;
-
-    @BeforeEach
-    public void beforeEach() {
-        AppConfig appConfig = new AppConfig();
-        rateDiscountPolicy = appConfig.discountPolicy();
-    }
+    RateDiscountPolicy discountPolicy = new RateDiscountPolicy();
 
     @Test
-    public void vip_o() {
+    void vip_o() {
 
         //Given
-        Member member = new Member(1L, "memberVIP", Grade.VIP);
+        Member member = new Member(1L, "MemberVIP", Grade.VIP);
 
         //When
-        int discount = rateDiscountPolicy.discount(member, 30000);
+        int discount = discountPolicy.discount(member, 10000);
 
         //Then
-        assertThat(discount).isEqualTo(3000);
+        assertThat(discount).isEqualTo(1000);
     }
-
+    
     @Test
-    public void vip_x() {
-
+    void vip_x() {
+    
         //Given
-        Member member = new Member(2L, "memberBASIC", Grade.BASIC);
+        Member member = new Member(2L, "memberBasic", Grade.BASIC);
 
         //When
-        int discount = rateDiscountPolicy.discount(member, 30000);
+        int discount = discountPolicy.discount(member, 10000);
 
         //Then
         assertThat(discount).isEqualTo(0);
     }
+
 }

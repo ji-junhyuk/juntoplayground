@@ -3,6 +3,7 @@ package spring.YHBasic.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import spring.YHBasic.domain.Grade;
 
 @Getter
 @Setter

@@ -5,6 +5,7 @@ import spring.YHBasic.domain.Member;
 
 public class RateDiscountPolicy implements DiscountPolicy {
 
+
     private int discountPercent = 10;
 
     @Override

@@ -2,6 +2,7 @@ package spring.YHBasic.service;
 
 import lombok.RequiredArgsConstructor;
 import spring.YHBasic.domain.Member;
+import spring.YHBasic.repository.MemoryMemberRepository;
 import spring.YHBasic.repository.MemberRepository;
 
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member findMember(Long id) {
-        return memberRepository.findById(id);
+    public Member findMember(Long memberId) {
+        return memberRepository.findById(memberId);
     }
 }
