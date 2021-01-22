@@ -2,8 +2,6 @@ package spring.YHJpa.repository.order.query;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import spring.YHJpa.domain.Address;
-import spring.YHJpa.domain.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;

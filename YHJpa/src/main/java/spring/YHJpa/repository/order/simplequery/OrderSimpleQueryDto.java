@@ -1,8 +1,6 @@
 package spring.YHJpa.repository.order.simplequery;
 
 import lombok.Data;
-import spring.YHJpa.domain.Address;
-import spring.YHJpa.domain.OrderStatus;
 
 import java.time.LocalDateTime;
 

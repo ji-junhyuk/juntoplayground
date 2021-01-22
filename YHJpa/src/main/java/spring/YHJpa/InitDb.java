@@ -3,8 +3,6 @@ package spring.YHJpa;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import spring.YHJpa.domain.*;
-import spring.YHJpa.domain.item.Book;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
