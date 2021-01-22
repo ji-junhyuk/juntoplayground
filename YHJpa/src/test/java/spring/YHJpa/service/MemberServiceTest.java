@@ -20,11 +20,11 @@ class MemberServiceTest {
     MemberRepository memberRepository;
 
     @Test
-    public void join() throws Exception {
+    void join() throws Exception {
 
         //Given
         Member member = new Member();
-        member.setName("kim");
+        member.setName("ji");
 
         //When
         Long saveId = memberService.join(member);
@@ -34,14 +34,14 @@ class MemberServiceTest {
     }
 
     @Test
-    public void duplicateMemberException() throws Exception {
+    void duplicateMemberException() throws Exception {
 
         //Given
         Member member1 = new Member();
-        member1.setName("kim");
+        member1.setName("ji");
 
         Member member2 = new Member();
-        member2.setName("kim");
+        member2.setName("ji");
 
         //When
         memberService.join(member1);

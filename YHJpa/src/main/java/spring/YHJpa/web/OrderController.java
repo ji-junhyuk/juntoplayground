@@ -1,5 +1,6 @@
 package spring.YHJpa.web;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,6 @@ public class OrderController {
                         @RequestParam("count") int count) {
 
         orderService.order(memberId, itemId, count);
-
         return "redirect:/orders";
     }
 

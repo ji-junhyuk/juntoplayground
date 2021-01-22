@@ -57,7 +57,6 @@ public class Order {
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
-
         order.setStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
         return order;
@@ -65,10 +64,9 @@ public class Order {
 
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
-            throw new IllegalStateException("Products that have been already delivered cannot be cancelled.");
+            throw new IllegalStateException("Products that have already been shipped cannot be canceled.");
         }
-
-        this.setStatus(OrderStatus.CANCEl);
+        this.setStatus(OrderStatus.CANCEL);
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
@@ -79,7 +77,7 @@ public class Order {
         for (OrderItem orderItem : orderItems) {
             totalPrice += orderItem.getTotalPrice();
         }
-
         return totalPrice;
     }
+
 }

@@ -2,7 +2,7 @@ package spring.YHJpa.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
-import spring.YHJpa.exception.NotEnoughStockException;
+import spring.YHJpa.exception.NotEnoughtStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,8 +11,9 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
-@Getter @Setter
-public abstract class Item {
+@Getter
+@Setter
+public class Item {
 
     @Id
     @GeneratedValue
@@ -20,12 +21,11 @@ public abstract class Item {
     private Long id;
 
     private String name;
-
     private int price;
     private int stockQuantity;
 
     @ManyToMany(mappedBy = "items")
-    private List<Category> categories = new ArrayList<>();
+    private List<Category> categories = new ArrayList<Category>();
 
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
@@ -34,7 +34,7 @@ public abstract class Item {
     public void removeStock(int quantity) {
         int restStock = this.stockQuantity - quantity;
         if (restStock < 0) {
-            throw new NotEnoughStockException("need more stock.");
+            throw new NotEnoughtStockException("need more stock.");
         }
         this.stockQuantity = restStock;
     }

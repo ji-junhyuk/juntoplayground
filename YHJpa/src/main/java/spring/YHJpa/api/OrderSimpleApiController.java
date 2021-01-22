@@ -1,14 +1,10 @@
+/*
 package spring.YHJpa.api;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import spring.YHJpa.domain.Address;
-import spring.YHJpa.domain.Order;
-import spring.YHJpa.domain.OrderSearch;
-import spring.YHJpa.domain.OrderStatus;
-import spring.YHJpa.repository.OrderRepository;
 import spring.YHJpa.repository.order.simplequery.OrderSimpleQueryDto;
 import spring.YHJpa.repository.order.simplequery.OrderSimpleQueryRepository;
 
@@ -76,3 +72,4 @@ public class OrderSimpleApiController {
         }
     }
 }
+*/

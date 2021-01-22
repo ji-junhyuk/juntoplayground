@@ -17,8 +17,8 @@ import java.util.List;
 public class OrderService {
 
     private final MemberRepository memberRepository;
-    private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
+    private final ItemRepository itemRepository;
 
     @Transactional
     public Long order(Long memberId, Long itemId, int count) {
@@ -42,11 +42,11 @@ public class OrderService {
     public void cancelOrder(Long orderId) {
 
         Order order = orderRepository.findOne(orderId);
-
         order.cancel();
     }
 
     public List<Order> findOrders(OrderSearch orderSearch) {
         return orderRepository.findAllByString(orderSearch);
     }
+
 }

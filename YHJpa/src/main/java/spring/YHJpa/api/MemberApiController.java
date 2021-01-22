@@ -1,14 +1,12 @@
+/*
 package spring.YHJpa.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import spring.YHJpa.domain.Member;
-import spring.YHJpa.service.MemberService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,3 +95,4 @@ public class MemberApiController {
         private String name;
     }
 }
+*/

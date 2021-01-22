@@ -4,13 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import spring.YHJpa.domain.Address;
-import spring.YHJpa.domain.Member;
-import spring.YHJpa.domain.Order;
-import spring.YHJpa.domain.OrderStatus;
+import spring.YHJpa.domain.*;
 import spring.YHJpa.domain.item.Book;
 import spring.YHJpa.domain.item.Item;
-import spring.YHJpa.exception.NotEnoughStockException;
+import spring.YHJpa.exception.NotEnoughtStockException;
 import spring.YHJpa.repository.OrderRepository;
 
 import javax.persistence.EntityManager;
@@ -32,7 +29,7 @@ class OrderServiceTest {
     OrderRepository orderRepository;
 
     @Test
-    public void orderProduct() throws Exception {
+    void orderProduct() throws Exception {
 
         //Given
         Member member = createMember();
@@ -56,27 +53,26 @@ class OrderServiceTest {
     }
 
     @Test
-    public void orderProduct_inventoryQuantityExceeded() throws Exception {
+    void orderProduct_inventoryQuantityExceeded() throws Exception {
 
         //Given
         Member member = createMember();
         Item item = createBook("country JPA", 10000, 10);
-
         int orderCount = 11;
 
         //When
-        NotEnoughStockException e = assertThrows(NotEnoughStockException.class, () -> orderService.order(member.getId(), item.getId(), orderCount));
+        NotEnoughtStockException e = assertThrows(NotEnoughtStockException.class, () -> orderService.order(member.getId(), item.getId(), orderCount));
 
         //Then
         assertEquals(e.getMessage(), "need more stock.");
     }
 
     @Test
-    public void cancelOrder() {
+    void cancelOrder() {
 
         //Given
         Member member = createMember();
-        Item item = createBook("county JPA", 20000, 20);
+        Item item = createBook("country JPA", 20000, 20);
         int orderCount = 10;
 
         Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
@@ -87,24 +83,23 @@ class OrderServiceTest {
         //Then
         Order getOrder = orderRepository.findOne(orderId);
 
-        assertEquals(OrderStatus.CANCEl, getOrder.getStatus(),
+        assertEquals(OrderStatus.CANCEL, getOrder.getStatus(),
                 "When canceling an order, the status is CANCEL.");
         assertEquals(20, item.getStockQuantity(),
                 "Products whose orders have been canceled should increase inventory accordingly.");
+
     }
 
     private Member createMember() {
-
         Member member = new Member();
         member.setName("member1");
-        member.setAdress(new Address("Seoul", "River", "123-123"));
+        member.setAddress(new Address("Seoul", "River", "123-123"));
         em.persist(member);
 
         return member;
     }
 
     private Book createBook(String name, int price, int stockQuantity) {
-
         Book book = new Book();
         book.setName(name);
         book.setStockQuantity(stockQuantity);
@@ -113,4 +108,5 @@ class OrderServiceTest {
 
         return book;
     }
+
 }

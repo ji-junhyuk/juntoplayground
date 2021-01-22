@@ -1,5 +1,5 @@
 package spring.YHJpa.domain;
 
 public enum OrderStatus {
-    ORDER, CANCEl
+    ORDER, CANCEL
 }

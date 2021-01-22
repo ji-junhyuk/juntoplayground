@@ -1,6 +1,7 @@
 package spring.YHJpa.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.YHJpa.domain.Member;
@@ -36,11 +37,5 @@ public class MemberService {
 
     public List<Member> findMembers() {
         return memberRepository.findAll();
-    }
-
-    @Transactional
-    public void update(Long id, String name) {
-        Member member = memberRepository.findOne(id);
-        member.setName(name);
     }
 }
