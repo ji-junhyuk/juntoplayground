@@ -1,3 +1,4 @@
+/*
 package spring.YHJpa.repository.order.query;
 
 import lombok.Data;
@@ -28,3 +29,4 @@ public class OrderFlatDto {
         this.count = count;
     }
 }
+*/

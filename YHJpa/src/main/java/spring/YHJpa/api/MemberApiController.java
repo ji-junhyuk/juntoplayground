@@ -1,3 +1,4 @@
+/*
 package spring.YHJpa.api;
 
 import lombok.AllArgsConstructor;
@@ -94,3 +95,4 @@ public class MemberApiController {
         private String name;
     }
 }
+*/

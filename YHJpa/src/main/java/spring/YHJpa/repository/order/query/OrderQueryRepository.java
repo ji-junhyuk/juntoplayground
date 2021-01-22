@@ -1,3 +1,4 @@
+/*
 package spring.YHJpa.repository.order.query;
 
 import lombok.RequiredArgsConstructor;
@@ -86,3 +87,4 @@ public class OrderQueryRepository {
                 .getResultList();
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package spring.YHJpa.repository.order.simplequery;
 
 import lombok.Data;
@@ -21,3 +22,4 @@ public class OrderSimpleQueryDto {
         this.address = address;
     }
 }
+*/

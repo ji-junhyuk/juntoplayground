@@ -1,3 +1,4 @@
+/*
 package spring.YHJpa;
 
 import lombok.RequiredArgsConstructor;
@@ -81,3 +82,4 @@ public class InitDb {
         }
     }
 }
+*/

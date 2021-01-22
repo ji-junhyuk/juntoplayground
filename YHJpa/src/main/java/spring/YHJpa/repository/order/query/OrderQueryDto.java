@@ -1,3 +1,4 @@
+/*
 package spring.YHJpa.repository.order.query;
 
 import lombok.Data;
@@ -35,3 +36,4 @@ public class OrderQueryDto {
         this.orderItems = orderItems;
     }
 }
+*/
