@@ -1,6 +1,7 @@
 ![image](https://img.shields.io/badge/-Markdown-red) ![image](https://img.shields.io/badge/-HowToUse-yellow) ![image](https://img.shields.io/badge/-beginner-brightgreen)
 
 # :point_right: #0 제목(Header)<a name="TOP"></a>
+# top
 ``` C
 # 제목1
 ## 제목2
@@ -162,8 +163,7 @@ www.google.com
 
 www.google.com
 
-[ :point_right: 제목(Header)](#:point_right: #0 제목(Header) "Goto heading")
-[heading-1](#heading-1 "Goto heading-1")
+[top](#top "goto top")
 
 [Go To TOP](#TOP)
 
