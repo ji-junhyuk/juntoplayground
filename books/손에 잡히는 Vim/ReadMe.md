@@ -10,6 +10,8 @@
 - ctrl + b = page up, ctrl + f = page down, ctrl + u = 위로 1/2 화면 스크롤, ctrl + d = 아래로 1/2 화면 스크롤
 
 # Ch3. 옵션, 도움말 에러 처리
+- 
+
 # Ch4. 문자열 관련 기능
 # Ch5. 파일 관련 기능
 # Ch6. 편리한 편집 기술
