@@ -10,9 +10,16 @@
 - ctrl + b = page up, ctrl + f = page down, ctrl + u = 위로 1/2 화면 스크롤, ctrl + d = 아래로 1/2 화면 스크롤
 
 # Ch3. 옵션, 도움말 에러 처리
-- 
-
+- 도움말에 사용되는 접두어
+:help x, i _, :w, v_u, -r, 'tabstop', c_CTRL_B
+- CTRL-] 커서가 위치한 타이틀로 이동, CTRL-T 이전 타이틀로 이동, :tags 현재 이동한 타이틀들의 리스트 보여줌
 # Ch4. 문자열 관련 기능
+- 문자열 정렬 :center, :right
+	- 문자열 너비 설정 : set textwidth(tw) ex) :center 50, :right 50
+- 문자열 교체 옵션
+	- g(모든), i(대소문자 무시), c(교체여부 확인), e(에러무시)
+
+	
 # Ch5. 파일 관련 기능
 # Ch6. 편리한 편집 기술
 # Ch7. 자동화
