@@ -149,3 +149,5 @@ void main()
 - 선형 시간 복잡도(linear time complexity): 작업양이 증가할 때 수행시간도 비례해서 늘어나는 것
 - 지수 시간 복잡도(exponential time complexity): 작업양이 증가할 때 지수함수의 비율로 늘어나는 것
 
+# Ch16. 이중 연결 리스트를 활용한 프로그래밍 예제 구현
+
