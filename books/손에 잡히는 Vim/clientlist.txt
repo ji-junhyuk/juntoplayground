@@ -1,0 +1,5 @@
+1, jun, M, 21, MP1
+2, sun, F, 25, CP1
+3, don, M, 45, CP4
+4, sin, F, 29, MP1
+5, rin, F, 26, MP2
