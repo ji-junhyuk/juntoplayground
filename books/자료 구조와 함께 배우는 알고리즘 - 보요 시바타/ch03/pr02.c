@@ -1,30 +1,42 @@
 #include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
 
-int bin_search(const int a[], int n, int key)
+int search(const int a[], int n, int key)
 {
-	int pl = 0;
-	int pr = n - 1;
-	int pc;
-	do {
-		pc = (pl + pr) / 2;
-		if (a[pc] == key)
-			return pc;
-		else if (a[pc] > key)
-			pr = pc - 1;
-		else
-			pl = pc + 1;
-	} while (pl <= pr);
+	int i, j;
 
+	printf("   |");
+	for (i = 0; i < n; i++)
+		printf("%3d", i);
+
+	printf("\n---+---------------");
+	puts("");
+
+	i = 0;
+	while (i < n)
+	{
+		printf("   |");
+		printf("%*s",3*(i-1)+5,"");
+		printf("*\n");
+		printf("%3d|", i);
+		j = 0;
+		while (j < n)
+		{
+			printf("%3d", a[j]);
+			j++;
+		}
+		puts("");
+		if (a[i] == key)
+			return i;
+		i++;
+	}
 	return -1;
 }
 
 int main()
 {
-	int i, j, nx, ky, idx;
+	int i, nx, ky, idx;
 	int *x;
-	srand(time(NULL));
 	printf("nx: ");
 	scanf("%d", &nx);
 	x = calloc(nx, sizeof(int));
@@ -32,32 +44,13 @@ int main()
 	i = 0;
 	while (i < nx)
 	{
-			x[i] = 1 + rand() % 6;
-			
-			j = i + 1;
-			while (j < nx)
-			{
-				if (x[i] == x[j])
-				{
-					x[j] == rand() % 6;
-					i = 0;
-				}
-				j++;
-			}
-			i++;
-	}
-	ky = rand() % 6;
-	printf("key: %d\n", ky);
-	
-	i = 0;
-	while (i < nx)
-	{
-		printf("%d ", x[i]);
+		printf("x[%d]: ", i);
+		scanf("%d", &x[i]);
 		i++;
 	}
-	puts("");
-
-	idx = bin_search(x, nx, ky);
+	printf("key: ");
+	scanf("%d", &ky);
+	idx = search(x, nx, ky);
 	if (idx == -1)
 		puts("failed to search");
 	else
