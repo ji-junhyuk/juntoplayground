@@ -154,6 +154,42 @@ while (*name != 0)
 		- 명시적 캐스팅은 malloc함수의 사용 의도를 명확히 한다.
 		- 명시적 캐스팅을 필요로 하는 C++ 또는 초기 C컴파일러와 호환 가능한 코드를 생성한다.
 
+- malloc 함수에 적절하지 않은 크기 사용
+	- 총 10개의 double 값을 위한 메모리 공간 할당(80바이트)
+		- double * pd = (double *)malloc(NUMBER_OF_DOUBLES * sizeof(double));
+		- 잘못된 예(단지 10바이트만 할당)
+			const int NUMBER_OF_DOUBLES = 10;
+			double *pd = (double *)malloc(NUMBER_OF_DOUBLES);
+- 할당된 메모리 크기 알아내기
+	- 힙에 의한 할당된 메모리의 전체 양을 알아내는 일반적인 방법은 존재하지 않는다. 또한 힙 관리자에 의해 할당된 메모리 블록의 크기를 알아내는 일반적인 방법도 존재하지 않는다.
+	- 문자열 64바이트에 할당하면 힙 관리자는 이 블록을 관리하기 위해 추가로 메모리를 할당한다(64바이트 + 관리용 메모리 영역)
+
+- 정적 포인터 및 전역 포인터에 malloc 사용하기
+	- 정적 변수나 전역 변수는 선언 시 초기화를 위해 함수 호출을 사용할 수 없다.
+	- static int * pi = malloc(sizeof(int)); // 컴파일 에러, 전역 변수도 마찬가지
+	- 컴파일러 관점에서 초기화 연산자(=)의 사용과 할당 연산자(=)의 사용은 차이가 있다.
+```c
+static int * pi;
+pi = malloc(sizeof(int));
+// 정적 변수는 오류 피할 수 있다.
+// 전역 변수는 함수 바깥에 선언되어야 하기 때문에 정적 변수와 달리 선언과 초기화를 분리할 수 없다.
+```
+
+- calloc 함수 사용하기
+	- 메모리 할당과 동시에 초기화한다. 할당된 메모리의 첫 바이트를 가리키는 포인터를 반환한다.
+	- 메모리를 할당할 수 없는 경우 NULL을 반환
+	- 인자 중 하나라도 값이 0이면 NULL을 반환한다. 전역 변수 errno는 ENOMEM(out of memory)로 설정된다.
+	- void * calloc(size_t numElements, size_t elementSize);
+```c
+int *pi = calloc(5, sizeof(int));
+// malloc 함수와 memset 함수를 같이 사용하면 같은 결과를 얻는다.
+int *pi = malloc(5 * sizeof(int));
+memset(pi, 0, 5 * sizeof(int));
+```
+- memset 함수는 메모리 영역을 원하는 값으로 채운다. 첫 번째 인자는 메모리 영역에 대한 포인터다. 두 번째 인자는 메모리를 채우는 데 사용할 값이며, 마지막 인자는 채울 바이트 수를 나타낸다.
+- 메모리 할당과 동시에 0으로 설정할 필요가 있을 때 calloc 함수를 사용하도록 하자. 그러나 calloc 함수의 실행이 malloc보다 더 길다
+
+- realloc 함수 사용하기
 
 # Ch3. 포인터와 함수
 # Ch4. 포인터와 배열
