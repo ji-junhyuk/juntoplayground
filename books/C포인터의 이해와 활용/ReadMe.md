@@ -373,7 +373,70 @@ int *pi
 
 - 포인터로 전달하기
 	- 데이터를 포인터로 전달해야 하는 가장 큰 이유는 함수 내에서 데이터를 수정하기 위해서이다.
-	- 
+```c
+void swapWithPointers(int *pnum1, int *pnum2)
+{
+	int tmp;
+	tmp = *pnum1;
+	*pnum1 = *pnum2;
+	*pnum2 = tmp;
+}
+
+int main()
+{
+	int n1 = 5;
+	int n2 = 10;
+	swapWthiPointers(&n1, &n2);
+	return 0;
+}
+// 포인터를 제거하여 매개 변수 둘 다 정수 값이라면(값에 의한 전달)
+// 매개변수의 변경(num1, num2)은 실제 인자(n1, n2)의 값에 영향을 주지 않는다.
+```
+- 상수 포인터 전달하기: 데이터의 전달이 필요하지 않은 경우
+- 포인터 반환하기 (함수로 메모리 개체를 반환할 필요가 있는 경우)
+ - 함수 내에서 malloc으로 메모리를 할당한 후 함수 종료 시 반환한다. 이 함수를 호출한 호출자(caller)는 반환된 메모리를 해제할 책임이 있다.
+ - 수정할 메모리 개체를 함수의 인자로 전달한다. 메모리 개체의 할당과 해제에 대하여 호출자에게 책임이 있다.
+```c
+int *allocateArray(int size, int value)
+{
+	int *arr = (int *)malloc(size * sizeof(int));
+
+	int i = 0;
+	while (i < size)
+	{
+		arr[i] = value;
+		i++;
+	}
+	return arr;
+}
+
+int main()
+{
+	int *vector = allocate(5,45);
+	for (int i = 0; i < 5; i++) 
+	{
+		printf("%d\n", vector[i]);
+	}
+	// 함수 실행 후 vector는 함수 내에서 할당된 메모리의 주소를 포함하고 있다.
+	// 함수 종료되자 변수 arr은 사라졌지만, 포인터에 의해 참조된 메모리는 여전히 존재한다.
+
+	// ...free(vector)
+}
+```
+- 이 예제는 올바르게 작동하지만 함수로부터 포인터를 반환할 때 다음과 같은 몇가지 잠재적 문제가 발생할 가능성이 있다.
+	- 초기화되지 않은 포인터의 반환
+	- 잘못된 주소를 가리키는 포인터의 반환
+	- 로컬 변수를 가리키는 포인터의 반환
+	- 반환된 포인터의 메모리 해제 실패
+- 로컬 데이터 포인터
+	- 대안으로 변수 arr을 static으로 선언하는 방법이 있다. 이 방법은 변수의 범위는 함수로 제한되지만, 변수는 스텍 프레임 바깥에 할당되어 다른 함수가 변수의 값을 덮어쓸 가능성이 없어진다.
+```c
+int *allocateArray(int size, int value)
+{
+	static int arr[5];
+	...
+}
+```
 # Ch4. 포인터와 배열
 # Ch5. 포인터와 문자열
 # Ch6. 포인터와 구조체
