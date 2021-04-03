@@ -437,6 +437,53 @@ int *allocateArray(int size, int value)
 	...
 }
 ```
+- NULL 포인터 전달하기
+```c
+int *allocateArray(int *arr, int size, int value)
+{
+	if (arr != NULL)
+	{
+		for (int i = 0; i < size; i++)
+			arr[i] = value;
+	}
+	return arr;
+}
+//포인터가 함수로 전달될 때는 포인터를 사용하기 전에 널 여부를 검사하는 것이 좋다.
+int *vector = (int *)malloc(5 * sizeof(int));
+allocateArray(vector,5,45);
+//만약 널 포인터가 전달되면 함수는 아무런 동작도 수행하지 않으며, 프로그램도 널 포인터에 의한 비정상 종료 없이 정상적으로 수행
+```
+- 포인터의 포인터 전달하기
+	- 포인터가 함수로 전달되면, 포인터는 값에 의해 함수로 전달된다. 
+	- 호출된 함수 내에서 포인터의 복사본에 대한 수정이 아닌 포인터 자체의 수정을 원한다면, 포인터의 포인터를 전달해야 한다.
+	- 호출하는 함수에서 할당된 이 포인터를 수정하려면, 호출 시 포인터의 주소를 전달해야 한다. 따라서 함수의 매개변수는 정수에 대한
+	포인터의 포인터로 선언되어 있고, 호출 함수는 포인터의 주소를 전달해야 한다.
+```c
+void allocateArray(int **arr, int size, int value)
+{
+	*arr = (int *)malloc(size * sizeof(int));
+	if (*arr != NULL)
+		for (int i = 0; i < size; i++)
+			*(*arr + i) = value;
+}
+
+int *vector = NULL;
+allocateArray(&vector, 5, 45);
+
+==================
+
+void allocateArray(int *arr, int size, int value)
+{
+	arr = (int *)malloc(size * sizeof(int));
+	if (arr != NULL)
+		for (i = 0; i < size; i++)
+			arr[i] = value;
+}
+int *vector = NULL;
+allocateArray(&vector,5,45);
+printf(%p\n, vector);
+// vector 변수가 함수로 전달 될 때 매개변수 arr로 복사되어 전달 되기 때문에 arr에 대한 변경은 vector에 전혀 영향을 미치지 않음.
+```
 # Ch4. 포인터와 배열
 # Ch5. 포인터와 문자열
 # Ch6. 포인터와 구조체
