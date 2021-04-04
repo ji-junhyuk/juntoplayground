@@ -484,6 +484,104 @@ allocateArray(&vector,5,45);
 printf(%p\n, vector);
 // vector 변수가 함수로 전달 될 때 매개변수 arr로 복사되어 전달 되기 때문에 arr에 대한 변경은 vector에 전혀 영향을 미치지 않음.
 ```
+- 사용자 정의 free함수 작성하기
+```c
+void safeFree(void **pp)
+{
+	if (pp != NULL && *pp != NULL)
+	{
+		free(*pp);
+		*pp = NULL
+	}
+}
+// free함수는 전달된 포인터가 NULL인지 검사하지 않으며, 할당 해제 후 반환시에 포인터를 NULL로 설정하지도 않는다.
+// 메모리 해제 후 포인터를 NULL로 설정하는 것은 매우 좋은 습관이다.
+```
+- 함수 포인터: 함수의 주소를 가리키는 포인터다.
+	- 함수 포인터는 어떠한 조건 문장도 사용하지 않고서 컴파일 시간에 미리 결정된 순서가 아닌 함수의 실행을 제어하는 방법을 제공한다.
+	- 함수 포인터 사용에 한 가지 우려되는 점은 잠재적으로 프로갤므이 느리게 동작한다는 것이다 (프로세서는 파이프라이닝과 분기 예측을 함께 사용하지 못할 수 있다). 
+	- 함수 포인터 이름 규칙에 항상 fptr 접두사 붙이는 방법 추천한다.
+	- 함수 포인터 사용하기
+```c
+int (*fptr)(int);
+
+int square(int num)
+{
+	return num * num;
+}
+
+int n = 5;
+fptr1 = square;
+printf("%d square is %d\n", fptr1(5));
+}
+// 함수의 실제 위치는 프로그램 스택과는 다른 세그먼트 영역에 할당되며, 일반적으로 관심의 대상이 아니다
+```
+- 함수 포인터 전달하기
+```c
+int add(int num1, int num2)
+{
+	return num1 + num2;
+}
+
+int sub(int num1, int num2)
+{
+	return num1 - num2;
+}
+
+typedef int (*fptrOperation)(int, int);
+
+int compute(fptrOperation opertation, int num1, int num2)
+{
+	return operation(num1, num2);
+}
+```
+- 함수 포인터 반환하기
+```c
+fptrOperation select(char opcode)
+{
+	switch(opcode)
+	{
+		case '+': return add;
+		case '-': return subtract;
+	}
+}
+
+int evaluate(char opcode, int num1, int num2)
+{
+	fptrOperation operation = select(opcode);
+	return operation(num1, num2);
+}
+
+printf("%d\n", evaluate('+', 5, 6));
+printf("%d\n", evaluate('-', 5, 6));
+```
+- 함수 포인터의 배열 이용하기
+```c
+typedef int (*operation)(int, int);
+operation operation[128] = {NULL};
+// 블록 안에 나열된 초기화 값의 수가 배열의 크기보다 작은 경우, 배열의 나머지 요소는 모두 0으로 초기화 된다
+int (*operation[128])(int, int) = {NULL};
+// 이 배열을 선언한 의도는 문자 인덱스를 사용하여 실행할 함수를 선택하기 위해서다.
+
+void initializeOperationsArray()
+{
+	operation['+'] = add;
+	operation['-'] = substract;
+}
+
+int evaluateArray(char opcode, int num1, int num2)
+{
+	fptrOperation operation;
+	operation = operations[opcode];
+	return operation(num1, num2);
+}
+
+initializeOperationsArray();
+printf("%d\n", evaluateArray('+', 5, 6);
+printf("%d\n", evaluateArray('-', 5, 6);
+```
+
+
 # Ch4. 포인터와 배열
 # Ch5. 포인터와 문자열
 # Ch6. 포인터와 구조체
