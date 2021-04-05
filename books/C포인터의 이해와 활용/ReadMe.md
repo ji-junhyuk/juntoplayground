@@ -580,9 +580,54 @@ initializeOperationsArray();
 printf("%d\n", evaluateArray('+', 5, 6);
 printf("%d\n", evaluateArray('-', 5, 6);
 ```
+- 함수 포인터 비교하기
+```c
+fpterOpertaion fptr1 = add;
 
+if (fptr == add)
+{
+	printf("add function\n");
+else
+{
+	printf("not add function\n");
+}
+```
+- 현실적인 예: 작업의 단계를 함수 포인터 배열로 표현하는 경우
+	- 재고 부품의 배열을 조작하는 일련의 함수들이 있고, 이 함수로 구성된 두 가지 작업세트가 있다고 생각해보자.
+	- 각 작업 세트는 개별 함수들에 대한 포인터들의 배열로 정의될 수 있고, 로그 작업은 두 작업 세트의 배열에 모두 존재할 수 있다.
+	- 두 함수 포인터를 비교하는 기능을 사용하면 배열로부터 로깅 작업을 찾아서 삭제하거나 또 다른 함수를 찾아서 목록에서 제거하여 작업을 동적으로 변경할 수 있다.
+	
+- 함수 포인터 캐스팅
+```c
+typedef int (*fptrToSingleInt)(int);
+typedef int (*fptrToTwoInts)(int, int);
+int add(int, int);
+
+fptrToTwoInts fptrFirst = add;
+fptrToSingleInt fptrSecnod = (fptrToSingleInt)fptrFirst;
+fptrFirst = (fptrToTwoInts)fptrSecond;
+printf("%d\n", fptrFirst(5, 6));
+```
+- 함수 포인터와 데이터 포인터 사이의 변환은 동작하지 않을 수 있다.
+```c
+void *pv = add;
+//할당 할 수 없다
+// 함수 포인터를 교체하는 경우, 아래 선언된 기본 함수 포인터 타입을 참조하는 것이 일밙거이다.
+typedef void (*fptrBase)();
+
+fptrBase basePointer;
+fptrFirst = add;
+basePointer = (fptrToSingleInt)fptrFirst;
+fptrFirst = (fptrToTwoInts)basePointer;
+printf("%d\n", fptrFirst(5, 6));
+```
+- 항상 올바른 함수 포인터 인자 목록을 사용해야 하며, 그렇지 않은 경우 예상할 수 없는 동작이 발생한다.
+- 상수 데이터를 포인터로 전달하는 방법은 함수에서 전달된 데이터의 수정을 막는 데 효과적이다.
+- 포인터의 포인터를 전달하면 함수 내에서 인자로 전달된 포인터에 다른 메모리 영역을 할당하여 반환할 수 있다.
 
 # Ch4. 포인터와 배열
+- 유효하지 않은 배열의 인덱스를 이용했을 때의 동작은 예측할 수 없다. c언어에서는 범위를 강제하지 않는다.
+- 
 # Ch5. 포인터와 문자열
 # Ch6. 포인터와 구조체
 # Ch7. 보안 이슈와 포인터의 오남용
