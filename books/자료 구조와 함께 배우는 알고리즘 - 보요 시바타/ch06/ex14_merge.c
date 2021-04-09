@@ -12,6 +12,7 @@ static void __mergesort(int a[], int left, int right)
 		int i;
 		int j = 0;
 		int k = left;
+
 		__mergesort(a, left, center);
 		__mergesort(a, center + 1, right);
 		for (i = left; i <= center; i++)
@@ -40,4 +41,17 @@ int main()
 	scanf("%d", &nx);
 	x = calloc(nx, sizeof(int));
 
+	for (i = 0; i < nx; i++)
+	{
+		printf("x[%d]: ", i);
+		scanf("%d", &x[i]);
+	}
+	mergesort(x, nx);
+	
+	for (i = 0; i < nx; i++)
+		printf("x[%d] = %d\n", i, x[i]);
 
+	free(x);
+
+	return 0;
+}
