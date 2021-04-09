@@ -688,7 +688,73 @@ printf("%d\n", sizeof(matrix[0]) // 20
 void display2DArray(int arr[][5], int rows) {
 void display2DArray(int (*arr)[5], int rows) {
 // 두가지 버전 모두 행의 수는 지정되었다. 이는 컴파일러가 각 열의 요소 수에 대해 반드시 알아야 하기 때문이다.
+// 다음과 같이 선언하면 제대로 동작하지 않는다. 함수는 전달된 배열이 다섯 개의 요소를 가진 정수에 대한 포인터의 배열일 것이라고 가정한다.
+void display2DArray(int *arr[5], int rows) {
+간단한 구현 방법
+void display2DArray(int arr[][5], int rows) {
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < 5; j++)
+			printf("%d", arr[i][j]);
+		puts("");
+void main()
+{
+	int matrix[2][5] = {
+		{1, 2, 3, 4, 5},
+		{6, 7, 8, 9, 10}
+	};
+	display2DArray(matrix, 2);
+}
+// 이 함수는 배열에 메모리를 할당하지 않는다. 다만 주소만이 전달될 뿐이다.
+
+void display2DArrayUnknownSize(int *arr, int rows, int cols)
+{
+	for (i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			printf("%d ", *(arr + (i * cols) + j));
+}
+// 이 함수는 다음과 같이 호출할 수 있다.
+display2DArrayUnknownSize(&matrix[0][0], 2, 5); // &matrix[0][0]은 정수에 대한 포인터지만, matrix는 정수의 배열에 대한 포인터이다.
+다음과 같이 배열 첨자를 이용할 수는 없다.
+printf("%d ", arr[i][j]);
+다음은 가능하다.
+printf("%d ", (arr+i)[j]);
 ```
+- 3차원 배열을 출력하는 함수
+```c
+void display3DArray(int (*arr)[2][4], int rows)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			printf("{");
+			for(int k = 0; k < 4; k++)
+				printf("%d ", arr[i][j][k]);
+			printf("}");
+		}
+	}
+}
+// 이 함수 호출
+int arr3d[3][2][4] = {
+	...
+};
+display3DArray(arr3d, 3);
+```
+- 2차원 배열 동적으로 할당하기
+	- 배열 요소가 인접해 있어야 하는지 
+	- 배열이 가변이어야 하는지
+	- 2차원 배열이 배열의 배열처럼 다루어질 수 있기에 '내부'의 배열이 반드시 인접할 필요는 없다.
+	- 메모리가 인접해 있지 않으면 메모리 블록 등을 복사하는 등의 다른 동작에 영향을 줄 수 있다.
+- 불연속 메모리 할당
+```c
+int rows = 2;
+int columns = 5;
+
+int **matrix = (int **)malloc(rows * sizeof(int *));
+
+for (int i = 0; i < rows; i++)
+	matrix[i] = (int *)malloc(columns * sizeof(int));
+
 # Ch5. 포인터와 문자열
 # Ch6. 포인터와 구조체
 # Ch7. 보안 이슈와 포인터의 오남용
