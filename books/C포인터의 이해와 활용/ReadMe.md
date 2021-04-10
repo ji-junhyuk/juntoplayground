@@ -754,6 +754,20 @@ int **matrix = (int **)malloc(rows * sizeof(int *));
 
 for (int i = 0; i < rows; i++)
 	matrix[i] = (int *)malloc(columns * sizeof(int));
+// 바깥쪽 배열에 메모리를 할당한 다음, 별도의 malloc함수를 이용해 각 열에 메모리 할당
+```
+- 인접한 메모리 할당
+```c
+int row = 2;
+int columns = 5;
+int **matrix = (int **)malloc(rows * sizeof(int *));
+matrix[0] = (int *)malloc(rows * columns * sizeof(int));
+for (int i = 1; i < rows; i++)
+	maxtrix[i] = matrix[0] + i * columns;
+// 한 번만에 대신 인덱스는 수동으로 계산해야 한다. 각 배열 요소는 그 인덱스의 곱으로 초기화한다.
+int *matrix = (int *)malloc(rows * columns * sizeof(int));
+```
+- 가변 배열과 포인터
 
 # Ch5. 포인터와 문자열
 # Ch6. 포인터와 구조체
