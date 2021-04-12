@@ -803,6 +803,32 @@ header2 = "Media Player"
 char *header = (char *)malloc(strlen("Media Player")+1);
 strcpy(header, "Media Player");
 ```
+- malloc 함수에 전달할 문자열의 길이를 결정할 때는 아래 사항에 유의한다.
+	- NUL문자를 위해 1바이트를 추가로 할당
+	- sizeof 연산자는 배일이나 포인터의 크기를 반환하므로 strlen 함수를 이용
+- 문자열 리터럴 주소를 아래 코드처럼 char 포인터에 직접 할당할 수 있다. 단, 문자열의 새로운 복사본을 생성하지 않음. (힙에 없음, 문자열 리터럴 풀) char * header = "Media Player";
+- char 포인터는 문자 상수로 초기화 할 수 없다. char포인터에 정수를 할당하려는 시도와 같다.
+```c
+char *prefix = '+' // 유효하지 않음
+// malloc 함수 사용
+prefix = (char *)malloc(2);
+*prefix = '+';
+*(prefix+1) = 0;
+```
+- 표준 입력(stdin)으로 문자열 초기화하기
+```c
+char *command;
+scanf("%s", command");
+// 문자열을 입력받을 때 잠재적인 초기화 오류가 발생할 수 있다. command변수를 사용하기 전 메모리를 할당하지 않았기 때문이다.
+// 포인터에 메모리를 할당하거나 포인터 대신 고정 크기 배열을 사용해야 한다.
+```
+- 문자열 위치 요약(p151. 그림 완벽히 이해할 것!)
+- 부정확한 비교는 틀리거나 유효하지 않은 결과를 유도할 수 있다.
+```c
+int strcmp(const char *s1, const char *s2)
+// 음수 - s1이 s2보다 사전적으로 앞에 있을 때, 0 - 두 문자열 동일, 양수 - s1이 s2보다 사전적으로 뒤에 있을 때
+
+	
 # Ch6. 포인터와 구조체
 # Ch7. 보안 이슈와 포인터의 오남용
 # Ch8. 기타
