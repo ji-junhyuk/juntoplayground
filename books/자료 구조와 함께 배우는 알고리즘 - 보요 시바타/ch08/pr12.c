@@ -1,17 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
-
 int _print(const char txt[], const char pat[], int txt_len, int pat_len, int pt, int pp)
 {
 	int i = 0, k = 0;
 
 	if (pp != pat_len - 1)
 		printf("    ");
-	else {
+	else
 		printf("%2d  ", pt - pp);
-		k = pt - pp;
-	}
+
 	for (i = 0; i < txt_len; i++)
 		printf("%c ", txt[i]);
 	putchar('\n');
@@ -26,21 +24,23 @@ int _print(const char txt[], const char pat[], int txt_len, int pat_len, int pt,
 
 int bm_match(const char txt[], const char pat[])
 {
-	int pt;							
-	int pp;							
-	int txt_len = strlen(txt);		
-	int pat_len = strlen(pat);		
-	int skip[UCHAR_MAX + 1];		
+	int pt;
+	int pp;
+	int txt_len = strlen(txt);
+	int pat_len = strlen(pat);
+	int skip[UCHAR_MAX + 1];
 
-	for (pt = 0; pt <= UCHAR_MAX; pt++)		
+	for (pt = 0; pt <= UCHAR_MAX; pt++)
 		skip[pt] = pat_len;
 	for (pt = 0; pt < pat_len - 1; pt++)
 		skip[pat[pt]] = pat_len - pt - 1;
-	/* pt == pat_len - 1 である */
-	while (pt < txt_len) {
-		pp = pat_len - 1;					
 
-		while (_print(txt, pat, txt_len, pat_len, pt, pp), txt[pt] == pat[pp]) {
+	while (pt < txt_len)
+	{
+		pp = pat_len - 1;
+
+		while (_print(txt, pat, txt_len, pat_len, pt, pp), txt[pt] == pat[pp])
+		{
 			if (pp == 0)
 				return pt;
 			pp--;
@@ -48,7 +48,6 @@ int bm_match(const char txt[], const char pat[])
 		}
 		pt += (skip[txt[pt]] > pat_len - pp) ? skip[txt[pt]] : pat_len - pp;
 	}
-
 	return -1;
 }
 
