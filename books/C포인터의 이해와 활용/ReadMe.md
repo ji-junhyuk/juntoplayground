@@ -828,6 +828,56 @@ scanf("%s", command");
 int strcmp(const char *s1, const char *s2)
 // 음수 - s1이 s2보다 사전적으로 앞에 있을 때, 0 - 두 문자열 동일, 양수 - s1이 s2보다 사전적으로 뒤에 있을 때
 
+char command[16];
+scanf("%s", command);
+if (strcmp(command, "Quit") == 0)
+	printf("The command was Quit");
+else
+	printf("The command was not Quit.");
+
+// 문자열을 비교할 때 잘못된 2가지 케이스
+1
+scanf("%s", command);
+if (command == "Quit")
+... // 문자열 상수의 주소를 배열 이름에 할당할 수 없다. command변수가 배열이니 배열 첨자를 이용하지 않고 값을 할당하는 건 불가능하다.
+
+2
+if (command == "Quit") // 변수의 주소와 문자열 상수의 주소를 비교하기에 false로 평가된다.
+```
+- 일반적인 애플리케이션은 다수의 문자열을 입력받아 각각의 문자열을 최소한의 메모리를 사용하여 배열에 저장한다.
+	1. 문자열을 읽어 들여 큰 char 배열에 저장한다.
+	2. malloc함수를 이용해 딱 맞는 크기의 메모리를 할당한다.
+	3. strcpy함수를 이용해 동적으로 할당된 메모리에 문자열을 복사한다.
+```c
+char name[32];
+char *names[30];
+size_t count = 0;
+
+scanf("%s", name);
+names[count] = (char *)malloc(strlen(name)+1);
+strcpy(names[count], name);
+count++;
+```
+- 두 개의 포인터가 같은 문자열을 참조할 수 있다. 이를 에일리어싱(aliasing)이라고 부른다. 하나의 포인터를 다른 포인터에 할당한다고 하여 문자열이 복사되는 것은 아니라는 점을 알아두어야 한다. 이는 단순히 문자열의 주소를 복사한 것 뿐이다.
+```c
+char *pageHeaders[300];
+
+pageHeaders[12] = "Amorphous compounds";
+pageHeaders[13] = pageHeaders[12];
+// 두개의 포인터는 모두 같은 리터럴 문자열을 참조. 포인터는 복사되었지만 문자열은 복사되지 않는다.
+```
+- 문자열 연결
+```c
+char *strcat(char *s1, const char *s2);
+// 이 함수는 메모리를 추가로 할당하지 않는다. 첫번째 문자열이 연결된 문자열을 포함할 수 있을 만큼 충분한 메모리 할당되어야 한다.
+char *error = "ERROR: ";
+char *errorMessage = "Not enough memory";
+
+char *buffer = (char *)malloc(strlen(error)+strlen(errorMessage)+1);
+strcpy(buffer, error);
+strcat(buffer, errorMessage);
+//ERROR: Not enough memory
+```
 	
 # Ch6. 포인터와 구조체
 # Ch7. 보안 이슈와 포인터의 오남용
