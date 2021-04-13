@@ -175,6 +175,23 @@
 - 활성 파일 디렉토리를 위한 확장
 	- vimrc에 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'\' : '%%'
 	- %%를 입력하면 %:h<tab>을 입력한 것과 같이 현재 활성 버퍼 경로 확장하는 것 확인할 수 있다.
+- find 명령을 사용하려면 'path'를 설정해야 한다.
+	- :set path+=app/ * *
+	- * * 와일드 카드는 app 아래 있는 모든 디렉터리를 찾는다.
+	- 팀 포프의 rails.vim을 사용하면 프로젝트의 모든 디렉터리를 자동으로 설정한다. (path설정을 따로 하지 않아도 find 명령 사용 가능)
+- netrw 플러그인 사용하기 위해서 설정 해야 할 것
+	- set nocompatible
+	- filetype plugin on
+	- vim . 으로 실행 (- 는 부모디렉토리 이동)
+- :edit . [:e.] : 파일 탐색기로 현재 작업 디렉터리 열기
+- :Explore [:E] : 파일 탐색기로 현재 활성 버퍼의 디렉터리 열기
+- <C-g> 명령은 현재 파일의 파일명과 상태를 출력한다
+- 존재하지 않는 디렉터리에 파일 저장했을 때 오류 해결
+	- ex) :edit madeup/dir/doesnotexist.yet
+	- :!mkdir -p %:h
+	- :write
+- 
+
 
 # Ch8. 모션으로 파일 내부 탐색하기
 # Ch9. 점프 명령으로 파일 사이 이동하기
