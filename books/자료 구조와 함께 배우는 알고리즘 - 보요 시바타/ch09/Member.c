@@ -4,7 +4,7 @@
 
 int MemberNoCmp(const Member *x, const Member *y)
 {
-	return x->no < y->no ? -1 : x->no > y-no ? 1 : 0;
+	return x->no < y->no ? -1 : x->no > y->no ? 1 : 0;
 }
 
 int MemberNameCmp(const Member *x, const Member *y)
@@ -27,7 +27,7 @@ Member ScanMember(const char *message, int sw)
 	Member temp;
 	printf("%s하는 데이터를 입력하세요.\n", message);
 	if (sw & MEMBER_NO) {printf("번호: "); scanf("%d", &temp.no);}
-	if (sw & MEMBER_NAME) {printf("이름: "); scanf("%d", &temp.name);}
+	if (sw & MEMBER_NAME) {printf("이름: "); scanf("%s", temp.name);}
 
 	return temp;
 }

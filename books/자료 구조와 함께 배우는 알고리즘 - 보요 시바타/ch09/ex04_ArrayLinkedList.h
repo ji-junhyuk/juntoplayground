@@ -1,23 +1,27 @@
-#ifndef LINKEDLIST
-#define LINKEDLIST
+#ifndef ARRAYLINKEDLIST
+#define ARRAYLINKEDLIST
 
 #include "Member.h"
 
-typedef struct __node
-{
+typedef int Index;
+
+typedef struct {
 	Member data;
-	struct __node *next;
+	Index next;
+	Index Dnext;
 } Node;
 
-typedef struct 
-{
-	Node *head;
-	Node *crnt;
+typedef struct {
+	Node *n;
+	Index head;
+	Index max;
+	Index deleted;
+	Index crnt;
 } List;
 
-void Initialize(List *list);
+void Initialize(List *list, int size);
 
-Node *search(List *list, const Member *x, int compare(const Member *x, const Member *y));
+Index search(List *list, const Member *x, int compare(const Member *x, const Member *y));
 
 void InsertFront(List *list, const Member *x);
 
