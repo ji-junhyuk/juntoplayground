@@ -3,6 +3,8 @@
 
 #include "Member.h"
 
+#define Null -1
+
 typedef int Index;
 
 typedef struct {
