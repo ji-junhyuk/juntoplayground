@@ -878,7 +878,7 @@ strcpy(buffer, error);
 strcat(buffer, errorMessage);
 //ERROR: Not enough memory
 ```
-	
+- Segmentation error 발생함.
 # Ch6. 포인터와 구조체
 # Ch7. 보안 이슈와 포인터의 오남용
 # Ch8. 기타
