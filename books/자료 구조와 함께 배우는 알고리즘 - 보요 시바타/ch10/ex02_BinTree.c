@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdilb.h>
-#include "../ex09/Member.h"
+#include <stdlib.h>
+#include "../ch09/Member.h"
 #include "ex01_BinTree.h"
 
 static t_btree *AllocNode(void)
@@ -8,7 +8,7 @@ static t_btree *AllocNode(void)
 	return calloc(1, sizeof(t_btree));
 }
 
-static void SetNode(t_btree *n, const Member *x, const t_btree *left, const t_btree *right)
+static void SetNode(t_btree *n, const Member *x, t_btree *left, t_btree *right)
 {
 	n->data = *x;
 	n->left = left;
@@ -20,7 +20,7 @@ t_btree *Search(t_btree *p, const Member *x)
 	int cond;
 	if (p == NULL)
 		return NULL;
-	else if ((cond = MemberNocmp(x, &p->data)) == 0)
+	else if ((cond = MemberNoCmp(x, &p->data)) == 0)
 		return p;
 	else if (cond < 0)
 		Search(p->left, x);
@@ -35,7 +35,7 @@ t_btree *Add(t_btree *p, const Member *x)
 	{
 		p = AllocNode();
 		SetNode(p, x, NULL, NULL);
-	} else if ((cond = MemberNocmp(x, &p->data)) == 0)
+	} else if ((cond = MemberNoCmp(x, &p->data)) == 0)
 		printf("error: %d는 이미 등록되어 있습니다.\n", x->no);
 	else if (cond < 0)
 		p->left = Add(p->left, x);
@@ -46,9 +46,9 @@ t_btree *Add(t_btree *p, const Member *x)
 
 int Remove(t_btree **root, const Member *x)
 {
-	b_tree *next *temp;
-	b_tree **left;
-	b_tree **p = root;
+	t_btree *next, *temp;
+	t_btree **left;
+	t_btree **p = root;
 
 	while (1)
 	{
@@ -57,7 +57,7 @@ int Remove(t_btree **root, const Member *x)
 		{
 			printf("error: %d는 등록되어 있지 않습니다.\n", x->no);
 			return -1;
-		} else if ((cond = MemberNocmp(x, &(*p)->data)) == 0)
+		} else if ((cond = MemberNoCmp(x, &(*p)->data)) == 0)
 			break;
 		else if (cond < 0)
 			p = &((*p)->left);
@@ -84,7 +84,7 @@ int Remove(t_btree **root, const Member *x)
 	return 0;
 }
 
-void PrintTree(const b_tree *p)
+void PrintTree(const t_btree *p)
 {
 	if (p != NULL)
 	{
@@ -94,4 +94,12 @@ void PrintTree(const b_tree *p)
 	}
 } 
 
-			 
+void FreeTree(t_btree *p)
+{
+	if (p != NULL)
+	{
+		FreeTree(p->left);
+		FreeTree(p->right);
+		free(p);
+	}
+}

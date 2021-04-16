@@ -1,7 +1,7 @@
 #ifndef BINTREE
 #define BINTREE
 
-#include "../ex09/Member.h"
+#include "../ch09/Member.h"
 
 typedef struct s_btree
 {
@@ -18,5 +18,5 @@ int Remove(t_btree **root, const Member *x);
 
 void PrintTree(const t_btree *p);
 
-void FreeTree(b_tree *p);
+void FreeTree(t_btree *p);
 #endif
