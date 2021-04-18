@@ -899,6 +899,18 @@ strcat(buffer, errorMessage);
 	- 함수는 배열의 주소를 반환, 메인함수에서 blank함수 호출하면 다음에 호출되는 함수에 의해 덮여쓰인다
 
 # Ch6. 포인터와 구조체
+- 구조체에 대한 포인터를 이용하면 ->(points-to)연산자를 이용해야 한다.
+- 포인터를 역참조한 후 .(dot) 기호를 이용할 수도 있다.
+```c
+Person *ptrPerson;
+ptrPerson = (Person *)malloc(sizeof(Person));
+ptrPerson->firstName = (char *)malloc(strlen("Emily") + 1);
+// (*ptrPerson).firstName = (char *)malloc(strlen("Emily") + 1);
+strcpy(ptrPerson->firstName, "Emily)
+//strcpy((*ptrPerson).firstName, "Emily");
+ptrPerson->age = 23;
+// (*ptrPerson).age = 23;
+```
 
 # Ch7. 보안 이슈와 포인터의 오남용
 # Ch8. 기타
