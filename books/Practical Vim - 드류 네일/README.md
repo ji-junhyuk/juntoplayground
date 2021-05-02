@@ -389,7 +389,22 @@ endfunction
 - 아래 설정은 일반모드의 &를 고치면서 동시에 비주얼 모드에 동일한 기능을 추가하는 내용이다.
 	- nnoremap & :&&<CR>
 	- xnoremap & :&&<CR>
+- h/zs/d 패턴은 h 문자 뒤에 붙는 어떤 숫자든 일치하게 된다는 것이다.
+- 표현식에서 필요한 값에 접근하려면 submatch(0)함수를 사용할 수 있는데 이 함수는 현재 검색 패턴과 일치하는 값을 반환한다. 
+- 팀포프가 작성한 Abolish. :Subvert라는 명령 :substitute의 확장판 처럼 동작한다.
+	- :%S/{man,dog}/{dog,mag}/g // /\v(<man>|<dog>) + :%s//\={"dog":"man", "man":"dog"}[submatch(1)]/g
+- vimgrep으로 프로젝트 범위 검색 실행하기 
+	- /Pragatic\ze Vim
+	- :vimgrep // * * / * . txt
+- :set hidden 저장하지 않고도 다른 파일로 이동할 수 있다.
+	- :cfdo %s//Practical/gc 
+	- :cfo update // 변경사항 저장
+
 # Ch15. 전역 명령
+- :[범위] global[!] / {패턴} / [명령]
+	- 기본적으로 파일 전체(%)에 해당한다. :delete, :substitute, :normal 등 대부분의 Ex명령이 현재 행(.)을 기본 범위로 동작하는 것과 대조적이다.
+	- global을 반전해서 실행하려면 :global! 또는 :vglobal을 사용한다. 이는 각 행에서 [명령]을 실행하는 데 정의한 패턴과 일치하지 않는 행을 대상으로 한다는 뜻이다.
+
 # Ch16. ctags로 소스코드 색인 및 탐색하기
 # Ch17. 코드컴파일과 퀵픽스 목록에서 오류 확인하기
 # Ch18. 프로젝트에서 grep, vimgrep 그 외 기능으로 검색하기
