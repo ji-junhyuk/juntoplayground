@@ -457,6 +457,83 @@ endfunction
 # Ch19. 자동완성, 다이얼 X를 돌려라
 - Vim의 자동완성 기능을 더 강력하게 사용하기 위해서는 가장 연관성 높은 추천 단어를 띄우는 방법과 목록에서 옳은 단어를 선택하는 방법, 이 두가지를 이해해야 한다.
 - Vim의 자동완성은 끼워넣기 모드에서 <C-p>와 <C-n>을 눌러 실행할 수 있다. 
+- 자동완성의 여러 형태
+	- <C-n> : 일반 키워드 완성
+	- <C-x><C-n> : 현재 버퍼 키워드
+	- <C-X><C-i> : 현재 파일에 포함된 키워드
+	- <C-x><C-]> : 태그 파일 키워드
+	- <C-x><C-k> : 사전 목록 //set spell 을 활성화해서 vim내 맞춤법 검사 활성화
+	- <C-x><C-l> : 전체 행 완성
+	- <C-x><C-f> : 파일명 완성
+	- <C-x><C-o> : 전체 완성
+- 자동완성 상용할 수 있는 팝업메뉴
+	- <C-n> : 다음 목록에서 다음 일치 항목 사용하기
+	- <C-p> : 단어 목록에서 이전 일치 항목 사용하기
+	- <Down> <Up>
+	- <C-y> : 현재 선택한 항목 검사하기
+	- <C-e> : 원래 입력한 단어로 되돌리기
+	- <C-h> : 현재 일치에서 문자 하나 제거하기
+	- <C-l> : 현재 일치에서 단어 하나 추가하기
+	- {문자} : 완성을 중단하고 {문자}추가하기
+- 전체완성은 <C-x><C-o>명령으로 실행할 수 있다. 이 기능은 파일 타입 플러그인으로 구현되어 있기 때문에 다음 내용을 vimrc에 추가해야 한다.
+	- set nocompatible
+	- filetype plugin on
 
 # Ch20. Vim에서 맞춤법 검사하기
+- :set spell : 잘못 입력한 단어를 강조 표시할 수 있다.
+- 잘못 입력했다고 표시한 단어 위에 현재 커서가 놓여있다면 추천 정정 목록을 열 수 있다.
+	- z=	
+- 문서를 다 작성하고 맞춤법을 검사하자.
+- 맞춤법 검사를 수행할 때 쓰는 명령어
+	- ]s : 다음 철자 오류로 이동하기
+	- [s : 이전 철자 오류로 이동하기
+	- z= : 현재 단어 교정 추천 단어 열기
+	- zg : 현재 단어를 철자 파일에 추가하기
+	- zw : 현재 단어를 철자 파일에서 제거하기
+	- zug : 현재 단어에서 사용한 zg 또는 zw 명령 취소하기
+- 미국식 철자법만 사용하려면 다음처럼 지정하면 된다
+	- :set spell
+	- :set spelllang=en_us
+- 다른 언어 파일을 다운로드 할 수 있다.
+- 이 기능을 사용하기 위해 vimrc에 해당 내용 추가한다.
+	- set nocompatible
+	- filetype plugin on
+- 일반적인 철자 오류 고치기	
+	- [s, 1z=
+- 빠르게 철자 자동완성 사용하기
+	- <C-x>s 사용하기
+
 # Ch21. 이제부터 해야 할 일
+- Vim을 어떻게 사용해야 하는지 생각하지 않고도 자연스럽게 사용하는 것을 목표로 삼자. 그 경지에 도달하면 생각하는 속도만큼 빠르게 문서를 편집할 수 있을 것이다.
+- 이 책을 다 읽은 후에도 다시 읽다 보면 새로운 사실을 또 배울 수 있을 것이다.
+- Vim을 자기만의 도구로 사용하자.
+	- Vim의 기본 설정이 좋은 설정인 경우는 그렇게 많지 않다. 왜 이런방식으로 작동하지? Vi가 그렇게 동작했기 때문이다.
+- 톱 쓰는 법을 배우고, 날을 갈아라
+	- 저자 github에 가서 많은 설정파일 참고하고 vimrc파일을 보자. (nelstrom/dotfiles)
+
+### 부록: vim을 자신의 취향에 맞게 수정하기
+- set ignorecase : 대소문자 판별 지정하기
+	- set noignorecase : 대소문자 판별 기능 끄기
+	- set ignorecase! : 현재 설정과 반대 설정으로 전환하기
+	- set ignorecase? : 현재 설정된 값 확인하기
+- set tabstop=2 : 탭 문자를 2칸 쓰기
+- set ts=2 sts=2 sw=2 et // softtabpstop, shiftwidth, expandtab 설정은 vim 들여쓰기에 영향주니 vimcasts 확인
+- :bufdo setlocal tabstop=4 // 동일한 설정을 모든 버퍼에 적용하기
+- :windo setlocal number // 모든 창에서 행 번호를 표시하고 싶다면
+
+- "Use two spaces for indentation
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+- 이 설정을 현재 버퍼에 적용하고 싶다면 다음 명령을 사용하자
+	- :source two-space-indent.vim
+	- source 명령으로 실행하는 파일은 파일 각 행을 이미 Ex명령으로 가정하고 실행한다.
+- 언어마다 들여쓰기 다르게하기
+```vim
+if has("autocmd")
+	filetype on
+	autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
+	autocmd FileType javascript setlocal ts=4 sts=4 sw=4 et
+endif
+```
