@@ -74,6 +74,36 @@
 	- a개의 문자열을 모두 정렬해야 하므로 O(a * slogs)
 	- 전체 문자열 사전순으로 정렬해야 한다. 하지만 문자열을 비교하는 시간 또한 고려해야 한다. 문자열 두개를 비교하는데 O(s)시간이 소요되고, 총 O(aloga)번을 비교해야 하므로 O(a * s log a가 소요된다). 두 부분을 더해주면 전체 시간복잡도는 O(a * s(log a + log s)가 된다.
 - fib(i)를 호출할 때마다 fib(i - 1)과 fib(i - 2)의 계산은 이미 끝나 있고 그 값은 캐시 별에 저장되어 있을 것이다. ... 이 일련의 시간은 상수 시간 안에 동작한다. 메모이제이션(memoization)이라 불리는 이 기술은 지수 시간이 걸리는 재귀 알고리즘을 최적화할 때 쓰는 흔한 방법 중 하나다.
+- 자바 코드 리눅스에서 실행하기
+	- javac test.java
+	- java test
+```java 
+//test.java
+public class test { 
+    public static int powersOf2(int n)
+    {
+        if (n < 1)
+            return 0;
+        else if (n == 1)
+        {
+            System.out.println(1);
+            return 1;
+        }
+        else
+        {
+            int prev = powersOf2(n / 2);
+            int curr = prev * 2;
+            System.out.println(curr);
+            return curr;
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        powersOf2(50);
+    }
+}
+```
 
 # Ch7. 기술적 문제
 
