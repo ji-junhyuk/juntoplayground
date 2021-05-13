@@ -42,6 +42,32 @@
 	- Q8: Double.isNaN(z) // 메소드 이용
 
 # Ch4.조건문과 반복문
+- 확인문제
+	- Q1: (if), (switch), (for), (while), (do-while)
+	- Q2: switch문에서 사용할 수 있는 변수의 타입에 string도 가능하다.
+	- Q3: int sum = 0; i = 0; while (i <= 100) if (i % 3 == 0) sum += i;
+	- Q4: int a = 0; int b = 0; while (a + b != 5) { a = (int)(Math.random() * 6) + 1; ... System.out.println("(" + num1 + ", " + num 2 + ")");
+	- Q5: while (x <= 10) while (y <= 10) if ((4 * x) + (5 * y) == 60) System.out.println("(" + x + ", " + y + ")");
+	- Q6: for (int i = 1; i <= 5; i++) for (int j = 1; j <= i; j++) System.out.println(" * ");
+	- Q7: int number = scanner.nextInt(); int money = 0;
+	switch (number) {
+		case 1:
+			System.out.print("예금액> ");
+			money = scanner.nextInt();
+			balance += money;
+			break;
+		case 2:
+			System.out.print("출금액> ");
+			money = scanner.nextInt();
+			balance -= money;
+			break;
+		case 3:
+			System.out.println("잔고> " + balance);
+			break;
+		case 4:
+			run = false;
+			break;
+	}
 
 # Ch5.참조타입
 # Ch6.클래스
