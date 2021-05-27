@@ -87,6 +87,59 @@
 - new 연산자로 배열을 처음 생성할 경우, 배열은 자동적으로 기본값으로 초기화된다.
 - 배열 length 필드를 읽기 위해서는 배열 변수에 .연산자를 붙이고 length를 적어주면 된다. 단, 읽기 전용이기에 값을 바꿀 수는 없다.
 - 문자열은 산술연산을 할 수 없기에 Interger.parseInt() 메소드를 사용한다.
+- 기본타입 배열은 각 항목에 직접 값을 갖고 있지만, 참조 타입배열은 각 항목의 객체의 번지를 가지고 있다.
+- 배열은 한 번 생성하면 크기를 변경할 수 없기 때문에 더 많은 저장공간이 필요하다면 보다 큰 배열을 새로 만들고 이전 배열로부터 항목 값들을 복사해야 한다.
+
+- 한정된 값만을 갖는 데이터 타입이 열거 타입이다.
+
+- 확인문제
+	- Q1: 참조타입은 null값으로도 초기화할 수 있다
+	- Q2: 참조하는 변수나 필드가 없다면 의미 없는 개체가 되기에 이것을 쓰레기로 취급하고 JVM은 쓰레기 수집기를 실행시켜 쓰레기 객체를 힙 영역에서 자동으로 제거한다.
+	- Q3: String 타입의 문자열 비교는 equals() 메소드를 이용해야 한다.
+	- Q4: 2
+	- Q5: boolean 타입 배열의 초기값은 false이다.
+	- Q6: 3, 5
+	- Q7:
+	for (int i = 0; i < array.length; i++)
+		if (array[i] > max)
+			max = array[i];
+	- Q8:
+	int cnt = 0;
+	for (int i = 0; i < array.length; i++)
+		for (int j = 0; j < array.length; j++)
+		{
+			sum += array[i][j];
+			cnt++;
+		}
+	avg = (dumble) sum / cnt;
+
+	- Q9:
+	if (selectNo == 1) {
+		System.out.print("학생수> ");
+		studentNum = scanner.nextInt();
+		scores = new int[studentNum];
+	} else if (selectNo == 2) {
+		for (int i = 0; i < studentNum; i++) {
+			System.out.print("socres[" + i + "] ");
+			scores[i] = scanner.nextInt();
+		}
+	} else if (selectNo == 3) {
+		for (int i = 0; i < studentNum; i++) 
+			System.out.println("scores[" + i + "]: " + scores[i]);
+	}
+	} else if (selectNo == 4) {
+		int max = 0;
+		int sum = 0;
+		for (int score : scores) {
+			if (max < score) 
+				max = score;
+			sum += score;
+		}
+		System.out.println("최고 점수: " + max);
+		System.out.println("평균 점수: " + (double)sum/scores.length);
+	} else if (selectNo == 5)
+		run = false;
+
 
 # Ch6.클래스
 # Ch7.상속
