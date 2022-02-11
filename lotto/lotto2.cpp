@@ -32,22 +32,25 @@ int main(void)
 
 	long long	total_amount;
 	long long	purchase_lotto_amount;
-	long long	winning_lotto_amount;
 	long long	winning_lotto_number[7];
+	double		winning_lotto_amount;
+	double		rank_winning_number[6];
+	double		rank_winning_amount[6];
 	int			flag;
 	int			bonus;
 	int			winning_number;
-	int			rank_winning_number[6];
 	int			lotto_number[6];
 
 	cin >> total_amount;
 	purchase_lotto_amount = total_amount / 2000;
 	cout << "purchase_lotto_amount: " << purchase_lotto_amount << '\n';
-	winning_lotto_amount = (purchase_lotto_amount * 2000) / 2;
+	winning_lotto_amount = (purchase_lotto_amount * 2000.0) / 2.0;
 	cout << "winning_lotto_amount: " << winning_lotto_amount << '\n';
 
 	for (int idx = 0; idx < 6; idx++)
 		rank_winning_number[idx] = 0;
+	for (int idx = 0; idx < 6; idx++)
+		rank_winning_amount[idx] = 0;
 
 	cout << "Lotto 6/45\n";
 	srand(time(NULL));
@@ -71,7 +74,7 @@ int main(void)
 		else
 			cout << "뚜루뚜루뚜루!!! " << "보너스 번호는 바로오   [" << winning_lotto_number[idx] << "]입니다!!\n";
 	}
-
+	cout << '\n';
 	for (int idx = 0; idx < purchase_lotto_amount; idx++)
 	{
 		sleep(1);
@@ -116,16 +119,46 @@ int main(void)
 			rank_winning_number[2]++;
 		else if (winning_number > 3)
 			rank_winning_number[3]++;
-		else if (winning_number > 1)
+		else if (winning_number > 2)
 			rank_winning_number[4]++;
 		else
 			rank_winning_number[5]++;
 	}
+	cout << '\n';
 	for (int idx = 0; idx < 6; idx++)
 	{
 		if (idx < 5)
-			cout << "[" <<idx + 1 << "]등은 " << rank_winning_number[idx] << "명입니다.\n";
+			cout << "[" << idx + 1 << "]등은 " << rank_winning_number[idx] << "명입니다.\n";
 		else
 			cout << "꼴등은" << rank_winning_number[idx] << "명입니다.\n";
+	}
+	cout << '\n';
+	rank_winning_amount[4] = rank_winning_number[4] * 5000;
+	rank_winning_amount[3] = rank_winning_number[3] * 50000;
+	rank_winning_amount[0] = winning_lotto_amount - (rank_winning_amount[4] + rank_winning_number[3]);
+	if (rank_winning_number[0])
+		rank_winning_amount[0] *= 0.75;
+	rank_winning_amount[1] = rank_winning_amount[0];
+	if (rank_winning_amount[1])
+		rank_winning_amount[1] *= 0.125;
+	rank_winning_amount[2] = rank_winning_amount[1];
+	if (rank_winning_amount[2])
+		rank_winning_amount[2] *= 0.125;
+	cout << '\n';
+	for (int idx = 0; idx < 6; idx++)
+	{
+		if (idx < 4)
+			cout << idx + 1 << "등 당첨금은 " << rank_winning_amount[idx] << "입니다.\n";
+	}
+	cout << '\n';
+	for (int idx = 0; idx < 5; idx++)
+	{
+		if (idx < 5)
+		{
+			if (rank_winning_number[idx])
+				cout << idx + 1 << "등 수령액은 " << rank_winning_amount[idx] << "입니다.\n";
+			else
+				cout << idx + 1 << "등 당첨자가 없습니다.\n";
+		}
 	}
 }
