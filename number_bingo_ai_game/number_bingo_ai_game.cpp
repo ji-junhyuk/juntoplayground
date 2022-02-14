@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include <algorithm>
 using namespace std;
 
 enum level 
@@ -16,6 +17,135 @@ enum level
 	easy_mode,
 	normal_mode
 };
+
+int	check_board(int ai_board[25])
+{
+	int find_max[4];
+	int check_line[5];
+	int flag[2];
+	int start[2];
+	
+	for (int idx = 0; idx < 2; idx++)
+		start[idx] = 0;
+	for (int idx = 0; idx < 2; idx++)
+		flag[idx] = 0;
+	for (int idx = 0; idx < 5; idx++)
+		check_line[idx] = 0;
+	for (int idx = 0; idx < 4; idx++)
+		find_max[idx] = 0;
+	for (int idx = 0; idx < 5; idx++)
+	{
+		for (int jdx = 0; jdx < 5; jdx++)
+		{
+			if (ai_board[idx * 5 + jdx] == INT_MAX)
+				check_line[idx] += 1;
+		}
+	}
+	int row_max = 0;
+	for (int idx = 0; idx < 5; idx++)
+	{
+		if (check_line[idx] > row_max && check_line[idx] != 5)
+		{
+			row_max = check_line[idx];
+			start[0] = idx;
+		}
+	}
+
+	for (int idx = 0; idx < 5; idx++)
+		check_line[idx] = 0;
+
+	for (int idx = 0; idx < 5; idx++)
+	{
+		for (int jdx = 0; jdx < 5; jdx++)
+		{
+			if (ai_board[idx + 5 * jdx] == INT_MAX)
+				check_line[idx] += 1;
+		}
+	}
+	int col_max = 0;
+	for (int idx = 0; idx < 5; idx++)
+	{
+		if (check_line[idx] > col_max && check_line[idx] != 5)
+		{
+			col_max = check_line[idx];
+			start[1] = idx;
+		}
+	}
+	for (int idx = 0; idx < 25; idx++)
+	{
+		if (idx % 6 == 0 && ai_board[idx] == INT_MAX)
+			flag[0]++;
+		if (idx != 0 && idx != 24 && (idx % 4 == 0) && ai_board[idx] == INT_MAX)
+			flag[1]++;
+	}
+	int diag_max = 0;
+	if (diag_max < flag[0] && flag[0] != 5)
+		diag_max = flag[0];
+	if (diag_max < flag[1] && flag[1] != 5)
+		diag_max = flag[1];
+	int optimal_line;
+	optimal_line = 0;
+	find_max[0] = row_max;	
+	find_max[1] = col_max;	
+	find_max[2] = flag[0];	
+	find_max[3] = flag[1];	
+
+	optimal_line = 0;
+	for (int idx = 0; idx < 4; idx++)
+	{
+		if (optimal_line < find_max[idx])
+			optimal_line = find_max[idx];
+	}
+	for (int idx = 0; idx < 4; idx++)
+		cout << "find_max[" << idx << "]" <<find_max[idx] << '\n';
+	cout << "optimal_line:[" << optimal_line << "]\n";
+	if (optimal_line == find_max[0])
+	{
+		for (int jdx = 0; jdx < 5; jdx++)
+		{
+			if (ai_board[start[0] * 5 + jdx] != INT_MAX)
+			{
+				cout << "QWE1\n";
+				cout << "start:" << start[0] << '\n';
+				return (ai_board[start[0] * 5 + jdx]);
+			}
+		}
+	}
+	else if (optimal_line == find_max[1])
+	{
+		for (int jdx = 0; jdx < 5; jdx++)
+		{
+			if (ai_board[start[1] + jdx * 5] != INT_MAX)
+			{
+				cout << "QWE2\n";
+				cout << "start:" << start[1] << '\n';
+				return (ai_board[start[1] + jdx * 5]);
+			}
+		}
+	}
+	else if (optimal_line == find_max[2])
+	{
+		for (int idx = 0; idx < 25; idx++)
+		{
+			if (idx % 6 == 0 && ai_board[idx] != INT_MAX)
+			{
+				cout << "QWE3\n";
+				return (ai_board[idx]);
+			}
+		}
+	}
+	else
+	{
+		for (int idx = 0; idx < 25; idx++)
+		{
+			if (idx != 0 && idx != 24 && (idx % 4 == 0) && ai_board[idx] != INT_MAX)
+			{
+				cout << "QWE4\n";
+				return (ai_board[idx]);
+			}
+		}
+	}
+}
 
 int	check_bingo(int player_board[25], int ai_board[25])
 {
@@ -218,6 +348,64 @@ int main(void)
 				}
 				cout << '\n';
 			}
+		}
+	}
+	else
+	{
+		while (1)
+		{
+			int select_number;
+			
+			++order;
+			if (check_bingo(player_board, ai_board))
+				break ;
+			if (order % 2 == 0)
+			{
+				cout << "Player가 선택할 차례입니다.\n";
+				int user_select;
+				cin >> user_select;
+				cout << "Player는 [" << user_select << "]를 선택했습니다.\n";
+				selected_number[user_select - 1] = 0;
+				select_number = user_select;
+			}
+			else
+			{
+				cout << "AI가 선택할 차례입니다.\n";
+				int computer_select;
+				computer_select = check_board(ai_board);
+				cout << "AI는 [" << computer_select << "]를 선택했습니다.\n";
+				select_number = computer_select;
+			}
+			for (int idx = 0; idx < 25; idx++)
+				if (select_number == player_board[idx])
+					player_board[idx] = INT_MAX;
+			for (int idx = 0; idx < 25; idx++)
+				if (select_number == ai_board[idx])
+					ai_board[idx] = INT_MAX;
+			cout << "========================Player=========================\n";
+			for (int idx = 0; idx < 5; idx++)
+			{
+				for (int jdx = 0; jdx < 5; jdx++)
+				{
+					if (player_board[idx * 5 + jdx] != INT_MAX)
+						cout << player_board[idx * 5 + jdx] << '\t';
+					else
+						cout << "*\t";
+				}
+				cout << '\n';
+			}
+			cout << "========================AI=========================\n";
+			for (int idx = 0; idx < 5; ++idx)
+			{
+				for (int jdx = 0; jdx < 5; ++jdx)
+				{
+					if (ai_board[idx * 5 + jdx] != INT_MAX)
+						cout << ai_board[idx * 5 + jdx] << '\t';
+					else
+						cout << "*\t";
+				}
+				cout << '\n';
+			}	
 		}
 	}
 	cout << "end\n";
