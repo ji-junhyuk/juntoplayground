@@ -7,7 +7,7 @@ set shiftwidth=4
 set cindent
 set number
 syntax on
-set backsapce=2
+set backspace=2
 set backspace=indent,eol,start
 
 map <buffer> <F2> :w<CR>
