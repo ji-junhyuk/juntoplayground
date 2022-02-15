@@ -9,6 +9,8 @@ set number
 syntax on
 set backspace=2
 set backspace=indent,eol,start
+set showmatch // hightlight bracket
+set ruler // display row, col
 
 map <buffer> <F2> :w<CR>
 map <buffer> <F3> :!norminette -R CheckForbiddenSourceHeader *.*<CR>
