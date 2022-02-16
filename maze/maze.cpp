@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include <conio.h>
 #include <time.h>
 
@@ -21,49 +22,72 @@ typedef struct _tagPlayer
 	int  		i_bomb_power;
 } PLAYER, *PPLAYER;
 
-void set_maze(char maze[21][21], PPLAYER p_player, PPOINT p_start_pos,
-	PPOINT p_end_pos)
+void set_maze(char maze[21][21], PPLAYER p_player, PPOINT p_start_pos, PPOINT p_end_pos)
 {
-	p_start_pos->x = 0;
-	p_start_pos->y = 0;
-	p_end_pos->x = 19;
-	p_end_pos->y = 19;
+	FILE	*p_file = NULL;
 
-	p_player->t_pos = *p_start_pos;
+	fopen_s(&p_file, "maze_list.txt", "rt");
+	char	**p_maze_list = NULL;
+	if (p_file)
+	{
+		char	c_count;
+		
+		fread(&c_count, 1, 1, p_file);
+		int	i_maze_count = atoi(&c_count);
+		fread(&c_count, 1, 1, p_file);
+		p_maze_list = new char *[i_maze_count];
+		for (int idx = 0; idx < i_maze_count; ++idx)
+		{
+			int i_name_count = 0;
+			p_maze_list[idx] = new char[256];
+			while (true)
+			{
+				fread(&c_count, 1, 1, p_file);
+				if (c_count != '\n')
+				{
+					p_maze_list[idx][i_name_count] = c_count;
+					++i_name_count;
+				}
+				else
+					break ;
+			}
+			p_maze_list[idx][i_name_count] = 0;
+		}
+		fclose(p_file);
+		for (int idx = 0; idx < i_maze_count; ++idx)
+			cout << idx + 1 << ". " << p_maze_list[idx] << '\n';
+		cout << "미로를 선택하세요 : ";
+		int	i_select;
+		cin >> i_select;
 
-	strcpy_s(maze[0],  "21100010000100010000\0");
-	strcpy_s(maze[1],  "00111011111100001000\0");
-	strcpy_s(maze[2],  "00100010000110011100\0");
-	strcpy_s(maze[3],  "01101010000111000100\0");
-	strcpy_s(maze[4],  "01000011110001111100\0");
-	strcpy_s(maze[5],  "01001110001111000000\0");
-	strcpy_s(maze[6],  "01101101001000000000\0");
-	strcpy_s(maze[7],  "00101001001111111000\0");
-	strcpy_s(maze[8],  "00001110000000001000\0");
-	strcpy_s(maze[9],  "01001011111111111000\0");
-	strcpy_s(maze[10], "01010101010000000000\0");
-	strcpy_s(maze[11], "01111100111111100000\0");
-	strcpy_s(maze[12], "00000111100000111110\0");
-	strcpy_s(maze[13], "01000001101110000010\0");
-	strcpy_s(maze[14], "01100110001111111110\0");
-	strcpy_s(maze[15], "01110110011000000000\0");
-	strcpy_s(maze[16], "00000010010000000000\0");
-	strcpy_s(maze[17], "00101000011111000000\0");
-	strcpy_s(maze[18], "01010000100001100000\0");
-	strcpy_s(maze[19], "11001001000000111113\0");
-	strcpy_s(maze[20], "\0");
+		fopen_s(&p_file, p_maze_list[i_select - 1], "rt");
+
+		if (p_file)
+		{
+			for (int idx = 0; idx < 20; ++idx)
+			{
+				fread(maze[idx], 1, 20, p_file);
+				for (int jdx = 0; jdx < 20; ++jdx)
+				{
+					if (maze[idx][jdx] == '2')
+					{
+						p_start_pos->x = jdx;
+						p_start_pos->y = idx;
+
+						p_player->t_pos = *p_start_pos;
+					}
+					else if (maze[idx][jdx] == '3')
+					{
+						p_end_pos->x = 19;
+						p_end_pos->y = 19;
+					}
+				}
+				fread(&c_count, 1, 1, p_file);
+			}
+			fclose(p_file);
+		}
+	}
 }
-
-/*
-0 : 벽
-1 : 길
-2 : 시작점
-3 : 도착점
-4 : 폭탄
-5 : 물줄기 아이템
-6 : 벽밀기 아이템
-7 : 투명 아이템
-*/
 
 void print_maze(char maze[21][21], PPLAYER p_player)
 {
