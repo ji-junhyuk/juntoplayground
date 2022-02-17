@@ -2,12 +2,113 @@
 #include <iostream>
 #include <time.h>
 
+enum GAME_MODE
+{
+	GM_NONE,
+	GM_NEW,
+	GM_LOAD,
+	GM_END
+};
+
+bool save_player(_tag_player *p_player)
+{
+	FILE *p_file = NULL;
+	
+	fopen_s(&p_file, "Player.ply", "wb");
+
+	if (p_file)
+	{
+		fwrite(p_player->str_name, 1, NAME_SIZE, p_file);
+		fwrite(&p_player->e_job, sizeof(JOB), 1, p_file);
+		fwrite(p_player->str_job_name, 1, NAME_SIZE, p_file);
+		fwrite(&p_player->i_attack_min, 4, 1, p_file);
+		fwrite(&p_player->i_attack_max, 4, 1, p_file);
+		fwrite(&p_player->i_armor_min, 4, 1, p_file);
+		fwrite(&p_player->i_armor_max, 4, 1, p_file);
+		fwrite(&p_player->i_hp_max, 4, 1, p_file);
+		fwrite(&p_player->i_hp, 4, 1, p_file);
+		fwrite(&p_player->i_mp_max, 4, 1, p_file);
+		fwrite(&p_player->i_mp, 4, 1, p_file);
+		fwrite(&p_player->i_exp, 4, 1, p_file);
+		fwrite(&p_player->i_level, 4, 1, p_file);
+		fwrite(&p_player->b_equip[EQ_WEAPON], 4, 1, p_file);
+		if (p_player->b_equip[EQ_WEAPON])
+			fwrite(&p_player->t_equip[EQ_WEAPON], sizeof(_tag_item), 1, p_file);
+		fwrite(&p_player->b_equip[EQ_ARMOR], 4, 1, p_file);
+		if (p_player->b_equip[EQ_ARMOR])
+			fwrite(&p_player->b_equip[EQ_ARMOR], sizeof(_tag_item), 1, p_file);
+		fwrite(&p_player->t_inventory.i_gold, 4, 1, p_file);
+		fwrite(&p_player->t_inventory.i_item_count, 4, 1, p_file);
+		fwrite(p_player->t_inventory.t_item, sizeof(_tag_item), p_player->t_inventory.i_item_count, p_file);
+		fclose(p_file);
+		return (true);
+	}
+	return (false);
+}
+
+bool load_player(_tag_player *p_player)
+{
+	FILE *p_file = NULL;
+
+	fopen_s(&p_file, "Player.ply", "rb");
+
+	if (p_file)
+	{
+		fread(p_player->str_name, 1, NAME_SIZE, p_file);
+		fread(&p_player->e_job, sizeof(JOB), 1, p_file);
+		fread(p_player->str_job_name, 1, NAME_SIZE, p_file);
+		fread(&p_player->i_attack_min, 4, 1, p_file);
+		fread(&p_player->i_attack_max, 4, 1, p_file);
+		fread(&p_player->i_armor_min, 4, 1, p_file);
+		fread(&p_player->i_armor_max, 4, 1, p_file);
+		fread(&p_player->i_hp_max, 4, 1, p_file);
+		fread(&p_player->i_hp, 4, 1, p_file);
+		fread(&p_player->i_mp_max, 4, 1, p_file);
+		fread(&p_player->i_mp, 4, 1, p_file);
+		fread(&p_player->i_exp, 4, 1, p_file);
+		fread(&p_player->i_level, 4, 1, p_file);
+		fread(&p_player->b_equip[EQ_WEAPON], 4, 1, p_file);
+		if (p_player->b_equip[EQ_WEAPON])
+			fread(&p_player->t_equip[EQ_WEAPON], sizeof(_tag_item), 1, p_file);
+		fread(&p_player->b_equip[EQ_ARMOR], 4, 1, p_file);
+		if (p_player->b_equip[EQ_ARMOR])
+			fread(&p_player->b_equip[EQ_ARMOR], sizeof(_tag_item), 1, p_file);
+		fread(&p_player->t_inventory.i_gold, 4, 1, p_file);
+		fread(&p_player->t_inventory.i_item_count, 4, 1, p_file);
+		fread(p_player->t_inventory.t_item, sizeof(_tag_item), p_player->t_inventory.i_item_count, p_file);
+		fclose(p_file);
+		return true;
+	}
+	return false;
+}
+
 int main()
 {
 	srand((unsigned int)time(0));
 
 	_tag_player t_player = {};
-	set_player(&t_player);
+	int i_game_mode = 0;
+	while (i_game_mode < 1 || i_game_mode >= GM_END)
+	{
+		system("cls");
+		cout << "1. 새로하기" << '\n';
+		cout << "2. 이어하기" << '\n';
+		cout << "3. 종료" << '\n';
+		cout << "게임모드를 선택하세요. : ";
+		i_game_mode = get_input();
+	}
+	if (i_game_mode == GM_END)
+		return 0;
+	switch (i_game_mode)
+	{
+		case GM_NEW:
+			set_player(&t_player);
+			break ;
+		case GM_LOAD:
+			if (!load_player(&t_player))
+				cout << "플레이어 파일 오류!!" << '\n';
+			break ;
+	}
 	_tag_monster t_monster_arr[MT_BACK - 1] = {};
 	g_t_level_up_table[JOB_KNIGHT - 1] = create_level_up_status(4, 10, 8, 16, 50, 100, 10, 20);
 	g_t_level_up_table[JOB_ARCHER - 1] = create_level_up_status(10, 15, 5, 10, 30, 60, 30, 50);
@@ -40,6 +141,7 @@ int main()
 				break;
 		}
 	}
+	save_player(&t_player);
 	return 0;
 }
 
@@ -104,7 +206,7 @@ void output_battle_tag(int i_menu)
 void output_player_info(_tag_player* p_player)
 {
 	cout << "================== Player ==================" << '\n';
-	cout << "이름 : " << p_player->str_name << "\t직업 : " << p_player->strJobName << '\n';
+	cout << "이름 : " << p_player->str_name << "\t직업 : " << p_player->str_job_name << '\n';
 	cout << "레벨 : " << p_player->i_level << "\t경험치 : " << p_player->i_exp << " / " << g_i_level_up_exp[p_player->i_level - 1] << '\n';
 	if (p_player->b_equip[EQ_WEAPON] == true)
 		cout << "공격력 : " << p_player->i_attack_min << " + " << p_player->t_equip[EQ_WEAPON].i_min << " ~ " << p_player->i_attack_max << " + " << p_player->t_equip[EQ_WEAPON].i_max;
@@ -292,7 +394,7 @@ void set_player(_tag_player* p_player)
 	switch (p_player->e_job)
 	{
 		case JOB_KNIGHT:
-			strcpy_s(p_player->strJobName, "기사");
+			strcpy_s(p_player->str_job_name, "기사");
 			p_player->i_attack_min = 5;
 			p_player->i_attack_max = 10;
 			p_player->i_armor_min = 15;
@@ -303,7 +405,7 @@ void set_player(_tag_player* p_player)
 			p_player->i_mp = 100;
 			break;
 		case JOB_ARCHER:
-			strcpy_s(p_player->strJobName, "궁수");
+			strcpy_s(p_player->str_job_name, "궁수");
 			p_player->i_attack_min = 10;
 			p_player->i_attack_max = 15;
 			p_player->i_armor_min = 10;
@@ -314,7 +416,7 @@ void set_player(_tag_player* p_player)
 			p_player->i_mp = 200;
 			break;
 		case JOB_WIZARD:
-			strcpy_s(p_player->strJobName, "마법사");
+			strcpy_s(p_player->str_job_name, "마법사");
 			p_player->i_attack_min = 15;
 			p_player->i_attack_max = 20;
 			p_player->i_armor_min = 5;

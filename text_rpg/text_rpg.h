@@ -88,7 +88,7 @@ struct _tag_inventory
 struct _tag_player
 {
         char                    str_name[NAME_SIZE];
-        char                    strJobName[NAME_SIZE];
+        char                    str_job_name[NAME_SIZE];
         JOB                             e_job;
         int                             i_attack_min;
         int                             i_attack_max;
