@@ -82,6 +82,19 @@ bool load_player(_tag_player *p_player)
 	return false;
 }
 
+bool load_store(_tag_item *p_weapon, _tag_item *p_armor)
+{
+	FILE    *p_file = NULL;
+	fopen_s(&p_file, "store.mst", "rb");
+	if (p_file)
+	{
+		fread(p_weapon, sizeof(_tag_item), STORE_WEAPON_MAX, p_file);
+		fread(p_armor, sizeof(_tag_item), STORE_ARMOR_MAX, p_file);
+		fclose(p_file);
+		return (true);
+	}
+	return false;
+}
 int main()
 {
 	srand((unsigned int)time(0));
@@ -115,12 +128,15 @@ int main()
 	g_t_level_up_table[JOB_WIZARD - 1] = create_level_up_status(15, 20, 3, 7, 20, 40, 50, 100);
 	_tag_item	t_store_weapon[STORE_WEAPON_MAX] = {};
 	_tag_item	t_store_armor[STORE_ARMOR_MAX] = {};
+	load_store(t_store_weapon, t_store_armor);
+/*
 	t_store_weapon[0] = create_item("목검", IT_WEAPON, 5, 10, 1000, 500, "나무로 만든 칼");
 	t_store_weapon[1] = create_item("장궁", IT_WEAPON, 20, 10, 7000, 3500, "짱짱한 활");
 	t_store_weapon[2] = create_item("지팡이", IT_WEAPON, 90, 150, 30000, 15000, "나무로 만든 지팡이");
 	t_store_armor[0] = create_item("천갑옷", IT_ARMOR, 2, 5, 1000, 500, "천으로 만든 허접한 갑옷");
 	t_store_armor[1] = create_item("가죽갑옷", IT_ARMOR, 10, 20, 7000, 3500, "동물 가죽으로 만든 질긴 갑옷");
 	t_store_armor[2] = create_item("풀플레이트아머", IT_ARMOR, 70, 90, 30000, 15000, "강철로 만든 판금갑옷");
+*/
 	set_monster(t_monster_arr);
 	bool b_loop = true;
 	while (b_loop)
@@ -385,6 +401,9 @@ int select_job()
 
 void set_player(_tag_player* p_player)
 {
+	system("cls");
+	cin.clear();
+	cin.ignore(1024, '\n');
 	cout << "이름 : ";
 	cin.getline(p_player->str_name, NAME_SIZE - 1); 
 	p_player->e_job = (JOB)select_job();
@@ -488,11 +507,20 @@ _tag_item create_item(const char* p_name, ITEM_TYPE e_type, int i_min, int i_max
 
 void set_monster(_tag_monster* p_monster_arr)
 {
+	FILE	*p_file = NULL;
+	fopen_s(&p_file, "Monster.mst", "rb");
+	if (p_file)
+	{
+		fread(p_monster_arr, sizeof(_tag_monster), MT_BACK - 1, p_file);
+		fclose(p_file);
+	}
+}
+/*
 	p_monster_arr[0] = create_monster("고블린", 20, 30, 2, 5, 100, 10, 1, 1000, 500, 1500);
 	p_monster_arr[1] = create_monster("트롤", 80, 130, 60, 90, 2000, 100, 5, 7000, 6000, 8000);
 	p_monster_arr[2] = create_monster("드래곤", 250, 500, 200, 400, 30000, 20000, 10, 30000, 20000, 50000);
 }
-
+*/
 int OutputStoreMenu()
 {
 	system("cls");

@@ -6,7 +6,7 @@ using namespace std;
 # define ITEM_DESC_LENGTH       512
 # define INVENTORY_MAX          20
 # define STORE_WEAPON_MAX       3
-# define STORE_ARMOR_MAX                3
+# define STORE_ARMOR_MAX        3
 # define LEVEL_MAX              10
 
 enum MAIN_MENU
@@ -71,43 +71,25 @@ struct _tag_item
         char            str_name[NAME_SIZE];
         char            str_type_name[NAME_SIZE];
         ITEM_TYPE       e_type;
-        int                     i_min;
-        int                     i_max;
-        int                     i_price;
-        int                     i_sell;
+        int             i_min;
+        int             i_max;
+        int             i_price;
+        int             i_sell;
         char            str_desc[ITEM_DESC_LENGTH];
 };
 
 struct _tag_inventory
 {
-        _tag_item        t_item[INVENTORY_MAX];
-        int                     i_item_count;
-        int                     i_gold;
+        _tag_item		t_item[INVENTORY_MAX];
+        int             i_item_count;
+        int             i_gold;
 };
 
 struct _tag_player
 {
-        char                    str_name[NAME_SIZE];
-        char                    str_job_name[NAME_SIZE];
-        JOB                             e_job;
-        int                             i_attack_min;
-        int                             i_attack_max;
-        int                             i_armor_min;
-        int                             i_armor_max;
-        int                             i_hp;
-        int                             i_hp_max;
-        int                             i_mp;
-        int                             i_mp_max;
-        int                             i_exp;
-        int                             i_level;
-        _tag_item                t_equip[EQ_MAX];
-        bool            b_equip[EQ_MAX];
-        _tag_inventory   t_inventory;
-};
-
-struct _tag_monster
-{
-        char    str_name[NAME_SIZE];
+        char			str_name[NAME_SIZE];
+        char			str_job_name[NAME_SIZE];
+        JOB         	e_job;
         int             i_attack_min;
         int             i_attack_max;
         int             i_armor_min;
@@ -116,10 +98,28 @@ struct _tag_monster
         int             i_hp_max;
         int             i_mp;
         int             i_mp_max;
-        int             i_level;
         int             i_exp;
-        int             i_gold_min;
-        int             i_gold_max;
+        int             i_level;
+        _tag_item       t_equip[EQ_MAX];
+        bool            b_equip[EQ_MAX];
+        _tag_inventory  t_inventory;
+};
+
+struct _tag_monster
+{
+        char    str_name[NAME_SIZE];
+        int     i_attack_min;
+        int     i_attack_max;
+        int     i_armor_min;
+        int     i_armor_max;
+        int     i_hp;
+        int     i_hp_max;
+        int     i_mp;
+        int     i_mp_max;
+        int     i_level;
+        int     i_exp;
+        int     i_gold_min;
+        int     i_gold_max;
 };
 
 struct _tag_level_up_status
