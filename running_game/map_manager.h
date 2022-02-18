@@ -7,11 +7,11 @@ class CMapManager
 {
 	private:
 		CMapManager();
-		~CMapManager;
+		~CMapManager();
 	private:
 		static CMapManager *m_p_inst;
 	public:
-		static CMapManager *get_inst;
+		static CMapManager *get_inst();
 		static void destroy_inst();
 	private:
 		CStage *m_p_stage[STAGE_MAX_COUNT];
