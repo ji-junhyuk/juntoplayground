@@ -12,4 +12,5 @@ class CStage
 	public:
 		bool init();
 		bool init(char *p_file_name);
+		void render();
 };

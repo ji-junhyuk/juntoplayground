@@ -17,4 +17,6 @@ class CMapManager
 		CStage *m_p_stage[STAGE_MAX_COUNT];
 	public:
 		bool init();
+		void run();
+		void render();
 };

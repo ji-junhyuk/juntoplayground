@@ -17,4 +17,5 @@ class CFileStream
 		void read(void *p_data, int i_size);
 		void read_line(void *p_data, int &i_size);
 		void write(void *p_data, int i_size);
+		void write_line(void *p_data, int i_size);
 };

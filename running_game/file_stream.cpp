@@ -68,3 +68,13 @@ void CFileStream::write(void *p_data, int i_size)
 		return ;
 	fwrite(p_data, i_size, 1, m_p_file);
 }
+
+void CFileStream::write_line(void *p_data, int i_size)
+{
+	if (!m_b_open)
+		return ;
+	char *p_buffer = new char[i_size + 1];
+	*(p_buffer + i_size) = '\n';
+	fwrite(p_buffer, i_size + 1, 1, m_p_file);
+	delete[] p_buffer;
+}
