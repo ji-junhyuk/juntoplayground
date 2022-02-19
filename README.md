@@ -1,3 +1,4 @@
+```vim
 "Ubuntu
 set nocompatible
 filetype on
@@ -152,3 +153,4 @@ map <buffer> <F5> :!g++ % && ./a.out<CR>
 map <buffer> <F6> :!./a.out<CR>
 map <buffer> <F7> :!find . -type f -name "a.out" -print -delete<CR>
 nmap <F8> :TagbarToggle<CR>
+```
