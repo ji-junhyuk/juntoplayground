@@ -1,3 +1,4 @@
+```vim
 "Ubuntu
 set nocompatible
 filetype on
@@ -40,6 +41,7 @@ set number
 set hidden
 
 nnoremap <leader>t :tabnew<CR>
+
 nnoremap <leader>bq :bp <BAR> bd #<CR>
 nnoremap <leader>bl :ls<CR>
 
@@ -50,3 +52,4 @@ map <buffer> <F5> :!g++ % && ./a.out<CR>
 map <buffer> <F6> :!./a.out<CR>
 map <buffer> <F7> :!find . -type f -name "a.out" -print -delete<CR>
 nmap <F8> :TagbarToggle<CR>
+```
