@@ -1,5 +1,7 @@
 #include "map_manager.h"
 #include "stage.h"
+#include "player.h"
+#include "object_manager.h"
 
 CMapManager * CMapManager::m_p_inst = NULL;
 
@@ -43,8 +45,16 @@ bool CMapManager::init()
 	return true;
 }
 
-void CMapManager::run()
+void CMapManager::run(int i_stage)
 {
+	CPlayer *p_player = ObjectManager::get_inst()->get_player();
+	m_i_enable_stage = i_stage;
+	while (true)
+	{
+		p_player->update();
+		m_p_stage[i_stage - 1]->render();
+		sleep(100);
+	}
 }
 
 void CMapManager::render()

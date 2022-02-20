@@ -58,9 +58,17 @@ void CStage::render()
 			else if (m_c_stage[idx][jdx] == SBT_ROAD)
 				cout << "  ";
 			else if (m_c_stage[idx][jdx] == SBT_START)
+			{
 				cout << "◐";
+				m_t_start.x = jdx;
+				m_t_start.y = idx;
+			}
 			else if (m_c_stage[idx][jdx] == SBT_END)
+			{
 				cout << "◑";
+				m_t_end.x = jdx;
+				m_t_end.y = idx;
+			}
 			else if (m_c_stage[idx][jdx] == SBT_COIN)
 				cout << "@";
 		}

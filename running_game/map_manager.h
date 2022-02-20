@@ -15,8 +15,9 @@ class CMapManager
 		static void destroy_inst();
 	private:
 		CStage *m_p_stage[STAGE_MAX_COUNT];
+		int		m_i_enable_stage;
 	public:
 		bool init();
-		void run();
+		void run(int i_stage);
 		void render();
 };

@@ -8,3 +8,17 @@ using namespace std;
 #define safe_delete(p) if(p) { delete p; p = NULL; }
 
 #define STAGE_MAX_COUNT 3
+
+static int get_input()
+{
+	int i_input;
+	cin >> i_input;
+
+	if (cin.fail())
+	{
+		cin.clear;
+		cin.ignore(1024, '\n');
+		return INT_MAX;
+	}
+	return i_input;
+}

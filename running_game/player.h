@@ -17,25 +17,24 @@ class CPlayer
 		CPlayer();
 		~CPlayer();
 	private:
-		int	m_i_x;
-		int m_i_y;
+		POINT m_t_pos;
 		bool m_b_jump;
 		int m_i_jump_dir;
 		int m_i_jump_state;
 	public:
-		void set_pos(int x, int y)
-		{
-			m_i_x = x;
-			m_i_y = y;
-		}
-	public:
 		int get_x()
 		{
-			return m_i_x;
+			return m_t_pos.x;
 		}
 		int	get_y()
 		{
-			return m_i_y;
+			return m_t_pos.y;
+		}
+	public:
+		void set_pos(int x, int y)
+		{
+			m_t_pos.x = x;
+			m_t_pos.y = y;
 		}
 	public:
 		bool init();
