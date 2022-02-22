@@ -49,14 +49,22 @@ void CMapManager::run(int i_stage)
 {
 	CPlayer *p_player = ObjectManager::get_inst()->get_player();
 	m_i_enable_stage = i_stage;
-
+	m_p_stage[i_stage]->reset_stage();
 	p_player->set_pos(m_p_stage[i_stage]->get_start().x, m_p_stage[i_stage]->get_start().y);
-
 	while (true)
 	{
 		system("cls");
+		if (GetAsyncKeyState('Q') & 0x8000)
+			break;
 		p_player->update();
 		m_p_stage[i_stage]->render();
+		cout << "Score : " << p_player->get_score() << '\n';
+		if (p_player->get_complete())
+		{
+			cout << "완료" << '\n';
+			p_player->reset();
+			break;
+		}
 		Sleep(100);
 	}
 }

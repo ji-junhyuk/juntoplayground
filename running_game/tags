@@ -1,0 +1,104 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	C:/Users/junto/juntoplayground/running_game/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/8e1e0a2f/
+BLOCK_X	value.h	/^#define BLOCK_X /;"	d
+BLOCK_Y	value.h	/^#define BLOCK_Y /;"	d
+CCore	core.cpp	/^CCore::CCore()$/;"	f	class:CCore
+CCore	core.h	/^class CCore$/;"	c
+CFileStream	file_stream.cpp	/^CFileStream::CFileStream() :$/;"	f	class:CFileStream
+CFileStream	file_stream.h	/^class CFileStream$/;"	c
+CMapManager	map_manager.cpp	/^CMapManager::CMapManager()$/;"	f	class:CMapManager
+CMapManager	map_manager.h	/^class CMapManager$/;"	c
+CPlayer	player.cpp	/^CPlayer::CPlayer()$/;"	f	class:CPlayer
+CPlayer	player.h	/^class CPlayer$/;"	c
+CStage	stage.cpp	/^CStage::CStage()$/;"	f	class:CStage
+CStage	stage.h	/^class CStage$/;"	c
+JD_DOWN	player.h	/^	JD_DOWN$/;"	e	enum:JUMP_DIR
+JD_STOP	player.h	/^	JD_STOP,$/;"	e	enum:JUMP_DIR
+JD_UP	player.h	/^	JD_UP,$/;"	e	enum:JUMP_DIR
+JUMP_BLOCK_MAX	player.h	/^# define JUMP_BLOCK_MAX /;"	d
+JUMP_DIR	player.h	/^enum JUMP_DIR$/;"	g
+ObjectManager	object_manager.cpp	/^ObjectManager::ObjectManager()	:$/;"	f	class:ObjectManager
+ObjectManager	object_manager.h	/^class ObjectManager$/;"	c
+RENDER_BLOCK_X	value.h	/^#define RENDER_BLOCK_X /;"	d
+RENDER_BLOCK_Y	value.h	/^#define RENDER_BLOCK_Y /;"	d
+SBT_COIN	stage.h	/^	SBT_COIN = '4'$/;"	e	enum:STAGE_BLOCK_TYPE
+SBT_END	stage.h	/^	SBT_END = '3',$/;"	e	enum:STAGE_BLOCK_TYPE
+SBT_ROAD	stage.h	/^	SBT_ROAD = '1',$/;"	e	enum:STAGE_BLOCK_TYPE
+SBT_START	stage.h	/^	SBT_START = '2',$/;"	e	enum:STAGE_BLOCK_TYPE
+SBT_WALL	stage.h	/^	SBT_WALL = '0',$/;"	e	enum:STAGE_BLOCK_TYPE
+STAGE_BLOCK_TYPE	stage.h	/^enum STAGE_BLOCK_TYPE$/;"	g
+STAGE_MAX_COUNT	value.h	/^#define STAGE_MAX_COUNT /;"	d
+change_block	stage.h	/^		void change_block(int x, int y, STAGE_BLOCK_TYPE e_block)$/;"	f	class:CStage	typeref:typename:void
+close	file_stream.cpp	/^bool CFileStream::close()$/;"	f	class:CFileStream	typeref:typename:bool
+destroy_inst	core.cpp	/^void CCore::destroy_inst()$/;"	f	class:CCore	typeref:typename:void
+destroy_inst	map_manager.cpp	/^void CMapManager::destroy_inst()$/;"	f	class:CMapManager	typeref:typename:void
+destroy_inst	object_manager.h	/^		static void destroy_inst()$/;"	f	class:ObjectManager	typeref:typename:void
+get_block	stage.h	/^		char get_block(int x, int y)$/;"	f	class:CStage	typeref:typename:char
+get_end	stage.h	/^		POINT get_end()$/;"	f	class:CStage	typeref:typename:POINT
+get_input	value.h	/^static int get_input()$/;"	f	typeref:typename:int
+get_inst	core.cpp	/^CCore *CCore::get_inst()$/;"	f	class:CCore	typeref:typename:CCore *
+get_inst	map_manager.cpp	/^CMapManager *CMapManager::get_inst()$/;"	f	class:CMapManager	typeref:typename:CMapManager *
+get_inst	object_manager.h	/^		static ObjectManager *get_inst()$/;"	f	class:ObjectManager	typeref:typename:ObjectManager *
+get_player	object_manager.h	/^		class CPlayer *get_player()$/;"	f	class:ObjectManager	typeref:class:CPlayer *
+get_score	player.h	/^		int get_score()$/;"	f	class:CPlayer	typeref:typename:int
+get_stage	map_manager.h	/^		CStage *get_stage()$/;"	f	class:CMapManager	typeref:typename:CStage *
+get_start	stage.h	/^		POINT get_start()$/;"	f	class:CStage	typeref:typename:POINT
+get_x	player.h	/^		int get_x()$/;"	f	class:CPlayer	typeref:typename:int
+get_y	player.h	/^		int	get_y()$/;"	f	class:CPlayer	typeref:typename:int
+init	core.cpp	/^bool CCore::init()$/;"	f	class:CCore	typeref:typename:bool
+init	map_manager.cpp	/^bool CMapManager::init()$/;"	f	class:CMapManager	typeref:typename:bool
+init	object_manager.cpp	/^bool ObjectManager::init()$/;"	f	class:ObjectManager	typeref:typename:bool
+init	player.cpp	/^bool CPlayer::init()$/;"	f	class:CPlayer	typeref:typename:bool
+init	stage.cpp	/^bool CStage::init()$/;"	f	class:CStage	typeref:typename:bool
+init	stage.cpp	/^bool CStage::init(char *p_file_name)$/;"	f	class:CStage	typeref:typename:bool
+m_b_jump	player.h	/^		bool m_b_jump;$/;"	m	class:CPlayer	typeref:typename:bool
+m_b_open	file_stream.h	/^		bool	m_b_open;$/;"	m	class:CFileStream	typeref:typename:bool
+m_c_origin_stage	stage.h	/^		char m_c_origin_stage[BLOCK_Y][BLOCK_X];$/;"	m	class:CStage	typeref:typename:char[][]
+m_c_stage	stage.h	/^		char m_c_stage[BLOCK_Y][BLOCK_X];$/;"	m	class:CStage	typeref:typename:char[][]
+m_i_enable_stage	map_manager.h	/^		int		m_i_enable_stage;$/;"	m	class:CMapManager	typeref:typename:int
+m_i_file_size	file_stream.h	/^		int		m_i_file_size;$/;"	m	class:CFileStream	typeref:typename:int
+m_i_jump_dir	player.h	/^		int m_i_jump_dir;$/;"	m	class:CPlayer	typeref:typename:int
+m_i_jump_state	player.h	/^		int m_i_jump_state;$/;"	m	class:CPlayer	typeref:typename:int
+m_i_score	player.h	/^		int m_i_score;$/;"	m	class:CPlayer	typeref:typename:int
+m_p_file	file_stream.h	/^		FILE	*m_p_file;$/;"	m	class:CFileStream	typeref:typename:FILE *
+m_p_inst	core.cpp	/^CCore *CCore::m_p_inst = NULL;$/;"	m	class:CCore	typeref:typename:CCore *
+m_p_inst	core.h	/^		static CCore *m_p_inst;$/;"	m	class:CCore	typeref:typename:CCore *
+m_p_inst	map_manager.cpp	/^CMapManager * CMapManager::m_p_inst = NULL;$/;"	m	class:CMapManager	typeref:typename:CMapManager *
+m_p_inst	map_manager.h	/^		static CMapManager *m_p_inst;$/;"	m	class:CMapManager	typeref:typename:CMapManager *
+m_p_inst	object_manager.cpp	/^ObjectManager *ObjectManager::m_p_inst = NULL;$/;"	m	class:ObjectManager	typeref:typename:ObjectManager *
+m_p_inst	object_manager.h	/^		static ObjectManager *m_p_inst;$/;"	m	class:ObjectManager	typeref:typename:ObjectManager *
+m_p_player	object_manager.h	/^		class CPlayer *m_p_player;$/;"	m	class:ObjectManager	typeref:class:CPlayer *
+m_p_stage	map_manager.h	/^		CStage *m_p_stage[STAGE_MAX_COUNT];$/;"	m	class:CMapManager	typeref:typename:CStage * []
+m_t_end	stage.h	/^		POINT m_t_end;$/;"	m	class:CStage	typeref:typename:POINT
+m_t_pos	player.h	/^		POINT m_t_pos;$/;"	m	class:CPlayer	typeref:typename:POINT
+m_t_start	stage.h	/^		POINT m_t_start;$/;"	m	class:CStage	typeref:typename:POINT
+main	running.cpp	/^int main(void)$/;"	f	typeref:typename:int
+open	file_stream.cpp	/^bool CFileStream::open(char *p_file_name, char *p_mode)$/;"	f	class:CFileStream	typeref:typename:bool
+output_menu	core.cpp	/^int CCore::output_menu()$/;"	f	class:CCore	typeref:typename:int
+read	file_stream.cpp	/^void CFileStream::read(void *p_data, int i_size)$/;"	f	class:CFileStream	typeref:typename:void
+read_line	file_stream.cpp	/^void CFileStream::read_line(void *p_data, int &i_size)$/;"	f	class:CFileStream	typeref:typename:void
+render	map_manager.cpp	/^void CMapManager::render()$/;"	f	class:CMapManager	typeref:typename:void
+render	stage.cpp	/^void CStage::render()$/;"	f	class:CStage	typeref:typename:void
+reset_stage	stage.cpp	/^void CStage::reset_stage()$/;"	f	class:CStage	typeref:typename:void
+run	core.cpp	/^void CCore::run()$/;"	f	class:CCore	typeref:typename:void
+run	map_manager.cpp	/^void CMapManager::run(int i_stage)$/;"	f	class:CMapManager	typeref:typename:void
+safe_delete	value.h	/^#define safe_delete(/;"	d
+set_pos	player.h	/^		void set_pos(int x, int y)$/;"	f	class:CPlayer	typeref:typename:void
+update	player.cpp	/^void CPlayer::update()$/;"	f	class:CPlayer	typeref:typename:void
+write	file_stream.cpp	/^void CFileStream::write(void *p_data, int i_size)$/;"	f	class:CFileStream	typeref:typename:void
+write_line	file_stream.cpp	/^void CFileStream::write_line(void *p_data, int i_size)$/;"	f	class:CFileStream	typeref:typename:void
+~CCore	core.cpp	/^CCore::~CCore()$/;"	f	class:CCore
+~CFileStream	file_stream.cpp	/^CFileStream::~CFileStream()$/;"	f	class:CFileStream
+~CMapManager	map_manager.cpp	/^CMapManager::~CMapManager()$/;"	f	class:CMapManager
+~CPlayer	player.cpp	/^CPlayer::~CPlayer()$/;"	f	class:CPlayer
+~CStage	stage.cpp	/^CStage::~CStage()$/;"	f	class:CStage
+~ObjectManager	object_manager.cpp	/^ObjectManager::~ObjectManager()$/;"	f	class:ObjectManager
