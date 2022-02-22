@@ -7,6 +7,7 @@ CCore *CCore::m_p_inst = NULL;
 
 CCore::CCore()
 {
+	srand((unsigned int)time(0));
 }
 
 CCore::~CCore()

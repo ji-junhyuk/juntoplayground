@@ -21,7 +21,9 @@ class ObjectManager
 			safe_delete(m_p_inst);
 		}
 	private:
-		class CPlayer *m_p_player;
+		class CPlayer	*m_p_player;
+		class CBullet	*m_p_bullet[BULLET_COUNT_MAX];
+		int				m_i_cur_bullet_count;
 	public:
 		class CPlayer *get_player()
 		{
@@ -29,4 +31,7 @@ class ObjectManager
 		}
 	public:
 		bool init();
+		void update();
+		bool create_bullet(POINT t_pos);
+		bool check_bullet(int x, int y);
 };

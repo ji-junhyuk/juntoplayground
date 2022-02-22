@@ -23,6 +23,8 @@ class CPlayer
 		int m_i_jump_state;
 		int m_i_score;
 		bool m_b_complete;
+		bool m_b_bullet_fire;
+		bool m_b_big_item;
 	public:
 		int get_x()
 		{
@@ -40,10 +42,16 @@ class CPlayer
 		{
 			return m_b_complete;
 		}
+		bool get_big_item_enable()
+		{
+			return m_b_big_item;
+		}
 	public:
 		void reset()
 		{
 			m_b_complete = false;
+			m_b_bullet_fire = false;
+			m_b_big_item = false;
 			m_i_score = 0;
 		}
 	public:

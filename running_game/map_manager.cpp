@@ -53,10 +53,12 @@ void CMapManager::run(int i_stage)
 	p_player->set_pos(m_p_stage[i_stage]->get_start().x, m_p_stage[i_stage]->get_start().y);
 	while (true)
 	{
-		system("cls");
+		//system("cls");
 		if (GetAsyncKeyState('Q') & 0x8000)
 			break;
-		p_player->update();
+		ObjectManager::get_inst()->update();
+//		p_player->update();
+		m_p_stage[i_stage]->update();
 		m_p_stage[i_stage]->render();
 		cout << "Score : " << p_player->get_score() << '\n';
 		if (p_player->get_complete())

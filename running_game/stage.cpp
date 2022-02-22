@@ -2,13 +2,20 @@
 #include "file_stream.h"
 #include "player.h"
 #include "object_manager.h"
+#include "monster.h"
 
-CStage::CStage()
+CStage::CStage() :
+	m_p_monster_array(NULL),
+	m_i_monster_count(0),
+	m_i_monster_array_count(0)
 {
 }
 
 CStage::~CStage()
 {
+	for (int idx = 0; idx < m_i_monster_count; ++idx)
+		safe_delete(m_p_monster_array[idx]);
+	delete[] m_p_monster_array;
 }
 
 bool CStage::init()
@@ -38,9 +45,22 @@ bool CStage::init(char *p_file_name)
 				m_t_end.x = jdx;
 				m_t_end.y = idx;
 			}
+			else if (m_c_origin_stage[idx][jdx] == SBT_MONSTER)
+			{
+				create_monster(jdx, idx);
+				m_c_stage[idx][jdx] = SBT_ROAD;
+			}
 		}
 	}
 	return true;
+}
+
+void CStage::update()
+{
+	for (int idx = 0; idx < m_i_monster_array_count; ++idx)
+	{
+		m_p_monster_array[idx]->update();
+	}
 }
 
 void CStage::render()
@@ -68,8 +88,12 @@ void CStage::render()
 	{
 		for (int jdx = i_x_min; jdx < i_x_count; ++jdx)
 		{
-			if (idx == i_y && jdx == i_x)
+			if ((idx == i_y || (idx == i_y - 1 && p_player->get_big_item_enable())) && jdx == i_x)
 				cout << "㉾";
+			else if (ObjectManager::get_inst()->check_bullet(jdx, idx))
+				cout << "A";
+			else if (check_monster(jdx, idx))
+				cout << "M";
 			else if (m_c_stage[idx][jdx] == SBT_WALL)
 				cout << "■";
 			else if (m_c_stage[idx][jdx] == SBT_ROAD)
@@ -80,6 +104,10 @@ void CStage::render()
 				cout << "◑";
 			else if (m_c_stage[idx][jdx] == SBT_COIN)
 				cout << "@";
+			else if (m_c_stage[idx][jdx] == SBT_ITEM_BULLET)
+				cout << "♠";
+			else if (m_c_stage[idx][jdx] == SBT_ITEM_BIG)
+				cout << "B";
 		}
 		cout << '\n';
 	}
@@ -87,11 +115,85 @@ void CStage::render()
 
 void CStage::reset_stage()
 {
+	for (int idx = 0; idx < m_i_monster_count; ++idx)
+	{
+		safe_delete(m_p_monster_array[idx]);
+	}
+	m_i_monster_count = 0;
 	for (int idx = 0; idx < BLOCK_Y; ++idx)
 	{
 		for (int jdx = 0; jdx < BLOCK_X; ++jdx)
 		{
 			m_c_stage[idx][jdx] = m_c_origin_stage[idx][jdx];
+			if (m_c_origin_stage[idx][jdx] == SBT_MONSTER)
+			{
+				create_monster(jdx, idx);
+				m_c_stage[idx][jdx] = SBT_ROAD;
+			}
 		}
 	}
 }
+
+CMonster *CStage::create_monster(int x, int y)
+{
+	if (!m_p_monster_array)
+	{
+		m_i_monster_array_count = 2;
+		m_p_monster_array = new CMonster *[m_i_monster_array_count];
+	}
+	if (m_i_monster_count == m_i_monster_array_count)
+	{
+		m_i_monster_array_count *= 2;
+		CMonster **p_p_array = new CMonster *[m_i_monster_array_count];
+		memcpy(p_p_array, m_p_monster_array, sizeof(CMonster *) * m_i_monster_count);
+		delete[] m_p_monster_array;
+		m_p_monster_array = p_p_array;
+	}
+	CMonster *p_monster = new CMonster;
+	if (!p_monster->init())
+	{
+		safe_delete(p_monster);
+		return NULL;
+	}
+	p_monster->set_pos(x, y);
+	m_p_monster_array[m_i_monster_count] = p_monster;
+	++m_i_monster_count;
+	return p_monster;
+}
+
+bool CStage::check_monster(int x, int y)
+{
+	for (int idx = 0; idx < m_i_monster_count; ++idx)
+	{
+		if (m_p_monster_array[idx]->get_pos().x == x &&
+				m_p_monster_array[idx]->get_pos().y == y)
+			return true;
+	}
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
