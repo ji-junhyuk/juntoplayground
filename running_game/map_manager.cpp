@@ -49,11 +49,15 @@ void CMapManager::run(int i_stage)
 {
 	CPlayer *p_player = ObjectManager::get_inst()->get_player();
 	m_i_enable_stage = i_stage;
+
+	p_player->set_pos(m_p_stage[i_stage]->get_start().x, m_p_stage[i_stage]->get_start().y);
+
 	while (true)
 	{
+		system("cls");
 		p_player->update();
-		m_p_stage[i_stage - 1]->render();
-		sleep(100);
+		m_p_stage[i_stage]->render();
+		Sleep(100);
 	}
 }
 

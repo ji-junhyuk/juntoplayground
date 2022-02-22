@@ -9,6 +9,9 @@ using namespace std;
 
 #define STAGE_MAX_COUNT 3
 
+#define BLOCK_X 50
+#define BLOCK_Y 10
+
 static int get_input()
 {
 	int i_input;
@@ -16,7 +19,7 @@ static int get_input()
 
 	if (cin.fail())
 	{
-		cin.clear;
+		cin.clear();
 		cin.ignore(1024, '\n');
 		return INT_MAX;
 	}

@@ -3,15 +3,6 @@
 #include "player.h"
 #include "object_manager.h"
 
-enum STAGE_BLOCK_TYPE
-{
-	SBT_WALL = '0',
-	SBT_ROAD = '1',
-	SBT_START = '2',
-	SBT_END = '3',
-	SBT_COIN = '4'
-};
-
 CStage::CStage()
 {
 }
@@ -34,9 +25,19 @@ bool CStage::init(char *p_file_name)
 	{
 		int i_size = 0;
 		file.read_line(m_c_stage[idx], i_size);
-//		for (int jdx = 0; jdx < 50; ++jdx)
-//			cout << m_c_stage[idx][jdx];
-//		cout << '\n';
+		for (int jdx = 0; jdx < 50; ++jdx)
+		{
+			if (m_c_stage[idx][jdx] == SBT_START)
+			{
+				m_t_start.x = jdx;
+				m_t_start.y = idx;
+			}
+			else if (m_c_stage[idx][jdx] == SBT_END)
+			{
+				m_t_end.x = jdx;
+				m_t_end.y = idx;
+			}
+		}
 	}
 	return true;
 }
@@ -57,18 +58,6 @@ void CStage::render()
 				cout << "■";
 			else if (m_c_stage[idx][jdx] == SBT_ROAD)
 				cout << "  ";
-			else if (m_c_stage[idx][jdx] == SBT_START)
-			{
-				cout << "◐";
-				m_t_start.x = jdx;
-				m_t_start.y = idx;
-			}
-			else if (m_c_stage[idx][jdx] == SBT_END)
-			{
-				cout << "◑";
-				m_t_end.x = jdx;
-				m_t_end.y = idx;
-			}
 			else if (m_c_stage[idx][jdx] == SBT_COIN)
 				cout << "@";
 		}

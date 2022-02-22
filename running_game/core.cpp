@@ -38,7 +38,6 @@ bool CCore::init()
 
 void CCore::run()
 {
-	//CMapManager::get_inst()->render();
 	while (true)
 	{
 		int i_stage = output_menu();
@@ -46,7 +45,8 @@ void CCore::run()
 			break ;
 		else if (i_stage == 0)
 			continue ;
-		CMapManager::get_inst->run(i_stage - 1);
+		system("cls");
+		CMapManager::get_inst()->run(i_stage - 1);
 	}
 }
 

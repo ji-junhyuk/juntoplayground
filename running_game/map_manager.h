@@ -17,6 +17,11 @@ class CMapManager
 		CStage *m_p_stage[STAGE_MAX_COUNT];
 		int		m_i_enable_stage;
 	public:
+		CStage *get_stage()
+		{
+			return m_p_stage[m_i_enable_stage];
+		}
+	public:
 		bool init();
 		void run(int i_stage);
 		void render();
