@@ -1,4 +1,5 @@
 #include "core.h"
+#include "stage_manager.h"
 
 DEFINITION_SINGLE(CCore)
 
@@ -18,10 +19,13 @@ CCore::CCore()
 
 CCore::~CCore()
 {
+	DESTROY_SINGLE(CStageManager);
 }
 
 bool CCore::init()
 {
+	if (!GET_SINGLE(CStageManager)->init())
+		return false;
 	return true;
 }
 
@@ -32,6 +36,7 @@ void CCore::run()
 		switch (output_menu())
 		{
 			case MM_STAGE:
+				GET_SINGLE(CStageManager)->run();
 				break;
 			case MM_STORE:
 				break;
