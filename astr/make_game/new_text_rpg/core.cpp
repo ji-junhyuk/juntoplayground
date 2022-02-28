@@ -1,5 +1,6 @@
 #include "core.h"
 #include "stage_manager.h"
+#include "object_manager.h"
 
 DEFINITION_SINGLE(CCore)
 
@@ -19,11 +20,14 @@ CCore::CCore()
 
 CCore::~CCore()
 {
+	DESTROY_SINGLE(CObjectManager);
 	DESTROY_SINGLE(CStageManager);
 }
 
 bool CCore::init()
 {
+	if (!GET_SINGLE(CObjectManager)->init())
+		return false;
 	if (!GET_SINGLE(CStageManager)->init())
 		return false;
 	return true;

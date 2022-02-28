@@ -3,8 +3,13 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <unordered_map>
+#include <string>
+
 using namespace std;
+
 #include "defines.h"
+#include "flags.h"
 
 template <typename T>
 T input()
@@ -19,6 +24,18 @@ T input()
 		return 0;
 	}
 	return data;
+}
+
+template <typename T>
+void safe_delete_map(T& p)
+{
+	T::iterator iter;
+	T::iterator iter_end = p.end();
+	for (iter = p.begin(); iter != iter_end; ++iter)
+	{
+		SAFE_DELETE(iter->second);
+	}
+	p.clear();
 }
 
 template <typename T>
