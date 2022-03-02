@@ -20,6 +20,10 @@ class CObj
 		{
 			m_str_name = p_name;
 		}
+		void get_name()	const
+		{
+			return m_str_name;
+		}
 	public:
 		virtual bool init();
 		virtual void render();

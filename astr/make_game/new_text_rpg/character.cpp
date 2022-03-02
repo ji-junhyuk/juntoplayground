@@ -25,3 +25,36 @@ void CCharacter::set_character_info(int i_at_min, int i_at_max, int i_ar_min, in
 	m_t_info.i_level = i_level;
 	m_t_info.i_exp = i_exp;
 }
+
+bool CCharacter::damage(int i_damage)
+{
+	m_t_info.i_hp -= i_damage;
+
+	return m_t_info.i_hp <= 0;
+}
+
+bool CCharacter::add_exp(int i_exp)
+{
+	m_t_info.i_exp += i_exp;
+	return false;
+}
+
+void CCharacter::drop_exp()
+{
+	m_t_info.i_exp *= 0.9f;
+}
+
+void CCharacter::full_hp_mp()
+{
+	m_t_info.i_hp = m_t_info.i_hp_max;
+	m_t_info.i_mp = m_t_info.i_mp_max;
+}
+
+bool CCharacter::init()
+{
+	return true;
+}
+
+void CCharacter::render()
+{
+}

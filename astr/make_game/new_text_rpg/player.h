@@ -23,6 +23,10 @@ class CPlayer :
 		string	m_str_job_name;
 		int		m_i_gold;
 	public:
+		void add_gold(int i_gold);
+		void drop_gold();
+
+	public:
 		virtual bool init();
 		virtual void render();
 		virtual CPlayer *clone();

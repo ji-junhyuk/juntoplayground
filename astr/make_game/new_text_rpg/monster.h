@@ -20,14 +20,9 @@ class CMonster :
 			m_i_gold_max = i_max;
 		}
 	public:
-		int	get_gold_min()	const
+		int get_drop_gold() const
 		{
-			return m_i_gold_min;
-		}
-
-		int get_gold_max()	const
-		{
-			return m_i_gold_max;
+			return rand() % (m_i_gold_max - m_i_gold_min + 1) + m_i_gold_min;
 		}
 	public:
 		virtual bool init();
