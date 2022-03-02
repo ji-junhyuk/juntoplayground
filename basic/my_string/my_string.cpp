@@ -6,6 +6,13 @@ CMyString::CMyString()
 {
 }
 
+CMyString::CMyString(const CMyString &rhs)
+	: m_p_c_size_data(NULL)
+	  , m_i_length(0)
+{
+	this->set_string(rhs.get_string());
+}
+
 CMyString::~CMyString()
 {
 	release();
@@ -25,7 +32,7 @@ int CMyString::set_string(const char *p_size_param)
 	return i_length;
 }
 
-const char *CMyString::get_string()
+const char *CMyString::get_string() const
 {
 	return m_p_c_size_data;
 }
@@ -36,4 +43,11 @@ void CMyString::release()
 		delete[] m_p_c_size_data;
 	m_p_c_size_data = NULL;
 	m_i_length = 0;
+}
+
+CMyString &CMyString::operator=(const CMyString &rhs)
+{
+	if (this != &rhs)
+		this->set_string(rhs.get_string());
+	return *this;
 }
