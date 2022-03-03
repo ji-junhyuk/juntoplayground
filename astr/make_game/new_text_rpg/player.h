@@ -25,7 +25,11 @@ class CPlayer :
 	public:
 		void add_gold(int i_gold);
 		void drop_gold();
-
+	public:
+		int get_gold()	const
+		{
+			return m_i_gold;
+		}
 	public:
 		virtual bool init();
 		virtual void render();

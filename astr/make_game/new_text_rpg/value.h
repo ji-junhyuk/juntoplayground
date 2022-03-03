@@ -50,3 +50,26 @@ void safe_delete_vec_list(T& p)
 	}
 	p.clear();
 }
+
+typedef struct _tag_character_info
+{
+	int	i_attack_max;
+	int	i_attack_min;
+	int i_armor_max;
+	int i_armor_min;
+	int i_hp;
+	int i_hp_max;
+	int i_mp;
+	int i_mp_max;
+	int i_level;
+	int i_exp;
+} CHARACTERINFO, *PCHARACTERINFO;
+
+typedef struct _tag_item_info
+{
+	ITEM_TYPE e_type;
+	string	str_type_name;
+	int		i_price;
+	int		i_sell;
+	string	str_desc;
+} ITEMINFO, *PITEMINFO;
