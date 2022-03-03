@@ -70,3 +70,69 @@ CMyString &CMyString::operator=(const CMyString &rhs)
 		this->set_string(rhs.get_string());
 	return *this;
 }
+
+int CMyString::get_length() const
+{
+	return m_i_length;
+}
+
+int CMyString::append(const char *p_size_param)
+{
+	if (p_size_param == NULL)
+		return 0;
+	int i_len_param = strlen(p_size_param);
+	if (i_len_param == 0)
+		return 0;
+	if (m_p_c_size_data == NULL)
+	{
+		set_string(p_size_param);
+		return m_i_length;
+	}
+	int i_len_cur = m_i_length;
+	char *p_size_result = new char[i_len_cur + i_len_param + 1];
+	strcpy_s(p_size_result, sizeof(char) * (i_len_cur + 1), m_p_c_size_data);
+	strcpy_s(p_size_result + (sizeof(char) * i_len_cur), sizeof(char) * (i_len_param + 1), p_size_param);
+	release();
+	m_p_c_size_data = p_size_result;
+	m_i_length = i_len_cur + i_len_param;
+	return m_i_length;
+}
+
+CMyString CMyString::operator+(const CMyString &rhs)
+{
+	CMyString str_result(m_p_c_size_data);
+	str_result.append(rhs.get_string());
+	return str_result;
+}
+
+CMyString &CMyString::operator+=(const CMyString &rhs)
+{
+	append(rhs.get_string());
+	return *this;
+}
+
+char &CMyString::operator[](int i_index)
+{
+	return m_p_c_size_data[i_index];
+}
+
+char CMyString::operator[](int i_index) const
+{
+	return m_p_c_size_data[i_index];
+}
+
+int CMyString::operator==(const CMyString &rhs)
+{
+	if (m_p_c_size_data != NULL && rhs.m_p_c_size_data != NULL)
+		if (strcmp(m_p_c_size_data, rhs.m_p_c_size_data) == 0)
+			return 1;
+	return 0;
+}
+
+int CMyString::operator!=(const CMyString &rhs)
+{
+	if (m_p_c_size_data != NULL && rhs.m_p_c_size_data != NULL)
+		if (strcmp(m_p_c_size_data, rhs.m_p_c_size_data) == 0)
+			return 0;
+	return 1;
+}

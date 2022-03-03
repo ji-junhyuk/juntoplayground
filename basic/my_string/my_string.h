@@ -24,4 +24,12 @@ class CMyString
 		{
 			return m_p_c_size_data;
 		}
+		int get_length() const;
+		int append(const char *p_size_param);
+		CMyString operator+(const CMyString &rhs);
+		CMyString &operator+=(const CMyString &rhs);
+		char &operator[](int i_index);
+		char operator[](int i_index) const;
+		int operator==(const CMyString &rhs);
+		int operator!=(const CMyString &rhs);
 };
