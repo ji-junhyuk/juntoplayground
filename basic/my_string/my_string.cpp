@@ -13,6 +13,25 @@ CMyString::CMyString(const CMyString &rhs)
 	this->set_string(rhs.get_string());
 }
 
+CMyString::CMyString(CMyString &&rhs)
+	: m_p_c_size_data(NULL)
+	  , m_i_length(0)
+{
+	cout << "CMyString 이동 생성자 호출" << '\n';
+	m_p_c_size_data = rhs.m_p_c_size_data;
+	m_i_length = rhs.m_i_length;
+
+	rhs.m_p_c_size_data = NULL;
+	rhs.m_i_length = 0;
+}
+
+CMyString::CMyString(const char *p_size_param)
+	: m_p_c_size_data(NULL)
+	  , m_i_length(0)
+{
+	set_string(p_size_param);
+}
+
 CMyString::~CMyString()
 {
 	release();
