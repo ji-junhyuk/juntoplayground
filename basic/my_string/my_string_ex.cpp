@@ -34,3 +34,9 @@ int CMyStringEx::set_string(const char *p_size_param)
 		i_result = CMyString::set_string(p_size_param);
 	return i_result;
 }
+
+void CMyStringEx::on_set_string(char *p_size_data, int i_length)
+{
+	if (strcmp(p_size_data, "멍멍이아들") == 0)
+		strcpy_s(p_size_data, sizeof(char) * (i_length + 1), "*착한아들*");
+}

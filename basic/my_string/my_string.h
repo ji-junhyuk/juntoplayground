@@ -32,4 +32,5 @@ class CMyString
 		char operator[](int i_index) const;
 		int operator==(const CMyString &rhs);
 		int operator!=(const CMyString &rhs);
+		virtual void on_set_string(char *p_size_data, int i_length);
 };

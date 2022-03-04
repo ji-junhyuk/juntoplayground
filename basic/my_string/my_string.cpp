@@ -48,6 +48,7 @@ int CMyString::set_string(const char *p_size_param)
 	m_p_c_size_data = new char[i_length + 1];
 	strcpy_s(m_p_c_size_data, sizeof (char ) * (i_length + 1), p_size_param);
 	m_i_length = i_length;
+	on_set_string(m_p_c_size_data, m_i_length);
 	return i_length;
 }
 
@@ -135,4 +136,8 @@ int CMyString::operator!=(const CMyString &rhs)
 		if (strcmp(m_p_c_size_data, rhs.m_p_c_size_data) == 0)
 			return 0;
 	return 1;
+}
+
+void CMyString::on_set_string(char *p_size_data, int i_length)
+{
 }

@@ -1,13 +1,18 @@
 #include "../ch01/stdafx.h"
-// #include "my_string.h"
 #include "my_string_ex.h"
 
 int _tmain(int argc, _TCHAR *argv[])
 {
-	CMyStringEx str_left("hello"), str_right("world");
-	cout << str_left + str_right << '\n';
-	return (0);
+	CMyStringEx str_test;
+	str_test.set_string("멍멍이아들");
+	cout << str_test << '\n';
 }
+//int _tmain(int argc, _TCHAR *argv[])
+//{
+//	CMyStringEx str_left("hello"), str_right("world");
+//	cout << str_left + str_right << '\n';
+//	return (0);
+//}
 /*
 int _tmain(int argc, _TCHAR *argv[])
 {
