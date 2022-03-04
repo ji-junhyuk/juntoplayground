@@ -1,21 +1,47 @@
 #include "../ch01/stdafx.h"
-#include "my_string.h"
-
+// #include "my_string.h"
+#include "my_string_ex.h"
 
 int _tmain(int argc, _TCHAR *argv[])
 {
-	CMyString str_left("test"), str_right("string");
-	if (str_left == str_right)
-		cout << "same" << '\n';
-	else
-		cout << "different" << '\n';
-	str_left = CMyString("string");
-	if (str_left == str_right)
-		cout << "same" << '\n';
-	else
-		cout << "different" << '\n';
+	CMyStringEx str_left("hello"), str_right("world");
+	cout << str_left + str_right << '\n';
 	return (0);
 }
+/*
+int _tmain(int argc, _TCHAR *argv[])
+{
+	CMyStringEx str_test;
+	str_test.set_string("I am a boy.");
+	cout << str_test << '\n';
+
+	int i_index = str_test.find("am");
+	cout << "i_index: " << i_index << '\n';
+	return (0);
+}
+*/
+//int _tmain(int argc, _TCHAR *argv[])
+//{
+//	CMyStringEx str_test;
+//	str_test.set_string("멍멍이아들");
+//	cout << str_test << '\n';
+//	str_test.set_string("hello");
+//	cout << str_test << '\n';
+//}
+//int _tmain(int argc, _TCHAR *argv[])
+//{
+//	CMyString str_left("test"), str_right("string");
+//	if (str_left == str_right)
+//		cout << "same" << '\n';
+//	else
+//		cout << "different" << '\n';
+//	str_left = CMyString("string");
+//	if (str_left == str_right)
+//		cout << "same" << '\n';
+//	else
+//		cout << "different" << '\n';
+//	return (0);
+//}
 //void test_func(const CMyString &str_param)
 //{
 //	cout << str_param[0] << '\n';
