@@ -20,6 +20,15 @@ class CItemArmor :
 			m_i_armor_max = i_max;
 		}
 	public:
+		int get_armor_min() const
+		{
+			return m_i_armor_min;
+		}
+		int get_armor_max() const
+		{
+			return m_i_armor_max;
+		}
+	public:
 		virtual bool init();
 		virtual bool render();
 		virtual CItemArmor *clone();

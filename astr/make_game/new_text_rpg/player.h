@@ -12,6 +12,12 @@ class CPlayer :
 			JOB_MAGICION,
 			JOB_END
 		};
+		enum EQUIP
+		{
+			EQ_WEAPON,
+			EQ_ARMOR,
+			EQ_END
+		};
 	private:
 		CPlayer();
 		CPlayer(const CPlayer &player);
@@ -22,6 +28,7 @@ class CPlayer :
 		JOB		m_e_job;
 		string	m_str_job_name;
 		int		m_i_gold;
+		class CItem*	m_p_equip[EQ_END];
 	public:
 		void add_gold(int i_gold);
 		void drop_gold();
@@ -30,6 +37,8 @@ class CPlayer :
 		{
 			return m_i_gold;
 		}
+	public:
+		class CItem *equip(class CItem *p_item);
 	public:
 		virtual bool init();
 		virtual void render();

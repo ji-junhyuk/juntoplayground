@@ -15,6 +15,19 @@ class CItemWeapon :
 		int m_i_attack_max;
 		float m_f_critical;
 	public:
+		int get_attack_min() const
+		{
+			return m_i_attack_min;
+		}
+		int get_attack_max() const
+		{
+			return m_i_attack_max;
+		}
+		float get_critical() const
+		{
+			return m_f_critical;
+		}
+	public:
 		void set_weapon_info(int i_min, int i_max, float f_critical);
 	public:
 		virtual bool init();
