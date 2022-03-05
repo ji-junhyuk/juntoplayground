@@ -141,3 +141,11 @@ int CMyString::operator!=(const CMyString &rhs)
 void CMyString::on_set_string(char *p_size_data, int i_length)
 {
 }
+
+CMyString operator+(const char *p_size_param, const CMyString &str_param)
+{
+	CMyString str_result(p_size_param);
+	str_result.append(str_param.m_p_c_size_data);
+
+	return str_result;
+}
