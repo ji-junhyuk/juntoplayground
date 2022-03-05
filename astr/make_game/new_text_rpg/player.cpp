@@ -87,6 +87,7 @@ bool CPlayer::init()
 			break;
 	}
 }
+
 void CPlayer::render()
 {
 	cout << "이름 : " << m_str_name << "\t직업 : " << m_str_job_name << '\n';
@@ -126,4 +127,34 @@ void CPlayer::render()
 CPlayer *CPlayer::clone()
 {
 	return new CPlayer(*this):
+}
+
+int CPlayer::get_damage()
+{
+	int i_min = m_t_info.i_attack_min;
+	int i_max = m_t_info.i_attack_max;
+	if (m_p_equip[EQ_WEAPON])
+	{
+		i_min += ((CItemWeapon*)m_p_equip[EQ_WEAPON])->get_attack_min;
+		i_max += ((CItemWeapon*)m_p_equip[EQ_WEAPON])->get_attack_max;
+		if (rand() % 9901 / 100.f < ((CItemWeapon*)m_p_equip[EQ_WEAPON])->get_critical)
+		{
+			cout << "Critical" << '\n';
+			i_min *= 2;
+			i_max *= 2;
+		}
+	}
+	return rand() % (i_max - i_max + 1) + i_min;
+}
+
+int CPlayer::get_armor()
+{
+	int i_min = m_t_info.i_armor_min;
+	int i_max = m_t_info.i_armor_max;
+	if (m_p_equip[EQ_WEAPON])
+	{
+		i_min += ((CItemWeapon*)m_p_equip[EQ_WEAPON])->get_attack_min;
+		i_max += ((CItemWeapon*)m_p_equip[EQ_WEAPON])->get_attack_max;
+	}
+	return rand() % (i_max - i_max + 1) + i_min;
 }

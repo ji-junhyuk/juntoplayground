@@ -16,11 +16,11 @@ class CCharacter :
 			return m_t_info;
 		}
 		void set_character_info(int i_at_min, int i_at_max, int i_ar_min, int i_ar_max, int i_hp, int i_mp, int i_level, int i_exp);
-		int get_damage()
+		virtual int get_damage()
 		{
 			return rand() % (m_t_info.i_at_max - m_t_info.i_at_min + 1) + m_t_info.i_at_min;
 		}
-		int get_armor()
+		virtual int get_armor()
 		{
 			return rand() % (m_t_info.i_ar_max - m_t_info.i_ar_max + 1) + m_t_info.i_at_min;
 		}

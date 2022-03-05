@@ -65,6 +65,18 @@ typedef struct _tag_character_info
 	int i_exp;
 } CHARACTERINFO, *PCHARACTERINFO;
 
+typedef struct _tag_level_up_info
+{
+	int i_attack_min;
+	int i_attack_max;
+	int i_armor_min;
+	int i_armor_max;
+	int i_hp;
+	int i_mp;
+} LEVELUPINFO, *PLEVELUPINFO;
+
+#define MAX_LEVEL 10
+static int g_i_level_up_table[MAX_LEVEL] = {4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 11000, 12000};
 typedef struct _tag_item_info
 {
 	ITEM_TYPE e_type;

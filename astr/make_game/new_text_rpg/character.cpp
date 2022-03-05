@@ -39,6 +39,11 @@ bool CCharacter::add_exp(int i_exp)
 	return false;
 }
 
+bool CCharacter::check_level_up()
+{
+	return false;
+}
+
 void CCharacter::drop_exp()
 {
 	m_t_info.i_exp *= 0.9f;

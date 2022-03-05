@@ -4,6 +4,8 @@
 
 class CCore
 {
+	private:
+		LEVELUPINFO m_t_level_up_info
 	public:
 		bool init();
 		void run();

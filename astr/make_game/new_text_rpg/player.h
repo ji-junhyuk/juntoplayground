@@ -37,6 +37,12 @@ class CPlayer :
 		{
 			return m_i_gold;
 		}
+		class CItem* get_equip(EQUIP eq) const
+		{
+			return m_p_equip[eq];
+		}
+		virtual int get_damage();
+		virtual int get_armor();
 	public:
 		class CItem *equip(class CItem *p_item);
 	public:
