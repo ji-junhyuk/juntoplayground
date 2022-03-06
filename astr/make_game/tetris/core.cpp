@@ -33,13 +33,13 @@ void CCore::run()
 		CShapeManager::get_inst()->update();
 		CStageManager::get_inst()->run();
 		CShapeManager::get_inst()->render();
-		sleep(1000);
+		sleep(10);
 	}
 }
 
 void CCore::set_console_pos(int x, int y)
 {
-	COORD	pos = {x * 2, y};
+	COORD	pos = {(x + 1) * 2, y};
 	SetConsoleCursorPosition(m_h_console, pos);
 	return 0;
 }

@@ -1,8 +1,11 @@
 #include "shape.h"
 #include "core.h"
+#include "stage.h"
+#include "stage_manager.h"
 
 CShape::CShape()
 {
+	m_e_dir = RD_UP;
 	m_i_width_count = 0;
 	for (int idx = 0; idx < 4; ++idx)
 	{
@@ -28,11 +31,37 @@ void CShape::render()
 {
 	for (int idx = 0; idx < 4; ++idx)
 	{
-		CCore::get_inst()->SetConsolePos(m_t_pos.x, m_t_pos.y - (3 - idx));
+		int i_y_index = m_t_pos.y - (3 - idx);
+		if (i_y_index < 0)
+			continue;
+		for (int jdx = 0; jdx < 4; ++jdx)
+		{
+			if (m_t_pos.x + jdx >= STAGE_WIDTH)
+				continue;
+			if (m_c_shape[idx][jdx] == '0')
+			{
+				CCore::get_inst()->SetConsolePos(m_t_pos.x + jdx, i_y_index);
+				cout << "■";
+			}
+		}
+		cout << '\n';
+	}
+}
+
+void CShape::render_next()
+{
+	for (int idx = 0; idx < 4; ++idx)
+	{
+		int i_y_index = m_t_pos.y - (3 - idx);
+		if (i_y_index < 0)
+			continue;
 		for (int jdx = 0; jdx < 4; ++jdx)
 		{
 			if (m_c_shape[idx][jdx] == '0')
+			{
 				cout << "■";
+				CCore::get_inst()->SetConsolePos(m_t_pos.x, i_y_index);
+			}
 			else
 				cout << "  ";
 		}
@@ -40,17 +69,40 @@ void CShape::render()
 	}
 }
 
-void CShape::move_down()
+bool CShape::move_down()
 {
-	if (m_t_pos.y == STAGE_HEIGHT - 1)
-		return ;
-		++m_t_pos.y;
+	CShape *p_stage = CStageManager::get_inst()->get_current_stage();
+	for (int idx = 0; idx < 4; ++idx)
+	{
+		for (int jdx = 0; jdx < 4; ++jdx)
+		{
+			if (m_c_shape[idx][jdx] == '0')
+			{
+				if (p_stage->check_block(m_t_pos.x + jdx, m_t_pos.y - (2 - idx)))
+					return true;
+			}
+		}
+	}
+	++m_t_pos.y;
+	return false;
 }
 
 void CShape::move_left()
 {
 	if (m_t_pos.x == 0)
 		return ;
+	CStage *p_stage = CStageManager::get_inst()->get_current_stage();
+	for (int idx = 0; idx < 4; ++idx)
+	{
+		for (int jdx = 0; jdx < 4; ++jdx)
+		{
+			if (m_c_shape[idx][jdx] == '0')
+			{
+				if (p_stage->check_block(m_t_pos.x + jdx + 1, m_t_pos.y - (3 - idx)))
+					return ;
+			}
+		}
+	}
 	--m_t_pos.x;
 }
 

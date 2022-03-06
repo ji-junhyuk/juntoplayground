@@ -21,9 +21,9 @@ class CShapeManager
 			SAFE_DELETE(m_p_inst);
 		}
 	private:
-		list<class CShape*> m_shape_list;
 		class CShape* m_p_cur_shape;
 		class CShape& m_p_next_shape;
+		int	m_i_speed;
 	public:
 		void update();
 		void render();

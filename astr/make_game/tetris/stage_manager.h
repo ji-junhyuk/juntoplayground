@@ -23,6 +23,11 @@ class CStageManager
 	private:
 		class CStage*	m_p_cur_stage;
 	public:
+		class CStage* get_current_stage() const
+		{
+			return m_p_cur_stage;
+		}
+	public:
 		bool init();
 		void run();
 };
