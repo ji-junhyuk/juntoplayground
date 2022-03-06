@@ -20,7 +20,10 @@ class CCore
 		{
 			SAFE_DELETE(m_p_inst);
 		}
+	private:
+		HANDLE	m_h_console;
 	public:
-		bool init();
-		void run();
+		bool	init();
+		void	run();
+		void	set_console_pos(int x, int y);
 };

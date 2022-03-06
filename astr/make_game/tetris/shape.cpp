@@ -1,4 +1,5 @@
 #include "shape.h"
+#include "core.h"
 
 CShape::CShape()
 {
@@ -27,6 +28,7 @@ void CShape::render()
 {
 	for (int idx = 0; idx < 4; ++idx)
 	{
+		CCore::get_inst()->SetConsolePos(m_t_pos.x, m_t_pos.y - (3 - idx));
 		for (int jdx = 0; jdx < 4; ++jdx)
 		{
 			if (m_c_shape[idx][jdx] == '0')

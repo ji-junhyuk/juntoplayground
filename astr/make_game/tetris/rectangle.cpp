@@ -17,5 +17,7 @@ bool CRectangle::init()
 	m_c_shape[3][0] = '0';
 	m_c_shape[3][1] = '0';
 	m_i_width_count = 2;
+	m_t_pos.x = 4;t
+	m_t_pos.y = 0;
 	return true;
 }

@@ -2,10 +2,13 @@
 
 #include <iostream>
 #include <time.h>
+#include <window.h>
+#include <list>
 
 using namespace std;
 
 #include "macro.h"
+#include "flags.h"
 # define STAGE_WIDTH	10
 # define STAGE_HEIGHT	15
 
@@ -81,3 +84,5 @@ typedef struct _tag_position
 		y = pos.y;
 	}
 }POSITION, *PPOSITION;
+
+
