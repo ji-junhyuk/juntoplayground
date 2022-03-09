@@ -57,7 +57,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
     }
-
     return (int) msg.wParam;
 }
 
@@ -111,7 +110,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
+   ShowWindow(hWnd, nCmdShow); // 윈도우 커널단에서 제공해주는 함수.
    UpdateWindow(hWnd);
 
    return TRUE;
@@ -148,11 +147,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-    case WM_PAINT:
+    case WM_PAINT: // 무효화 영역(invalidate rect)이 발생한 경우
         {
             PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
+            HDC hdc = BeginPaint(hWnd, &ps); // device context(그리기) 만들어서 ID를 반환한다.
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+            // DC의 목적지는 hwnd
+            // DC의 펜은 기본펜(black)
+            // DC의 브러쉬는 기본 브러쉬(white)
+            
+            // 직접 펜을 만들어서 DC에 지급
             // 윈도우 핸들
             // 윈도우 좌표
             // HDC ?
