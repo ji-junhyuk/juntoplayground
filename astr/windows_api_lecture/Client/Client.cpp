@@ -50,14 +50,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 
     MSG msg;
-    //SetTimer(g_hWnd, 10, 0, nullptr);
-    // 기본 메시지 루프입니다:
-    /* 메세지큐에서 메세지 확인 될 때까지 대기*/
-    // msg.message == WM_QUIT 인 경우 false를 반환 -> 프로그램 종료
-
-    // PeekMessage
-    // 메시지 유무와 관계없이 반환
-    // 메시지 큐에서 메세지를 확인할 경우 true, 메세지큐에 메세지가 없는 경우 false를 반환한다
 
     while (true)
     {
@@ -71,25 +63,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
-        // 메시지가 발생하지 않는 대부분의 시간
         else
         {
-            // Game코드 수행
-            // 디자인 패턴(설계 유형)
-            // 싱글톤 패턴
             CCore::GetInst()->progress();
         }
     } 
     return (int) msg.wParam;
 }
 
-
-
-//
-//  함수: MyRegisterClass()
-//
-//  용도: 창 클래스를 등록합니다.
-//
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
     WNDCLASSEXW wcex;
@@ -104,23 +85,13 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CLIENT); // nullptr도 가능. 메뉴바를 쓰지 않겠다.
-    wcex.lpszClassName  = szWindowClass; // 찾을 때 쓰는 key값을 쓰자.
+    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CLIENT);
+    wcex.lpszClassName  = szWindowClass;  
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
 
-//
-//   함수: InitInstance(HINSTANCE, int)
-//
-//   용도: 인스턴스 핸들을 저장하고 주 창을 만듭니다.
-//
-//   주석:
-//
-//        이 함수를 통해 인스턴스 핸들을 전역 변수에 저장하고
-//        주 프로그램 창을 만든 다음 표시합니다.
-//
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
@@ -164,9 +135,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps); // device context(그리기) 만들어서 ID를 반환한다.
-            
-            Rectangle(hdc, 1180, 668, 1280, 768);
-           
+            //Rectangle(hdc, 1180, 668, 1280, 768);
             EndPaint(hWnd, &ps);
         }
         break;
