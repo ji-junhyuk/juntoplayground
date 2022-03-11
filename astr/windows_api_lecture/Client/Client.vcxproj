@@ -145,6 +145,9 @@
     <ClInclude Include="CKeyMgr.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CObject.h" />
+    <ClInclude Include="CScene.h" />
+    <ClInclude Include="CSceneMgr.h" />
+    <ClInclude Include="CSceneStart.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
@@ -158,6 +161,9 @@
     <ClCompile Include="CKeyMgr.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CObject.cpp" />
+    <ClCompile Include="CScene.cpp" />
+    <ClCompile Include="CSceneMgr.cpp" />
+    <ClCompile Include="CSceneStart.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
