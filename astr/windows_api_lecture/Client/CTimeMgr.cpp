@@ -34,6 +34,12 @@ void CTimeMgr::update()
 
 	// 이전 카운트 값을 현재 값으로 갱신(다음번 계산을 위해서)
 	m_llPrevCount = m_llCurCount;
+
+
+}
+
+void CTimeMgr::render()
+{
 	m_dAcc += m_dDT;
 	++m_iCallCount;
 	if (m_dAcc >= 1.) // 1초에 한번
