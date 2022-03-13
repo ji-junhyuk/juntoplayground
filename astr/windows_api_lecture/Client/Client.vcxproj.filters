@@ -50,6 +50,15 @@
     <Filter Include="Engine\04. Object\Missile">
       <UniqueIdentifier>{a8c4e00e-8787-4c6f-8f3f-e237854e5bc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\06. Resouce">
+      <UniqueIdentifier>{38e419bb-3df3-484e-9643-ef2657451b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Resouce\Texture">
+      <UniqueIdentifier>{9cf09a91-3bb7-4541-aa63-a666ab754aa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Resouce\Sound">
+      <UniqueIdentifier>{c6806699-76bc-40e9-9631-5172946eb72a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h">
@@ -101,6 +110,15 @@
     <ClInclude Include="CMissile.h">
       <Filter>Engine\04. Object\Missile</Filter>
     </ClInclude>
+    <ClInclude Include="CRes.h">
+      <Filter>Engine\06. Resouce</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Engine\06. Resouce\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>Engine\06. Resouce\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -146,6 +164,15 @@
     </ClCompile>
     <ClCompile Include="CMissile.cpp">
       <Filter>Engine\04. Object\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="CRes.cpp">
+      <Filter>Engine\06. Resouce</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Engine\06. Resouce\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>Engine\06. Resouce\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
