@@ -30,6 +30,16 @@ void CScene::update()
 	}
 }
 
+void CScene::finalupdate()
+{
+	for (UINT idx = 0; idx < (UINT)GROUP_TYPE::END; ++idx)
+	{
+		for (size_t jdx = 0; jdx < m_arrObj[idx].size(); ++jdx)
+		{
+			m_arrObj[idx][jdx]->finalupdate();
+		}
+	}
+}
 void CScene::render(HDC _dc)
 {
 	for (UINT idx = 0; idx < (UINT)GROUP_TYPE::END; ++idx)

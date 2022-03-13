@@ -7,6 +7,7 @@
 #include "CCore.h"
 #include "CPathMgr.h"
 #include "CTexture.h"
+#include "CCollisionMgr.h"
 
 CSceneStart::CSceneStart()
 {
@@ -22,7 +23,7 @@ void CSceneStart::Enter()
 	CObject* pObj = new CPlayer;
 	pObj->SetPos(Vec2(640.f, 384.f));
 	pObj->SetScale(Vec2(100.f, 100.f));
-	AddObject(pObj, GROUP_TYPE::DEFAULT);
+	AddObject(pObj, GROUP_TYPE::PLAYER);
 
 	// Monster Object 추가
 	int iMonCount = 16;
@@ -38,10 +39,13 @@ void CSceneStart::Enter()
 		pMonsterObj->SetCenterPos(pMonsterObj->GetPos());
 		pMonsterObj->SetMoveDistance(fMoveDist);
 		pMonsterObj->SetScale(Vec2(fObjScale, fObjScale));
-		AddObject(pMonsterObj, GROUP_TYPE::DEFAULT);
+		AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
 	}
+	// player 그룹과 monster 그룹 간의 충돌 체크
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 }
 
 void CSceneStart::Exit()
 {
+	CCollisionMgr::GetInst()->Reset();
 }
