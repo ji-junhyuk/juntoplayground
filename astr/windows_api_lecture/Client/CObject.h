@@ -34,15 +34,19 @@ public:
 private:
 	void SetDead() { m_bAlive = false; }
 
-
 public:
 	virtual void update() = 0;
 	virtual void finalupdate() final;
 	virtual void render(HDC _dc);
 
 	void component_render(HDC _dc);
+
+
+	virtual CObject* Clone() = 0;
+
 public:
 	CObject();
+	CObject(const CObject& _origin);
 	virtual ~CObject();
 	friend class CEventMgr;
 };

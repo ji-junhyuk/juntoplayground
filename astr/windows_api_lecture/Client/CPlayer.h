@@ -13,6 +13,8 @@ public:
     virtual void render(HDC _dc);
 private:
     void CreateMissile();
+
+    CLONE(CPlayer);
 public:
     CPlayer();
     ~CPlayer();
