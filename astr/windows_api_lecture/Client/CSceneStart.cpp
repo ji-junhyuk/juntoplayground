@@ -9,12 +9,25 @@
 #include "CTexture.h"
 #include "CCollisionMgr.h"
 
+#include "CKeyMgr.h"
+#include "CSceneMgr.h"
+
 CSceneStart::CSceneStart()
 {
 }
 
 CSceneStart::~CSceneStart()
 {
+}
+
+void CSceneStart::update()
+{
+	CScene::update();
+
+	if (KEY_TAP(KEY::ENTER))
+	{
+		ChangeScene(SCENE_TYPE::TOOL);
+	}
 }
 
 void CSceneStart::Enter()
@@ -51,5 +64,6 @@ void CSceneStart::Enter()
 
 void CSceneStart::Exit()
 {
+	DeleteAll();
 	CCollisionMgr::GetInst()->Reset();
 }

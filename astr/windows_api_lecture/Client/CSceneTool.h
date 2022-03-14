@@ -1,15 +1,16 @@
 #pragma once
 #include "CScene.h"
-
-class CSceneStart :
+class CSceneTool :
     public CScene
 {
+private:
 public:
     virtual void update();
     virtual void Enter();
     virtual void Exit();
+
 public:
-    CSceneStart();
-    ~CSceneStart();
+    CSceneTool();
+    ~CSceneTool();
 };
 
