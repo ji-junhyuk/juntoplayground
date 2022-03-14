@@ -41,7 +41,7 @@ void CCollider::render(HDC _dc)
 	if (m_iCol)
 		ePen = PEN_TYPE::RED;
 
-	SelectGDI p(_dc, PEN_TYPE::GREEN);
+	SelectGDI p(_dc, ePen);
 	SelectGDI b(_dc, BRUSH_TYPE::HOLLOW);
 
 	Rectangle(_dc
@@ -53,6 +53,7 @@ void CCollider::render(HDC _dc)
 
 void CCollider::OnCollision(CCollider* _pOther)
 {
+
 }
 
 void CCollider::OnCollisionEnter(CCollider* _pOther)

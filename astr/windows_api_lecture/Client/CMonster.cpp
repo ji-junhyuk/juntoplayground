@@ -20,7 +20,6 @@ CMonster::~CMonster()
 
 void CMonster::update()
 {
-	return;
 	Vec2 vCurPos = GetPos();
 	vCurPos.x += fDT * m_fSpeed * m_iDir;
 
