@@ -35,14 +35,18 @@ void CSceneStart::Enter()
 	for (int idx = 0; idx < iMonCount; ++idx)
 	{
 		CMonster* pMonsterObj = new CMonster;
+		pMonsterObj->SetName(L"Monster");
 		pMonsterObj->SetPos(Vec2((fMoveDist + fObjScale / 2.f) + (float)idx * fTerm, 50.f));
 		pMonsterObj->SetCenterPos(pMonsterObj->GetPos());
+
 		pMonsterObj->SetMoveDistance(fMoveDist);
 		pMonsterObj->SetScale(Vec2(fObjScale, fObjScale));
 		AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
 	}
 	// player 그룹과 monster 그룹 간의 충돌 체크
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::MONSTER, GROUP_TYPE::PROJ_PLAYER);
+
 }
 
 void CSceneStart::Exit()

@@ -25,7 +25,10 @@ void CScene::update()
 	{
 		for (size_t jdx = 0; jdx < m_arrObj[idx].size(); ++jdx)
 		{
-			m_arrObj[idx][jdx]->update();
+			if (!m_arrObj[idx][jdx]->IsDead())
+			{
+				m_arrObj[idx][jdx]->update();
+			}
 		}
 	}
 }
@@ -44,9 +47,18 @@ void CScene::render(HDC _dc)
 {
 	for (UINT idx = 0; idx < (UINT)GROUP_TYPE::END; ++idx)
 	{
-		for (size_t jdx = 0; jdx < m_arrObj[idx].size(); ++jdx)
+		vector<CObject*>::iterator iter = m_arrObj[idx].begin();
+		for (; iter != m_arrObj[idx].end();)
 		{
-			m_arrObj[idx][jdx]->render(_dc);
+			if (!(*iter)->IsDead())
+			{
+				(*iter)->render(_dc);
+				++iter;
+			}
+			else
+			{
+				iter = m_arrObj[idx].erase(iter);
+			}
 		}
 	}
 }
