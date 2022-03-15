@@ -11,14 +11,25 @@
 #include "CResMgr.h"
 #include "CTexture.h"
 #include "CCollider.h"
+#include "CAnimator.h"
+#include "CAnimation.h"
 
 CPlayer::CPlayer()
-	: m_pTex(nullptr)
 {
-	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Player.bmp");
+	//m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Player.bmp");
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vec2(0.f, 12.f));
 	GetCollider()->SetScale(Vec2(20.f, 40.f));
+
+	CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\link_0.bmp");
+	
+	CreateAnimator();
+	GetAnimator()->CreateAnimation(L"WALK_DOWN", pTex, Vec2(0.f, 260.f), Vec2(60.f, 65.f), Vec2(60.f, 0.f), 0.1f, 10);
+	GetAnimator()->Play(L"WALK_DOWN", true);
+	
+	CAnimation* pAnim = GetAnimator()->FindAnimation(L"WALK_DOWN");
+	for (int idx = 0; idx < pAnim->GetMaxFrame(); ++idx)
+		pAnim->GetFrame(0).vOffset = Vec2(0.f, -20.f);
 }
 
 CPlayer::~CPlayer()
@@ -48,26 +59,28 @@ void CPlayer::update()
 		CreateMissile();
 	}
 	SetPos(vPos);
+
+	GetAnimator()->update();
 }
 
 void CPlayer::render(HDC _dc)
 {
-	int iWidth = (int)m_pTex->Width();
-	int iHeight = (int)m_pTex->Height();
-	Vec2 vPos = GetPos();
+	//int iWidth = (int)m_pTex->Width();
+	//int iHeight = (int)m_pTex->Height();
+	//Vec2 vPos = GetPos();
 	//BitBlt(_dc
 	//	, int(vPos.x - (float)(iWidth / 2))
 	//	, int(vPos.y - (float)(iHeight / 2))
 	//	, iWidth, iHeight
 	//	, m_pTex->GetDC()
 	//	, 0, 0, SRCCOPY);
-	TransparentBlt(_dc
-		, int(vPos.x - (float)(iWidth / 2))
-		, int(vPos.y - (float)(iHeight / 2))
-		, iWidth, iHeight
-		, m_pTex->GetDC()
-		, 0, 0, iWidth, iHeight
-		, RGB(255, 0, 255));
+	//TransparentBlt(_dc
+	//	, int(vPos.x - (float)(iWidth / 2))
+	//	, int(vPos.y - (float)(iHeight / 2))
+	//	, iWidth, iHeight
+	//	, m_pTex->GetDC()
+	//	, 0, 0, iWidth, iHeight
+	//	, RGB(255, 0, 255));
 	// 컴포넌트(충돌체, etc)가 있는 경우 렌더
 	component_render(_dc);
 }

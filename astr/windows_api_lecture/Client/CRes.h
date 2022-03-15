@@ -12,6 +12,6 @@ public:
 	const wstring& GetRelativePath() { return m_strRelativePath; }
 public:
 	CRes();
-	~CRes();
+	virtual ~CRes();
 };
 
