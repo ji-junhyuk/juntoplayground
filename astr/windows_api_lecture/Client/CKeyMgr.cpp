@@ -34,6 +34,9 @@ int g_arrVK[(int)KEY::LAST] =
 	VK_SPACE,
 	VK_RETURN,
 	VK_ESCAPE,
+	VK_LBUTTON,
+	VK_RBUTTON,
+
 };
 
 CKeyMgr::CKeyMgr()
@@ -88,6 +91,10 @@ void CKeyMgr::update()
 				m_vecKey[idx].bPrevPush = false;
 			}
 		}
+		POINT ptPos = {};
+		GetCursorPos(&ptPos);
+		ScreenToClient(CCore::GetInst()->GetMainHwnd(), &ptPos);
+		m_vCurMousePos = Vec2((float)ptPos.x, (float)ptPos.y);
 	}
 	else
 	{
