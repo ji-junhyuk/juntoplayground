@@ -3,6 +3,8 @@
 #include <chrono>
 #include <thread>
 #include <memory>
+#include <mutex>
+#include <Windows.h>
 
 using namespace std;
 
@@ -15,9 +17,9 @@ bool IsPrimeNumber(int number)
         return false;
     if (number == 2 || number == 3)
         return true;
-    for (int i = 2; i < number - 1; i++)
+    for (int idx = 2; idx < number - 1; ++idx)
     {
-        if ((number % i) == 0)
+        if ((number % idx) == 0)
             return false;
     }
     return true;
@@ -35,14 +37,14 @@ int main()
 {
     // 각 스레드는 여기서 값을 꺼내온다.
     int num = 1;
-
+    recursive_mutex num_mutex;
     vector<int> primes;
-
+    recursive_mutex primes_mutex;
     auto t0 = chrono::system_clock::now();
 
     // 작동할 워커 스레드
-    vector<shared_ptr<thread> > threads;
-
+    vector<shared_ptr<thread>> threads;
+    
     for (int i = 0; i < ThreadCount; i++)
     {
         shared_ptr<thread> thread1(new thread([&]() 
@@ -52,14 +54,18 @@ int main()
             while (true)
             {
                 int n;
-                n = num;
-                num++;
-
+                {
+                    lock_guard<recursive_mutex> num_lock(num_mutex);
+                    Sleep(1); // 암달의 저주, visualizer로 확인하기
+                    n = num;
+                    num++;
+                }
                 if (n >= MaxCount)
                     break;
 
                 if (IsPrimeNumber(n))
                 {
+                    lock_guard<recursive_mutex> primes_lock(primes_mutex);
                     primes.push_back(n);
                 }
             }

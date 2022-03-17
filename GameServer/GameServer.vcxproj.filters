@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="01_02_prime_number_errorneous.cpp">
+    <ClCompile Include="01_03_prime_number_multithreaded.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
