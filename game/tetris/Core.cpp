@@ -1,25 +1,47 @@
 #include "Core.h"
 #include "StageManager.h"
+#include "ShapeManager.h"
 
 Core* Core::m_pInst = NULL;
 
 Core::Core()
 {
+	srand((unsigned int)time(0));
 }
 
 Core::~Core()
 {
 	StageManager::DestroyInst();
+	ShapeManager::DestroyInst();
 }
 
 bool Core::Init()
 {
+	m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	if (m_hConsole == INVALID_HANDLE_VALUE)
+		return false;
+
 	if (!StageManager::GetInst()->Init())
 		return false;
+
 	return true;
 }
 
 void Core::Run()
 {
-	StageManager::GetInst()->Run();
+	while (true)
+	{
+		system("cls");
+		ShapeManager::GetInst()->Update();
+		StageManager::GetInst()->Run();
+		ShapeManager::GetInst()->Render();
+		Sleep(1000);
+	}
+}
+
+void Core::SetConsolePos(short x, short y)
+{
+	COORD pos = { x * 2, y };
+	SetConsoleCursorPosition(m_hConsole, pos);
 }
