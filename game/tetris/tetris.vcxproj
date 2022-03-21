@@ -18,14 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="01_03_prime_number_multithreaded.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a0f127ec-20a3-444b-be86-f538954c2b17}</ProjectGuid>
-    <RootNamespace>GameServer</RootNamespace>
+    <ProjectGuid>{72a0677e-ce9d-4a1b-8418-9505b3a9227d}</ProjectGuid>
+    <RootNamespace>tetris</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -141,6 +138,19 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageManager.cpp" />
+    <ClCompile Include="tetris.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageManager.h" />
+    <ClInclude Include="value.h" />
+    <ClInclude Include="Macro.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

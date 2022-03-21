@@ -56,7 +56,7 @@ int main()
                 int n;
                 {
                     lock_guard<recursive_mutex> num_lock(num_mutex);
-                    Sleep(1); // 암달의 저주, visualizer로 확인하기
+           //         Sleep(1); // 암달의 저주, visualizer로 확인하기
                     n = num;
                     num++;
                 }
