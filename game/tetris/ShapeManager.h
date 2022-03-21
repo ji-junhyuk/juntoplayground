@@ -21,10 +21,9 @@ public:
 		SAFE_DELETE(m_pInst);
 	}
 private:
-	list <class Shape*> m_pShapeList;
 	class Shape*		m_pCurShape;
 	class Shape*		m_pNextShape;
-	
+	int					m_iSpeed;
 public:
 	void Update();
 	void Render();

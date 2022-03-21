@@ -1,5 +1,7 @@
 #include "ShapeManager.h"
 #include "Rect.h"
+#include "StageManager.h"
+#include "Stage.h"
 
 ShapeManager* ShapeManager::m_pInst = NULL;
 
@@ -8,32 +10,48 @@ ShapeManager::ShapeManager()	:
 	m_pNextShape(NULL)
 {
 	m_pCurShape = CreateRandomShape();
+	m_pNextShape = CreateRandomShape();
+	m_iSpeed = 0;
 }
 
 ShapeManager::~ShapeManager()
 {
-	list<Shape*>::iterator iterEnd = m_pShapeList.end();
-	for (list<Shape*>::iterator iter = m_pShapeList.begin(); iter != iterEnd; ++iter)
-	{
-		SAFE_DELETE(*iter);
-	}
 	SAFE_DELETE(m_pCurShape);
 	SAFE_DELETE(m_pNextShape);
 }
 
 void ShapeManager::Update()
 {
-	m_pCurShape->MoveDown();
+	Stage* pStage = StageManager::GetInst()->GetCurrentStage();
+	++m_iSpeed;
+	if (pStage->GetSpeed() == m_iSpeed)
+	{
+		if (m_pCurShape->MoveDown())
+		{
+			pStage->AddBlock(m_pCurShape, m_pCurShape->GetPosition());
+			SAFE_DELETE(m_pCurShape);
+			m_pCurShape = m_pNextShape;
+			m_pCurShape->SetPosition(4, 0);
+			m_pNextShape = CreateRandomShape();
+		}
+		m_iSpeed = 0;
+	}
+
+	if (GetAsyncKeyState('A') & 0x8000)
+	{
+		m_pCurShape->MoveLeft();
+	}
+	if (GetAsyncKeyState('D') & 0x8000)
+	{
+		m_pCurShape->MoveRight();
+	}
 }
 
 void ShapeManager::Render()
 {
-	list<Shape*>::iterator iterEnd = m_pShapeList.end();
-	for (list<Shape*>::iterator iter = m_pShapeList.begin(); iter != iterEnd; ++iter)
-	{
-		(*iter)->Render();
-	}
 	m_pCurShape->Render();
+	m_pNextShape->SetPosition(12, 4);
+	m_pNextShape->RenderNext();
 }
 
 Shape* ShapeManager::CreateRandomShape()

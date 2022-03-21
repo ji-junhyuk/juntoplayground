@@ -1,5 +1,7 @@
 #include "Shape.h"
 #include "Core.h"
+#include "Stage.h"
+#include "StageManager.h"
 
 Shape::Shape()
 {
@@ -30,7 +32,28 @@ void Shape::Render()
 {
 	for (int idx = 0; idx < 4; ++idx)
 	{
-		Core::GetInst()->SetConsolePos(m_tPos.x, m_tPos.y - (3 - idx));
+		int iYIndex = m_tPos.y - (3 - idx);
+		if (iYIndex < 0)
+			continue;
+		Core::GetInst()->SetConsolePos(m_tPos.x, iYIndex);
+		for (int jdx = 0; jdx < 4; ++jdx)
+		{
+			if (m_tPos.x + jdx >= STAGE_WIDTH)
+				continue;
+			if (m_cShape[idx][jdx] == '0')
+				cout << "бс";
+		}
+	}
+}
+
+void Shape::RenderNext()
+{
+	for (int idx = 0; idx < 4; ++idx)
+	{
+		int iYIndex = m_tPos.y - (3 - idx);
+		if (iYIndex < 0)
+			continue;
+		Core::GetInst()->SetConsolePos(m_tPos.x, iYIndex);
 		for (int jdx = 0; jdx < 4; ++jdx)
 		{
 			if (m_cShape[idx][jdx] == '0')
@@ -41,23 +64,60 @@ void Shape::Render()
 	}
 }
 
-void Shape::MoveDown()
+bool Shape::MoveDown()
 {
-	if (m_tPos.y == STAGE_HEIGHT - 1)
-		return ;
+	Stage* pStage = StageManager::GetInst()->GetCurrentStage();
+	for (int idx = 0; idx < 4; ++idx)
+	{
+		for (int jdx = 0; jdx < 4; ++jdx)
+		{
+			if (m_cShape[idx][jdx] == '0')
+			{
+				if (pStage->CheckBlock(m_tPos.x + jdx, m_tPos.y - (2 - idx)))
+				{
+					return true;
+				}
+			}
+		}
+	}
 	++m_tPos.y;
+	return false;
 }
 
 void Shape::MoveLeft()
 {
 	if (m_tPos.x == 0)
-		return ;
-	--m_tPivot.x;
+		return;
+	Stage* pStage = StageManager::GetInst()->GetCurrentStage();
+	for (int idx = 0; idx < 4; ++idx)
+	{
+		for (int jdx = 0; jdx < 4; ++jdx)
+		{
+			if (m_cShape[idx][jdx] == '0')
+			{
+				if (pStage->CheckBlock(m_tPos.x + jdx - 1, m_tPos.y - (3 - idx)))
+					return;
+			}
+		}
+	}
+	--m_tPos.x;
 }
 
 void Shape::MoveRight()
 {
 	if (m_tPos.x + m_iWidthCount == STAGE_WIDTH)
 		return;
-	++m_tPivot.x;
+	Stage* pStage = StageManager::GetInst()->GetCurrentStage();
+	for (int idx = 0; idx < 4; ++idx)
+	{
+		for (int jdx = 0; jdx < 4; ++jdx)
+		{
+			if (m_cShape[idx][jdx] == '0')
+			{
+				if (pStage->CheckBlock(m_tPos.x + jdx + 1, m_tPos.y - (3 - idx)))
+					return;
+			}
+		}
+	}
+	++m_tPos.x;
 }

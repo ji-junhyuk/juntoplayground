@@ -7,8 +7,10 @@ class StageManager
 private:
 	StageManager();
 	~StageManager();
+
 private:
 	static StageManager* m_pInst;
+
 public:
 	static StageManager* GetInst()
 	{
@@ -20,8 +22,15 @@ public:
 	{
 		SAFE_DELETE(m_pInst);
 	}
+
 private:
 	class Stage* m_pCurStage;
+
+public:
+	class Stage* GetCurrentStage() const
+	{
+		return m_pCurStage;
+	}
 public:
 	bool Init();
 	void Run();

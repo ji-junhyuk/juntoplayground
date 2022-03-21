@@ -36,12 +36,12 @@ void Core::Run()
 		ShapeManager::GetInst()->Update();
 		StageManager::GetInst()->Run();
 		ShapeManager::GetInst()->Render();
-		Sleep(1000);
+		Sleep(10);
 	}
 }
 
 void Core::SetConsolePos(short x, short y)
 {
-	COORD pos = { x * 2, y };
+	COORD pos = { (x + 1) * 2, y };
 	SetConsoleCursorPosition(m_hConsole, pos);
 }
