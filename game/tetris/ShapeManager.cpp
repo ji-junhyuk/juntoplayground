@@ -1,5 +1,11 @@
 #include "ShapeManager.h"
 #include "Rect.h"
+#include "ShapeGun.h"
+#include "ShapeLine.h"
+#include "ShapeRGun.h"
+#include "ShapeS.h"
+#include "ShapeT.h"
+#include "ShapeZ.h"
 #include "StageManager.h"
 #include "Stage.h"
 
@@ -45,6 +51,10 @@ void ShapeManager::Update()
 	{
 		m_pCurShape->MoveRight();
 	}
+	if (GetAsyncKeyState('W') & 0x8000)
+	{
+		m_pCurShape->Rotation();
+	}
 }
 
 void ShapeManager::Render()
@@ -69,6 +79,24 @@ Shape* ShapeManager::CreateShape(SHAPE_TYPE eType)
 	{
 	case ST_RECT:
 		pShape = new Rect;
+		break;
+	case ST_GUN:
+		pShape = new ShapeGun;
+		break;
+	case ST_RGUN:
+		pShape = new ShapeRGun;
+		break;
+	case ST_LINE:
+		pShape = new ShapeLine;
+		break;
+	case ST_S:
+		pShape = new ShapeS;
+		break;
+	case ST_T:
+		pShape = new ShapeT;
+		break;
+	case ST_Z:
+		pShape = new ShapeZ;
 		break;
 	}
 	if (!pShape->Init())

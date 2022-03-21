@@ -142,7 +142,13 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="ShapeGun.cpp" />
+    <ClCompile Include="ShapeLine.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
+    <ClCompile Include="ShapeRGun.cpp" />
+    <ClCompile Include="ShapeS.cpp" />
+    <ClCompile Include="ShapeT.cpp" />
+    <ClCompile Include="ShapeZ.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="tetris.cpp" />
@@ -152,7 +158,13 @@
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeGun.h" />
+    <ClInclude Include="ShapeLine.h" />
     <ClInclude Include="ShapeManager.h" />
+    <ClInclude Include="ShapeRGun.h" />
+    <ClInclude Include="ShapeS.h" />
+    <ClInclude Include="ShapeT.h" />
+    <ClInclude Include="ShapeZ.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="value.h" />

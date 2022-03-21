@@ -4,7 +4,8 @@
 
 Core* Core::m_pInst = NULL;
 
-Core::Core()
+Core::Core()	:
+	m_bLoop(true)
 {
 	srand((unsigned int)time(0));
 }
@@ -30,13 +31,13 @@ bool Core::Init()
 
 void Core::Run()
 {
-	while (true)
+	while (m_bLoop)
 	{
 		system("cls");
 		ShapeManager::GetInst()->Update();
 		StageManager::GetInst()->Run();
 		ShapeManager::GetInst()->Render();
-		Sleep(10);
+		Sleep(100);
 	}
 }
 

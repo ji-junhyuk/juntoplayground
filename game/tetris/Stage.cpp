@@ -20,6 +20,25 @@ void Stage::AddBlock(Shape* pShape, const POSITION& tPos)
 			if (pShape->GetBlock(jdx, idx) == '0')
 			{
 				m_Stage[tPos.y - (3 - idx)][tPos.x + jdx] = '0';
+				bool bLine = true;
+				for (int kdx = 0; kdx < STAGE_WIDTH; ++kdx)
+				{
+					if (m_Stage[tPos.y - (3 - idx)][kdx] != '0')
+					{
+						bLine = false;
+						break;
+					}
+				}
+				if (bLine)
+				{
+					for (int kdx = tPos.y - (3 - idx); kdx > 0; --kdx)
+					{
+						for (int ldx = 0; ldx < STAGE_WIDTH; ++ldx)
+						{
+							m_Stage[kdx][ldx] = m_Stage[kdx - 1][ldx];
+						}
+					}
+				}
 			}
 		}
 	}

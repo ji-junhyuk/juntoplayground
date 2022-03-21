@@ -22,6 +22,9 @@
     <Filter Include="03. Shape">
       <UniqueIdentifier>{5021b37d-a582-43df-8904-5cc987da9d75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Shape\Figure">
+      <UniqueIdentifier>{e23020bc-85ba-43e8-9228-1b9e6f45b657}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tetris.cpp">
@@ -39,11 +42,29 @@
     <ClCompile Include="Shape.cpp">
       <Filter>03. Shape</Filter>
     </ClCompile>
-    <ClCompile Include="Rect.cpp">
-      <Filter>03. Shape</Filter>
-    </ClCompile>
     <ClCompile Include="ShapeManager.cpp">
       <Filter>03. Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>03. Shape\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeZ.cpp">
+      <Filter>03. Shape\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeT.cpp">
+      <Filter>03. Shape\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeS.cpp">
+      <Filter>03. Shape\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeLine.cpp">
+      <Filter>03. Shape\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeGun.cpp">
+      <Filter>03. Shape\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeRGun.cpp">
+      <Filter>03. Shape\Figure</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,14 +86,32 @@
     <ClInclude Include="Shape.h">
       <Filter>03. Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Rect.h">
-      <Filter>03. Shape</Filter>
-    </ClInclude>
     <ClInclude Include="ShapeManager.h">
       <Filter>03. Shape</Filter>
     </ClInclude>
     <ClInclude Include="Flags.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>03. Shape\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeZ.h">
+      <Filter>03. Shape\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeT.h">
+      <Filter>03. Shape\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeS.h">
+      <Filter>03. Shape\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeLine.h">
+      <Filter>03. Shape\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeGun.h">
+      <Filter>03. Shape\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeRGun.h">
+      <Filter>03. Shape\Figure</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
